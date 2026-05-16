@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <style>
   /* ── Reset & Base ── */
@@ -787,7 +787,7 @@ let myCollection = new Set();
 let totalPulls = 0;
 let totalLegendaries = 0;
 let currentFilter = 'all';
-const socket = io(window.location.origin, { path: '/socket.io' });
+const socket = io();
 
 function getUsername() {
   return document.getElementById('username-input').value.trim() || 'Player';
@@ -795,7 +795,7 @@ function getUsername() {
 
 // ── Init ───────────────────────────────────────────────────────────────────────
 async function init() {
-  const res = await fetch('/api/gacha/cards');
+  const res = await fetch('/api/cards');
   allCards = await res.json();
   renderCollectionGrid();
 }
@@ -822,7 +822,7 @@ async function doPull1() {
 
   await delay(600);
 
-  const res = await fetch(`/api/gacha/pull?username=${encodeURIComponent(getUsername())}`);
+  const res = await fetch(`/api/pull?username=${encodeURIComponent(getUsername())}`);
   const data = await res.json();
   const card = data.card;
 
@@ -856,7 +856,7 @@ async function doPull10() {
 
   await delay(800);
 
-  const res = await fetch(`/api/gacha/pull/10?username=${encodeURIComponent(getUsername())}`);
+  const res = await fetch(`/api/pull/10?username=${encodeURIComponent(getUsername())}`);
   const data = await res.json();
   const cards = data.cards;
 
@@ -996,7 +996,7 @@ function filterCollection(rarity, btn) {
 
 // ── Leaderboard ────────────────────────────────────────────────────────────────
 async function loadLeaderboard() {
-  const res = await fetch('/api/gacha/leaderboard');
+  const res = await fetch('/api/leaderboard');
   const board = await res.json();
   const list = document.getElementById('lb-list');
   list.innerHTML = '';
