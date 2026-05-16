@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: gacha
+    description: Gacha machine operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,130 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /gacha/cards:
+    get:
+      operationId: getCards
+      tags: [gacha]
+      summary: Get all cards
+      responses:
+        "200":
+          description: All cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Card"
+
+  /gacha/pull:
+    get:
+      operationId: pullCard
+      tags: [gacha]
+      summary: Single card pull
+      parameters:
+        - name: username
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pulled card
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PullResult"
+
+  /gacha/pull/10:
+    get:
+      operationId: pullTenCards
+      tags: [gacha]
+      summary: 10-card pull (guaranteed rare+)
+      parameters:
+        - name: username
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 10 pulled cards
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pull10Result"
+
+  /gacha/collection/{username}:
+    get:
+      operationId: getCollection
+      tags: [gacha]
+      summary: Get a user's collected card IDs
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Array of owned card IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /gacha/leaderboard:
+    get:
+      operationId: getLeaderboard
+      tags: [gacha]
+      summary: Top collectors leaderboard
+      responses:
+        "200":
+          description: Leaderboard entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaderboardEntry"
+
+  /gacha/feed:
+    get:
+      operationId: getFeed
+      tags: [gacha]
+      summary: Recent notable pulls
+      responses:
+        "200":
+          description: Recent pull events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeedEntry"
+
+  /gacha/stats/{username}:
+    get:
+      operationId: getUserStats
+      tags: [gacha]
+      summary: Personal stats for a user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +160,78 @@ components:
       required:
         - status
 
+    Card:
+      type: object
+      required: [id, name, country, position, rarity, weight, image, flag]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        position:
+          type: string
+        rarity:
+          type: string
+        weight:
+          type: number
+        image:
+          type: string
+        flag:
+          type: string
+
+    PullResult:
+      type: object
+      required: [card]
+      properties:
+        card:
+          $ref: "#/components/schemas/Card"
+
+    Pull10Result:
+      type: object
+      required: [cards]
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Card"
+
+    LeaderboardEntry:
+      type: object
+      required: [username, total, legendaries]
+      properties:
+        username:
+          type: string
+        total:
+          type: number
+        legendaries:
+          type: number
+
+    FeedEntry:
+      type: object
+      required: [username, card, timestamp]
+      properties:
+        username:
+          type: string
+        card:
+          $ref: "#/components/schemas/Card"
+        timestamp:
+          type: number
+
+    UserStats:
+      type: object
+      required: [pulls, owned, legendaries, epics, rares, commons]
+      properties:
+        pulls:
+          type: number
+        owned:
+          type: number
+        legendaries:
+          type: number
+        epics:
+          type: number
+        rares:
+          type: number
+        commons:
+          type: number

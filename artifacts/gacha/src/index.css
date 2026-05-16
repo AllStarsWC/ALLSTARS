@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --font-sans: "Inter", sans-serif;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  /* Enforce Dark Mode for this app always */
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+
+  --card: 240 10% 6%;
+  --card-foreground: 0 0% 98%;
+  --card-border: 240 10% 12%;
+
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --popover-border: 240 10% 12%;
+
+  /* Electric Neon Green */
+  --primary: 142 71% 45%;
+  --primary-foreground: 144 100% 11%;
+
+  --secondary: 240 10% 12%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 65%;
+
+  --accent: 240 10% 12%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 10% 12%;
+  --input: 240 10% 12%;
+  --ring: 142 71% 45%;
+  
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Same as above, ensure it stays dark */
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 6%;
+  --card-foreground: 0 0% 98%;
+  --card-border: 240 10% 12%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --popover-border: 240 10% 12%;
+  --primary: 142 71% 45%;
+  --primary-foreground: 144 100% 11%;
+  --secondary: 240 10% 12%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 240 10% 12%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 10% 12%;
+  --input: 240 10% 12%;
+  --ring: 142 71% 45%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Electric stadium background pattern */
+    background-image: radial-gradient(circle at 50% 0%, hsl(240 20% 10%) 0%, transparent 70%), 
+                      linear-gradient(to bottom, hsl(240 10% 4%), hsl(240 10% 2%));
+    background-attachment: fixed;
+  }
+}
+
+/* Animations */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.glow-legendary {
+  box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.5);
+  border-color: rgba(255, 215, 0, 0.8);
+}
+
+.glow-epic {
+  box-shadow: 0 0 15px 3px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.5);
+  border-color: rgba(168, 85, 247, 0.8);
+}
+
+.glow-rare {
+  box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.4), inset 0 0 8px rgba(59, 130, 246, 0.5);
+  border-color: rgba(59, 130, 246, 0.8);
+}
+
+.glow-common {
+  box-shadow: 0 0 5px 1px rgba(156, 163, 175, 0.2);
+  border-color: rgba(156, 163, 175, 0.5);
+}
+
+.text-glow-legendary {
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  color: #fbbf24;
+}
+
+.text-glow-epic {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+  color: #c084fc;
+}
+
+.text-glow-rare {
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  color: #60a5fa;
+}
+
+.text-glow-common {
+  color: #9ca3af;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(240 10% 20%);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(240 10% 30%);
+}
