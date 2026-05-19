@@ -254,11 +254,7 @@ nav a:hover,nav a.active{color:var(--gold)}
   font-family:'Inter',sans-serif;font-size:.34rem;font-style:italic;
   color:rgba(255,255,255,.65);line-height:1.5;text-align:right;max-width:80px;
 }
-.hcard-jersey-lbl{
-  position:absolute;bottom:2px;
-  font-family:'Bebas Neue',sans-serif;font-size:.38rem;
-  letter-spacing:2px;color:rgba(255,215,0,.55);
-}
+
 
 /* Right traits */
 .hcard-traits{display:flex;flex-direction:column;gap:2px;width:60px;flex-shrink:0}
@@ -767,41 +763,47 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* Dark masks that paint over template placeholder text */
 .hov-mask{position:absolute;z-index:6;pointer-events:none}
-.hov-mask-rating {top:13%;left:9%;width:17%;height:16%;background:rgba(2,8,24,.97)}
-.hov-mask-pos    {top:24%;left:9%;width:14%;height:6%;background:rgba(2,8,24,.97)}
-.hov-mask-flag   {top:29%;left:7%;width:22%;height:9%;background:rgba(2,8,24,.97)}
-.hov-mask-quote  {top:18%;left:36%;right:22%;height:15%;background:rgba(2,8,24,.92);border-radius:4px}
+.hov-mask-rating {top:13%;left:12%;width:17%;height:16%;background:rgba(2,8,24,.97)}
+.hov-mask-pos    {top:24%;left:12%;width:14%;height:6%;background:rgba(2,8,24,.97)}
+.hov-mask-flag   {top:29%;left:11%;width:22%;height:9%;background:rgba(2,8,24,.97)}
+.hov-mask-quote  {top:18%;left:33%;right:20%;height:16%;background:rgba(2,8,24,.92);border-radius:4px}
 .hov-mask-name   {bottom:22%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.96)}
 .hov-mask-stats  {bottom:13%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.92)}
 .hov-mask-footer {bottom:2%;left:4%;right:4%;height:14%;background:rgba(2,8,24,.96)}
-.hov-mask-jersey {bottom:32%;left:28%;right:26%;height:7%;background:rgba(2,8,24,.93)}
-.hov-mask-right  {top:5%;right:0;width:28%;height:90%;background:rgba(2,8,24,.88)}
+/* block left-side annotation callouts */
+.hov-mask-left   {top:0;left:0;width:13%;height:100%;background:rgba(2,8,24,.98)}
+/* block right-side annotation callouts */
+.hov-mask-right  {top:0;right:0;width:25%;height:100%;background:rgba(2,8,24,.98)}
+/* block "PLAYER JERSEY" label in art area */
+.hov-mask-jersey {top:37%;left:18%;right:16%;height:13%;background:rgba(2,8,24,.99)}
+/* block ALL STARS BADGE label arrows on left */
+.hov-mask-badge  {top:40%;left:14%;width:20%;height:20%;background:transparent}
 
 /* Shared overlay base */
 .hov{position:absolute;font-family:'Bebas Neue',sans-serif;pointer-events:none;z-index:10}
 
 /* Rating — top-left large gold number */
 .hov-rating{
-  top:14%;left:9.5%;
+  top:14%;left:13%;
   font-size:1.75rem;color:#FFD700;
   text-shadow:0 0 14px rgba(255,215,0,1),0 2px 5px rgba(0,0,0,1);
   line-height:1;
 }
 /* Position label */
 .hov-pos{
-  top:25%;left:12%;
+  top:25%;left:13%;
   font-size:.55rem;letter-spacing:2px;color:#FFD700;
   text-shadow:0 1px 4px rgba(0,0,0,.9);
 }
 /* Country flag */
 .hov-flag{
-  top:30%;left:10%;
+  top:30%;left:13%;
   font-size:1.1rem;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));
 }
 /* Player quote — upper-right of art area */
 .hov-quote{
-  top:19%;left:34%;right:29%;
+  top:19%;left:34%;right:28%;
   font-family:'Inter',sans-serif;font-size:.32rem;font-style:italic;
   color:rgba(255,255,255,.88);line-height:1.7;text-align:center;
   text-shadow:0 1px 4px rgba(0,0,0,1);
@@ -1544,6 +1546,7 @@ function makeHeroLegendaryCard(card){
       <div class="hov-mask hov-mask-name"></div>
       <div class="hov-mask hov-mask-stats"></div>
       <div class="hov-mask hov-mask-footer"></div>
+      <div class="hov-mask hov-mask-left"></div>
       <div class="hov-mask hov-mask-jersey"></div>
       <div class="hov-mask hov-mask-right"></div>
 
