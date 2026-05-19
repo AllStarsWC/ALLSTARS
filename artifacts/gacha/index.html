@@ -152,9 +152,9 @@ nav a:hover,nav a.active{color:var(--gold)}
 @property --hcard-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
 
 .hcard-outer{
-  width:260px;height:400px;position:relative;
+  width:300px;height:430px;position:relative;
   animation:float 5s ease-in-out infinite;
-  filter:drop-shadow(0 0 30px rgba(255,215,0,.55)) drop-shadow(0 0 60px rgba(255,165,0,.25));
+  filter:drop-shadow(0 0 40px rgba(255,215,0,.7)) drop-shadow(0 0 80px rgba(255,165,0,.35));
   flex-shrink:0;
 }
 
@@ -750,6 +750,109 @@ nav a:hover,nav a.active{color:var(--gold)}
   nav{display:none}
   .hero{padding:2rem 1rem}
 }
+
+/* ── Image-based hero card overlays ── */
+.hcard-img-wrap{
+  width:100%;height:100%;position:relative;border-radius:14px;overflow:hidden;
+}
+.hcard-bg-img{
+  width:110%;height:110%;
+  object-fit:cover;
+  /* Crop: push right past left labels, pull up past bottom annotation block */
+  object-position:52% 38%;
+  display:block;
+  margin-left:-5%;
+  margin-top:-2%;
+}
+
+/* Dark masks that paint over template placeholder text */
+.hov-mask{position:absolute;z-index:6;pointer-events:none}
+.hov-mask-rating {top:13%;left:9%;width:17%;height:16%;background:rgba(2,8,24,.97)}
+.hov-mask-pos    {top:24%;left:9%;width:14%;height:6%;background:rgba(2,8,24,.97)}
+.hov-mask-flag   {top:29%;left:7%;width:22%;height:9%;background:rgba(2,8,24,.97)}
+.hov-mask-quote  {top:18%;left:36%;right:22%;height:15%;background:rgba(2,8,24,.92);border-radius:4px}
+.hov-mask-name   {bottom:22%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.96)}
+.hov-mask-stats  {bottom:13%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.92)}
+.hov-mask-footer {bottom:2%;left:4%;right:4%;height:14%;background:rgba(2,8,24,.96)}
+.hov-mask-jersey {bottom:32%;left:28%;right:26%;height:7%;background:rgba(2,8,24,.93)}
+.hov-mask-right  {top:5%;right:0;width:28%;height:90%;background:rgba(2,8,24,.88)}
+
+/* Shared overlay base */
+.hov{position:absolute;font-family:'Bebas Neue',sans-serif;pointer-events:none;z-index:10}
+
+/* Rating — top-left large gold number */
+.hov-rating{
+  top:14%;left:9.5%;
+  font-size:1.75rem;color:#FFD700;
+  text-shadow:0 0 14px rgba(255,215,0,1),0 2px 5px rgba(0,0,0,1);
+  line-height:1;
+}
+/* Position label */
+.hov-pos{
+  top:25%;left:12%;
+  font-size:.55rem;letter-spacing:2px;color:#FFD700;
+  text-shadow:0 1px 4px rgba(0,0,0,.9);
+}
+/* Country flag */
+.hov-flag{
+  top:30%;left:10%;
+  font-size:1.1rem;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));
+}
+/* Player quote — upper-right of art area */
+.hov-quote{
+  top:19%;left:34%;right:29%;
+  font-family:'Inter',sans-serif;font-size:.32rem;font-style:italic;
+  color:rgba(255,255,255,.88);line-height:1.7;text-align:center;
+  text-shadow:0 1px 4px rgba(0,0,0,1);
+}
+.hov-quote-name{color:rgba(255,215,0,.95);font-style:normal;display:block;margin-top:2px}
+
+/* 4 traits on right column */
+.hov-trait{
+  right:3%;display:flex;flex-direction:column;align-items:center;
+  background:rgba(5,14,35,.85);border:1px solid rgba(255,215,0,.5);
+  border-radius:10px;padding:3px 6px;text-align:center;
+  font-size:.28rem;color:rgba(255,255,255,.9);letter-spacing:.5px;
+  width:54px;box-shadow:0 0 8px rgba(255,215,0,.2);
+}
+.hov-trait span:first-child{font-size:.9rem;line-height:1.2}
+.hov-tname{font-size:.28rem;letter-spacing:.5px;color:rgba(255,215,0,.9);font-weight:bold}
+.hov-trait-1{top:26%}
+.hov-trait-2{top:37%}
+.hov-trait-3{top:48%}
+.hov-trait-4{top:59%}
+
+/* Player name — big gold centred */
+.hov-name{
+  bottom:25%;left:0;right:0;text-align:center;
+  font-size:1.3rem;letter-spacing:3px;color:#FFD700;
+  background:rgba(0,0,0,.55);padding:2px 0;
+  text-shadow:0 0 16px rgba(255,215,0,.9),0 2px 6px rgba(0,0,0,1);
+}
+
+/* Attribute stats row */
+.hov-stats{
+  bottom:16%;left:6%;right:6%;
+  display:flex;justify-content:space-around;
+}
+.hov-stat{display:flex;flex-direction:column;align-items:center;gap:0}
+.hov-stat-lbl{font-size:.32rem;letter-spacing:1px;color:#FFD700}
+.hov-stat-val{font-size:.75rem;color:white;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+
+/* Footer row */
+.hov-footer{
+  bottom:5%;left:5%;right:5%;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.hov-sm,.hov-pop{display:flex;flex-direction:column;gap:1px}
+.hov-sm-lbl,.hov-pop-lbl{font-size:.3rem;letter-spacing:1.5px;color:rgba(255,215,0,.85)}
+.hov-sm-stars,.hov-pop-stars{color:#FFD700;font-size:.48rem;letter-spacing:2px}
+.hov-emblem{
+  text-align:center;font-size:.7rem;
+  display:flex;flex-direction:column;align-items:center;
+}
+.hov-emblem-lbl{font-size:.28rem;letter-spacing:1px;color:#FFD700}
 </style>
 </head>
 <body>
@@ -1429,67 +1532,44 @@ function makeHeroLegendaryCard(card){
   const outer=document.createElement('div');
   outer.className='hcard-outer';
   outer.innerHTML=`
-    <div class="hcard">
-      <div class="hcard-corner tl"></div><div class="hcard-corner tr"></div>
-      <div class="hcard-corner bl"></div><div class="hcard-corner br"></div>
+    <div class="hcard-img-wrap">
+      <!-- The actual template image as card -->
+      <img src="/card-template.png" class="hcard-bg-img" alt="card template"/>
 
-      <div class="hcard-header">
-        <div class="hcard-header-title">ALL STARS</div>
-        <div class="hcard-header-sub">— WORLD CUP 2026 —</div>
-        <div class="hcard-header-stars">★ ★ ★ ★ ★</div>
+      <!-- Masks to cover template placeholder text -->
+      <div class="hov-mask hov-mask-rating"></div>
+      <div class="hov-mask hov-mask-pos"></div>
+      <div class="hov-mask hov-mask-flag"></div>
+      <div class="hov-mask hov-mask-quote"></div>
+      <div class="hov-mask hov-mask-name"></div>
+      <div class="hov-mask hov-mask-stats"></div>
+      <div class="hov-mask hov-mask-footer"></div>
+      <div class="hov-mask hov-mask-jersey"></div>
+      <div class="hov-mask hov-mask-right"></div>
+
+      <!-- Dynamic overlays positioned over the template zones -->
+
+      <!-- Rating top-left -->
+      <div class="hov hov-rating">${rating}</div>
+      <!-- Position -->
+      <div class="hov hov-pos">${posShort}</div>
+      <!-- Flag -->
+      <div class="hov hov-flag">${card.flag}</div>
+      <!-- Quote top-right -->
+      <div class="hov hov-quote">"${quote}"<br><span class="hov-quote-name">— ${card.name}</span></div>
+      <!-- Trait 1-4 on right -->
+      ${traits.map(([icon,name],i)=>`<div class="hov hov-trait hov-trait-${i+1}"><span>${icon}</span><span class="hov-tname">${name}</span></div>`).join('')}
+      <!-- Player name centre-bottom -->
+      <div class="hov hov-name">${card.name.toUpperCase()}</div>
+      <!-- Stats row -->
+      <div class="hov hov-stats">
+        ${Object.entries(stats).map(([k,v])=>`<div class="hov-stat"><div class="hov-stat-lbl">${k}</div><div class="hov-stat-val">${v}</div></div>`).join('')}
       </div>
-
-      <div class="hcard-body">
-        <div class="hcard-left">
-          <div class="hcard-rating">${rating}</div>
-          <div class="hcard-pos">${posShort}</div>
-          <div class="hcard-flag-pill">${card.flag}</div>
-          <div class="hcard-badge-shield">ALL<br>STARS<br>2026<br><span class="bs-s">★</span></div>
-        </div>
-
-        <div class="hcard-art">
-          <div class="hcard-art-glow"></div>
-          <div class="hcard-art-emoji">${card.flag}</div>
-          <div class="hcard-jersey-lbl">PLAYER JERSEY</div>
-          <div class="hcard-quote">${quote}<br><em>— ${card.name}</em></div>
-        </div>
-
-        <div class="hcard-traits">
-          <div class="hcard-trophy-badge">🏆 ALL<br>STARS 2026</div>
-          ${traits.map(([icon,name])=>`
-          <div class="hcard-trait-row">
-            <span class="hcard-trait-icon">${icon}</span>
-            <span class="hcard-trait-name">${name}</span>
-          </div>`).join('')}
-        </div>
-      </div>
-
-      <div class="hcard-name-section">
-        <div class="hcard-player-name">${card.name.toUpperCase()}</div>
-        <div class="hcard-name-stars">★ ★ ★ ★ ★</div>
-      </div>
-
-      <div class="hcard-stats-row">
-        ${Object.entries(stats).map(([k,v])=>`
-        <div class="hcard-attr">
-          <div class="hcard-attr-lbl">${k}</div>
-          <div class="hcard-attr-val">${v}</div>
-        </div>`).join('')}
-      </div>
-
-      <div class="hcard-footer-row">
-        <div class="hcard-sm-col">
-          <div class="hcard-sm-lbl">SKILL MOVES</div>
-          <div class="hcard-sm-stars">${smStars}</div>
-        </div>
-        <div class="hcard-unique-emblem">
-          <div class="hcard-unique-icon">${uIcon}</div>
-          <div class="hcard-unique-title-lbl">${uTitle}</div>
-        </div>
-        <div class="hcard-pop-col">
-          <div class="hcard-pop-lbl">POPULARITY</div>
-          <div class="hcard-pop-stars">${popStars}</div>
-        </div>
+      <!-- Footer -->
+      <div class="hov hov-footer">
+        <div class="hov-sm"><div class="hov-sm-lbl">SKILL MOVES</div><div class="hov-sm-stars">${smStars}</div></div>
+        <div class="hov-emblem"><div>${uIcon}</div><div class="hov-emblem-lbl">${uTitle}</div></div>
+        <div class="hov-pop"><div class="hov-pop-lbl">POPULARITY</div><div class="hov-pop-stars">${popStars}</div></div>
       </div>
     </div>`;
   return outer;
