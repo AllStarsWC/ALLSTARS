@@ -22,16 +22,74 @@
 }
 html,body{min-height:100%;background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
 
-/* ── Background ── */
-.bg-fx{pointer-events:none;position:fixed;inset:0;z-index:0}
+/* ── Background — Stadium Depth ── */
+.bg-fx{pointer-events:none;position:fixed;inset:0;z-index:0;overflow:hidden}
+/* Layer 1: dark blue + green field glow */
 .bg-fx::before{content:'';position:absolute;inset:0;
   background:
-    radial-gradient(circle at 20% 20%,rgba(250,204,21,.18),transparent 30%),
-    radial-gradient(circle at 80% 10%,rgba(37,99,235,.22),transparent 30%),
-    radial-gradient(circle at 50% 90%,rgba(250,204,21,.12),transparent 35%)}
-.bg-grid{pointer-events:none;position:fixed;inset:0;z-index:0;opacity:.25;
+    radial-gradient(ellipse 130% 55% at 50% 108%,rgba(17,60,24,.8),transparent 58%),
+    radial-gradient(circle at 50% 88%,rgba(22,101,52,.28),transparent 32%),
+    linear-gradient(170deg,#010a18 0%,#020d26 40%,#010d14 100%);
+}
+/* Layer 2: crowd haze + stadium floodlights */
+.bg-fx::after{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 100% 22% at 50% 3%,rgba(255,210,60,.11),transparent),
+    radial-gradient(ellipse 45% 18% at 8% 12%,rgba(255,200,80,.08),transparent),
+    radial-gradient(ellipse 45% 18% at 92% 12%,rgba(255,200,80,.08),transparent),
+    radial-gradient(circle at 25% 8%,rgba(255,220,100,.09),transparent 14%),
+    radial-gradient(circle at 75% 8%,rgba(255,220,100,.09),transparent 14%),
+    radial-gradient(circle at 50% 6%,rgba(255,240,150,.07),transparent 18%);
+  animation:crowd-shimmer 7s ease-in-out infinite alternate;
+}
+@keyframes crowd-shimmer{0%{opacity:.55}100%{opacity:1}}
+.bg-grid{pointer-events:none;position:fixed;inset:0;z-index:0;opacity:.12;
   background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
   background-size:44px 44px}
+/* Layer 3: moving spotlights */
+.bg-spotlight{position:fixed;pointer-events:none;z-index:0;width:4px;height:62vh;top:0;
+  background:linear-gradient(180deg,rgba(255,240,160,.28) 0%,rgba(255,240,160,.1) 65%,transparent 100%);
+  transform-origin:top center;filter:blur(3px);}
+.bg-spotlight-1{left:27%;animation:spot1 7s ease-in-out infinite alternate}
+.bg-spotlight-2{right:27%;animation:spot2 9s ease-in-out infinite alternate}
+@keyframes spot1{0%{transform:rotate(-28deg)}100%{transform:rotate(18deg)}}
+@keyframes spot2{0%{transform:rotate(28deg)}100%{transform:rotate(-18deg)}}
+/* Layer 4: gold particles */
+.bg-particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-particles::before,.bg-particles::after{
+  content:'';position:absolute;width:100%;height:200%;top:100%;
+  background-image:
+    radial-gradient(circle 2px at 12% 20%,rgba(255,215,0,.75),transparent),
+    radial-gradient(circle 1.5px at 28% 35%,rgba(255,215,0,.55),transparent),
+    radial-gradient(circle 2px at 48% 15%,rgba(255,215,0,.65),transparent),
+    radial-gradient(circle 1px at 63% 42%,rgba(255,215,0,.45),transparent),
+    radial-gradient(circle 2px at 80% 25%,rgba(255,215,0,.65),transparent),
+    radial-gradient(circle 1.5px at 37% 55%,rgba(255,215,0,.5),transparent),
+    radial-gradient(circle 2px at 58% 10%,rgba(255,215,0,.4),transparent),
+    radial-gradient(circle 1px at 74% 38%,rgba(255,215,0,.7),transparent),
+    radial-gradient(circle 2px at 18% 48%,rgba(255,215,0,.5),transparent),
+    radial-gradient(circle 1.5px at 92% 22%,rgba(255,215,0,.45),transparent),
+    radial-gradient(circle 2px at 5% 30%,rgba(255,215,0,.6),transparent),
+    radial-gradient(circle 1px at 45% 45%,rgba(255,215,0,.5),transparent);
+  animation:particles-rise 14s linear infinite;
+}
+.bg-particles::after{
+  animation-delay:-7s;animation-duration:18s;
+  background-image:
+    radial-gradient(circle 1.5px at 22% 28%,rgba(255,215,0,.55),transparent),
+    radial-gradient(circle 2px at 42% 12%,rgba(255,215,0,.65),transparent),
+    radial-gradient(circle 1px at 68% 38%,rgba(255,215,0,.4),transparent),
+    radial-gradient(circle 2px at 78% 22%,rgba(255,215,0,.55),transparent),
+    radial-gradient(circle 1.5px at 33% 50%,rgba(255,215,0,.35),transparent),
+    radial-gradient(circle 2px at 55% 18%,rgba(255,215,0,.5),transparent),
+    radial-gradient(circle 1px at 8% 42%,rgba(255,215,0,.65),transparent),
+    radial-gradient(circle 2px at 88% 32%,rgba(255,215,0,.45),transparent);
+}
+@keyframes particles-rise{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-100%);opacity:0}}
+/* Layer 5: ground fog */
+.bg-fog{position:fixed;bottom:0;left:0;right:0;height:28vh;z-index:0;pointer-events:none;
+  background:linear-gradient(0deg,rgba(8,25,12,.72) 0%,rgba(8,25,12,.3) 45%,transparent 100%);
+  filter:blur(22px);}
 
 /* ── Layout ── */
 #app{position:relative;z-index:1;min-height:100vh}
@@ -348,11 +406,10 @@ nav a:hover,nav a.active{color:var(--gold)}
 .feature-icon{font-size:1.2rem}
 
 /* ══════════════ GACHA MACHINE ══════════════ */
-#gacha-page{padding:2rem;max-width:1280px;margin:0 auto}
-#gacha-page.active{display:grid;grid-template-columns:1fr 310px;gap:2rem}
-@media(max-width:900px){#gacha-page.active{grid-template-columns:1fr}}
+#gacha-page{padding:2rem 1rem;max-width:1100px;margin:0 auto}
+#gacha-page.active{display:flex;flex-direction:column;align-items:center;gap:0}
 
-.machine-col{display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.machine-col{display:flex;flex-direction:column;align-items:center;gap:1.25rem;width:100%}
 
 .machine-title-wrap{text-align:center}
 .machine-title-wrap h2{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:3px;line-height:1}
@@ -367,10 +424,25 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 .cost-chip .amt{color:var(--gold);font-weight:900}
 
+/* Floating stats */
+.globe-outer{display:flex;align-items:center;justify-content:center;gap:1.25rem;width:100%}
+.float-stats{display:flex;flex-direction:column;gap:.85rem;flex-shrink:0}
+.float-stat{
+  background:rgba(0,0,0,.72);border:1px solid rgba(255,215,0,.35);
+  border-radius:12px;padding:.7rem 1.1rem;font-size:.8rem;font-weight:700;
+  backdrop-filter:blur(10px);white-space:nowrap;
+  box-shadow:0 0 14px rgba(255,215,0,.1);
+  animation:float-bob 3.2s ease-in-out infinite;
+}
+.float-stat:nth-child(2){animation-delay:1.1s}
+.float-stat .fs-val{color:var(--gold);font-weight:900;font-size:1rem}
+@keyframes float-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:820px){.float-stats{display:none}}
+
 /* Gacha Machine Image */
 .globe-wrap{position:relative;display:flex;align-items:center;justify-content:center}
 .gm-wrap{
-  position:relative;width:340px;cursor:pointer;
+  position:relative;width:min(620px,92vw);cursor:pointer;
   filter:drop-shadow(0 0 24px rgba(255,210,74,.45));
   transition:filter .3s;flex-shrink:0;
 }
@@ -439,18 +511,29 @@ nav a:hover,nav a.active{color:var(--gold)}
 .gm-wrap.spinning{animation:gm-flash 1.2s ease-in-out}
 
 /* Pull buttons */
-.pull-btns{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+.pull-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
 .btn-pull{
-  font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:2px;
-  padding:.75rem 2.2rem;border:none;border-radius:50px;cursor:pointer;
-  position:relative;overflow:hidden;transition:transform .15s,filter .15s;
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;
+  padding:.9rem 2.6rem;border:none;border-radius:14px;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
 }
-.btn-pull:before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);pointer-events:none}
-.btn-pull:hover{filter:brightness(1.12)}
-.btn-pull:active{transform:scale(.95)}
 .btn-pull:disabled{opacity:.3;cursor:not-allowed}
-.btn-p1{background:linear-gradient(135deg,#1D4ED8,#3B82F6);color:white;box-shadow:0 4px 20px rgba(59,130,246,.4)}
-.btn-p10{background:linear-gradient(135deg,#92400e,#F59E0B);color:white;box-shadow:0 4px 20px rgba(245,158,11,.4);font-size:1.5rem}
+.btn-p1{
+  background:linear-gradient(180deg,#f8d447,#cf8500);
+  color:#090909;font-weight:900;
+  box-shadow:0 0 30px gold,inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(90,45,0,.4);
+}
+.btn-p10{
+  background:linear-gradient(180deg,#f8d447,#cf8500);
+  color:#090909;font-weight:900;font-size:1.5rem;
+  box-shadow:0 0 30px gold,inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(90,45,0,.4);
+}
+.btn-pull:hover:not(:disabled){
+  transform:translateY(-6px);
+  box-shadow:0 0 50px gold,0 12px 32px rgba(255,215,0,.35),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(90,45,0,.4);
+}
+.btn-pull:active:not(:disabled){transform:translateY(-2px)}
 
 /* Wallet warning */
 .wallet-warn{
@@ -811,6 +894,10 @@ nav a:hover,nav a.active{color:var(--gold)}
 <body>
 <div class="bg-fx"></div>
 <div class="bg-grid"></div>
+<div class="bg-spotlight bg-spotlight-1"></div>
+<div class="bg-spotlight bg-spotlight-2"></div>
+<div class="bg-particles"></div>
+<div class="bg-fog"></div>
 
 <!-- ══ LEGENDARY OVERLAY ══ -->
 <div id="leg-overlay">
@@ -928,26 +1015,35 @@ nav a:hover,nav a.active{color:var(--gold)}
       <p>FIFA World Cup 2026 — Pull to Collect</p>
     </div>
 
-    <div class="pull-stats">
-      <div class="stat-chip"><div class="stat-val" id="stat-pulls">0</div><div class="stat-lbl">Pulls</div></div>
-      <div class="stat-chip"><div class="stat-val" id="stat-owned">0</div><div class="stat-lbl">Owned</div></div>
-      <div class="stat-chip"><div class="stat-val" id="stat-leg">0</div><div class="stat-lbl">Legendaries</div></div>
-    </div>
-
     <div class="cost-chips" id="cost-chips">
       <div class="cost-chip">x1 Pull: <span class="amt" id="cost1-lbl">—</span></div>
       <div class="cost-chip">x10 Pull: <span class="amt" id="cost10-lbl">—</span> <span style="color:var(--green);font-weight:900;font-size:.75rem">10% OFF</span></div>
     </div>
 
-    <div class="globe-wrap">
-      <div class="gm-wrap" id="globe" onclick="doPull1()">
-        <img src="/gacha-machine.png?v=1" class="gm-img" alt="Gacha Machine"/>
-        <div class="gm-glow"></div>
-        <div class="gm-shelf gm-shelf-1"></div>
-        <div class="gm-shelf gm-shelf-2"></div>
-        <div class="gm-shelf gm-shelf-3"></div>
-        <div class="gm-btn"></div>
-        <div class="gm-slot"></div>
+    <div class="globe-outer">
+      <!-- Left floating stats -->
+      <div class="float-stats">
+        <div class="float-stat">🏆 Collection: <span class="fs-val" id="stat-owned">0</span></div>
+        <div class="float-stat">💎 Memes: <span class="fs-val" id="stat-pulls">0</span></div>
+      </div>
+
+      <!-- Machine -->
+      <div class="globe-wrap">
+        <div class="gm-wrap" id="globe" onclick="doPull1()">
+          <img src="/gacha-machine.png?v=2" class="gm-img" alt="Gacha Machine"/>
+          <div class="gm-glow"></div>
+          <div class="gm-shelf gm-shelf-1"></div>
+          <div class="gm-shelf gm-shelf-2"></div>
+          <div class="gm-shelf gm-shelf-3"></div>
+          <div class="gm-btn"></div>
+          <div class="gm-slot"></div>
+        </div>
+      </div>
+
+      <!-- Right floating stats -->
+      <div class="float-stats">
+        <div class="float-stat" style="animation-delay:.5s">⭐ Legendary: <span class="fs-val" id="stat-leg">0</span></div>
+        <div class="float-stat" style="animation-delay:1.5s">🎟 Goals: <span class="fs-val">—</span></div>
       </div>
     </div>
 
@@ -958,37 +1054,25 @@ nav a:hover,nav a.active{color:var(--gold)}
       <button class="btn-pull btn-p10" id="btn10" onclick="doPull10()">🎰 Pull × 10</button>
     </div>
 
-    <div id="card-stage"></div>
-  </div>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="panel">
-      <div class="panel-title">🔴 Live Pulls</div>
-      <div id="live-feed"><div style="color:var(--muted);font-size:.78rem">Waiting for pulls...</div></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">💬 Live Chat</div>
-      <div id="chat-msgs">
-        <div class="chat-msg"><span class="chat-user">System</span><span style="color:rgba(255,255,255,.65)"> Welcome to WC 2026 Gacha! 🏆</span></div>
-      </div>
-      <div class="chat-row">
-        <input type="text" id="chat-in" placeholder="Say something..." maxlength="200"/>
-        <button onclick="sendChat()">Send</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">📋 Rarity Guide</div>
+    <!-- Statistics panel -->
+    <div class="panel" style="max-width:380px;width:100%;margin-top:.5rem">
+      <div class="panel-title">📊 Statistics</div>
       <div class="rarity-guide">
-        <div class="rg-row"><span style="color:var(--gold);font-weight:700">⭐ Legendary</span><span style="color:var(--muted)">~0.7%</span></div>
-        <div class="rg-row"><span style="color:#c4b5fd;font-weight:700">💜 Epic</span><span style="color:var(--muted)">~6%</span></div>
-        <div class="rg-row"><span style="color:#93c5fd;font-weight:700">💙 Rare</span><span style="color:var(--muted)">~19%</span></div>
-        <div class="rg-row"><span style="color:rgba(255,255,255,.4);font-weight:700">⬜ Common</span><span style="color:var(--muted)">~74%</span></div>
-        <div style="font-size:.7rem;color:var(--muted);margin-top:4px;padding-top:6px;border-top:1px solid var(--border)">× 10 guarantees at least 1 Rare+</div>
+        <div class="rg-row"><span style="color:rgba(255,255,255,.45);font-weight:700">⬜ Common</span><span style="color:var(--muted)">70%</span></div>
+        <div class="rg-row"><span style="color:#93c5fd;font-weight:700">💙 Rare</span><span style="color:var(--muted)">25%</span></div>
+        <div class="rg-row"><span style="color:#c4b5fd;font-weight:700">💜 Epic</span><span style="color:var(--muted)">3%</span></div>
+        <div class="rg-row"><span style="color:var(--gold);font-weight:700">⭐ Legendary</span><span style="color:var(--muted)">2%</span></div>
       </div>
     </div>
+
+    <!-- Keep live feed + chat hidden so socket events still work -->
+    <div style="display:none">
+      <div id="live-feed"></div>
+      <div id="chat-msgs"></div>
+      <input id="chat-in"/>
+    </div>
+
+    <div id="card-stage"></div>
   </div>
 
 </div><!-- /gacha-page -->
