@@ -1,0 +1,106 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function PackOpeningModal({ pulledCard, onClose }) {
+  const [stage, setStage] = useState("pack");
+
+  const openPack = () => {
+    setStage("shake");
+
+    setTimeout(() => setStage("burst"), 1200);
+    setTimeout(() => setStage("reveal"), 2200);
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {stage !== "reveal" && (
+          <motion.div
+            onClick={openPack}
+            className="relative cursor-pointer"
+            animate={
+              stage === "shake"
+                ? {
+                    x: [0, -12, 12, -10, 10, 0],
+                    rotate: [0, -4, 4, -3, 3, 0],
+                    scale: [1, 1.08, 1],
+                  }
+                : {
+                    y: [0, -10, 0],
+                  }
+            }
+            transition={{
+              duration: stage === "shake" ? 0.45 : 2,
+              repeat: stage === "shake" ? 3 : Infinity,
+            }}
+          >
+            <div className="h-[420px] w-[280px] rounded-3xl border-4 border-yellow-400 bg-gradient-to-br from-black via-yellow-950 to-black shadow-[0_0_80px_rgba(250,204,21,.8)]">
+              <div className="flex h-full flex-col items-center justify-center text-center">
+                <div className="text-6xl">⚽</div>
+                <h2 className="mt-6 text-4xl font-black text-yellow-300">
+                  ALL STARS
+                </h2>
+                <p className="mt-2 text-sm tracking-[0.3em] text-white/60">
+                  WORLD CUP 2026
+                </p>
+                <p className="mt-8 text-yellow-200">
+                  Tap to open
+                </p>
+              </div>
+            </div>
+
+            {stage === "burst" && (
+              <motion.div
+                className="absolute inset-0 rounded-full bg-yellow-300 blur-3xl"
+                initial={{ scale: 0, opacity: 1 }}
+                animate={{ scale: 5, opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              />
+            )}
+          </motion.div>
+        )}
+
+        {stage === "reveal" && (
+          <motion.div
+            className="text-center"
+            initial={{ scale: 0.2, rotateY: 180, opacity: 0 }}
+            animate={{ scale: 1, rotateY: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 12 }}
+          >
+            <h2 className="mb-4 text-3xl font-black text-yellow-300">
+              YOU PULLED
+            </h2>
+
+            <div className="rounded-3xl border-4 border-yellow-400 bg-black p-4 shadow-[0_0_80px_rgba(250,204,21,.8)]">
+              <img
+                src={pulledCard.image}
+                alt={pulledCard.name}
+                className="h-[520px] rounded-2xl object-contain"
+              />
+            </div>
+
+            <h1 className="mt-5 text-5xl font-black text-yellow-300">
+              {pulledCard.name}
+            </h1>
+
+            <p className="mt-2 text-xl font-bold text-purple-300">
+              {pulledCard.rarity}
+            </p>
+
+            <button
+              onClick={onClose}
+              className="mt-6 rounded-xl bg-yellow-400 px-8 py-4 font-black text-black"
+            >
+              Add to Collection
+            </button>
+          </motion.div>
+        )}
+      </motion.div>
+    </AnimatePresence>
+  );
+}

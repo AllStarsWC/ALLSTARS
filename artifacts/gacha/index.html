@@ -727,6 +727,116 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 .overlay-close:hover{background:rgba(255,215,0,.08)}
 
+/* ══════════════ PACK OPENING MODAL ══════════════ */
+#pack-modal{
+  position:fixed;inset:0;z-index:600;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0);backdrop-filter:blur(0px);
+  transition:background .35s,backdrop-filter .35s;
+}
+#pack-modal.show{
+  display:flex;background:rgba(0,0,0,.88);backdrop-filter:blur(16px);
+}
+#pack-modal-content{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;
+}
+/* Pack image wrapper */
+#pack-img-wrap{
+  position:relative;cursor:pointer;transform-origin:center center;
+  display:flex;align-items:center;justify-content:center;
+}
+#pack-img{
+  width:min(300px,80vw);height:auto;
+  filter:drop-shadow(0 0 50px rgba(255,210,74,.55)) drop-shadow(0 0 20px rgba(255,140,0,.4));
+  display:block;
+}
+/* Stage: idle — float */
+@keyframes pack-float{
+  0%,100%{transform:translateY(0) rotate(.5deg)}
+  50%{transform:translateY(-16px) rotate(-.5deg)}
+}
+#pack-modal[data-stage="idle"] #pack-img-wrap{animation:pack-float 2.8s ease-in-out infinite}
+/* Stage: shaking */
+@keyframes pack-shake{
+  0%  {transform:translateX(0) rotate(0) scale(1)}
+  10% {transform:translateX(-14px) rotate(-5deg) scale(1.04)}
+  20% {transform:translateX(14px) rotate(5deg) scale(1.06)}
+  30% {transform:translateX(-12px) rotate(-4deg) scale(1.08)}
+  40% {transform:translateX(12px) rotate(4deg) scale(1.1)}
+  50% {transform:translateX(-9px) rotate(-3deg) scale(1.12)}
+  60% {transform:translateX(9px) rotate(3deg) scale(1.13)}
+  70% {transform:translateX(-6px) rotate(-2deg) scale(1.14)}
+  80% {transform:translateX(6px) rotate(2deg) scale(1.15)}
+  90% {transform:translateX(-3px) scale(1.15)}
+  100%{transform:translateX(0) scale(1.15)}
+}
+#pack-modal[data-stage="shaking"] #pack-img-wrap{
+  animation:pack-shake .95s cubic-bezier(.36,.07,.19,.97) forwards;
+}
+/* Stage: burst — pack explodes away */
+@keyframes pack-burst-out{
+  0%  {transform:scale(1.15);opacity:1}
+  40% {transform:scale(1.5);opacity:.7}
+  100%{transform:scale(0);opacity:0}
+}
+#pack-modal[data-stage="burst"] #pack-img-wrap{
+  animation:pack-burst-out .55s ease-in forwards;
+}
+/* Burst ring */
+#pack-burst-ring{
+  position:absolute;inset:-20px;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,rgba(255,220,60,1) 0%,rgba(255,140,0,.7) 40%,transparent 70%);
+}
+@keyframes burst-ring-expand{
+  0%  {transform:scale(0);opacity:1}
+  100%{transform:scale(5);opacity:0}
+}
+#pack-modal[data-stage="burst"] #pack-burst-ring{
+  animation:burst-ring-expand .7s ease-out forwards;
+}
+/* Tap hint */
+#pack-tap-hint{
+  margin-top:1.6rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:4px;
+  color:rgba(255,210,74,.75);
+  animation:hint-pulse 1.5s ease-in-out infinite;
+}
+@keyframes hint-pulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+#pack-modal[data-stage="shaking"] #pack-tap-hint,
+#pack-modal[data-stage="burst"] #pack-tap-hint,
+#pack-modal[data-stage="reveal"] #pack-tap-hint{display:none}
+/* Result area */
+#pack-result-area{
+  display:none;flex-direction:column;align-items:center;gap:1rem;
+  max-height:90vh;overflow-y:auto;padding:.5rem 1rem;
+}
+@keyframes reveal-slam{from{transform:scale(.25) rotateY(90deg);opacity:0}to{transform:none;opacity:1}}
+#pack-modal[data-stage="reveal"] #pack-result-area{
+  display:flex;animation:reveal-slam .55s cubic-bezier(.2,0,.2,1.4) both;
+}
+#pack-modal[data-stage="reveal"] #pack-img-wrap{display:none}
+.pack-result-title{
+  font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:6px;
+  color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.8);
+  text-align:center;
+}
+.pack-result-cards{
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
+  max-width:min(92vw,860px);
+}
+/* Per-card size override inside pack modal */
+.pack-result-cards .card-wrap.pack-single{width:200px;height:292px}
+.pack-result-cards .card-wrap.pack-ten{width:128px;height:187px}
+#pack-close-btn{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;
+  padding:.75rem 2.6rem;border:1px solid rgba(255,215,0,.4);
+  background:linear-gradient(135deg,rgba(255,210,74,.15),rgba(255,140,0,.1));
+  color:var(--gold);border-radius:50px;cursor:pointer;
+  transition:all .2s;margin-top:.25rem;flex-shrink:0;
+}
+#pack-close-btn:hover{background:rgba(255,215,0,.18);border-color:rgba(255,215,0,.75);transform:scale(1.03)}
+
 /* ══════════════ SIDEBAR ══════════════ */
 .sidebar{display:flex;flex-direction:column;gap:1.2rem}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:1rem}
@@ -918,6 +1028,22 @@ nav a:hover,nav a.active{color:var(--gold)}
   <div class="overlay-sub" id="overlay-sub">GOAT TIER PULL</div>
   <div class="overlay-card" id="overlay-card"></div>
   <button class="overlay-close" onclick="closeOverlay()">✦ CLAIM CARD ✦</button>
+</div>
+
+<!-- ══ PACK OPENING MODAL ══ -->
+<div id="pack-modal" data-stage="idle">
+  <div id="pack-modal-content">
+    <div id="pack-img-wrap" onclick="tapPack()">
+      <img id="pack-img" src="/pack.png" alt="Card Pack"/>
+      <div id="pack-burst-ring"></div>
+    </div>
+    <div id="pack-tap-hint">✦ TAP TO OPEN ✦</div>
+    <div id="pack-result-area">
+      <div class="pack-result-title" id="pack-result-title">YOU PULLED</div>
+      <div class="pack-result-cards" id="pack-result-cards"></div>
+      <button id="pack-close-btn" onclick="closePackModal()">✦ ADD TO COLLECTION ✦</button>
+    </div>
+  </div>
 </div>
 
 <div id="app">
@@ -1296,6 +1422,88 @@ async function sendTokenPayment(raw){
 }
 
 // ═══════════════════════════════════════════════════════════════
+// PACK OPENING MODAL
+// ═══════════════════════════════════════════════════════════════
+let packFetchPromise=null;
+let packIs10=false;
+let packTapped=false;
+
+function openPackModal(fetchPromise,is10){
+  packFetchPromise=fetchPromise;
+  packIs10=is10;
+  packTapped=false;
+  document.getElementById('pack-result-title').textContent=is10?'YOU PULLED 10 CARDS':'YOU PULLED';
+  document.getElementById('pack-result-cards').innerHTML='';
+  const modal=document.getElementById('pack-modal');
+  modal.setAttribute('data-stage','idle');
+  modal.style.display='flex';
+  // Force reflow so CSS transition fires
+  void modal.offsetWidth;
+  modal.classList.add('show');
+}
+
+async function tapPack(){
+  const modal=document.getElementById('pack-modal');
+  if(modal.getAttribute('data-stage')!=='idle') return;
+  packTapped=true;
+
+  // 1 — shake
+  modal.setAttribute('data-stage','shaking');
+  await delay(980);
+
+  // 2 — burst (await API in parallel with burst animation)
+  modal.setAttribute('data-stage','burst');
+  let data;
+  try{
+    [data]=await Promise.all([packFetchPromise, delay(650)]);
+  }catch(e){
+    showToast('Pull error: '+e.message,true);
+    closePackModal(false);
+    return;
+  }
+  if(!data){closePackModal(false);return;}
+
+  // 3 — reveal cards
+  const cardsArea=document.getElementById('pack-result-cards');
+  cardsArea.innerHTML='';
+  const cards=packIs10?data.cards:[data.card];
+  const cls=packIs10?'pack-ten':'pack-single';
+  cards.forEach((c,i)=>{
+    const el=makeCard(c,i);
+    el.classList.add(cls);
+    el.style.animationDelay=(i*60)+'ms';
+    cardsArea.appendChild(el);
+    setTimeout(()=>el.classList.add('flipped'), 120+i*(packIs10?130:0));
+  });
+
+  modal.setAttribute('data-stage','reveal');
+
+  // Epic celebrate for any epics in the batch
+  const hasEpic=cards.some(c=>c.rarity==='epic');
+  if(hasEpic) setTimeout(epicCelebrate,400);
+}
+
+function closePackModal(triggerOverlay=true){
+  pulling=false; setBtns(true);
+  const modal=document.getElementById('pack-modal');
+  modal.classList.remove('show');
+  setTimeout(()=>{
+    modal.style.display='none';
+    modal.setAttribute('data-stage','idle');
+  },350);
+
+  // Trigger legendary overlay after modal closes
+  if(triggerOverlay && packFetchPromise){
+    packFetchPromise.then(data=>{
+      if(!data) return;
+      const cards=packIs10?data.cards:[data.card];
+      const legs=cards.filter(c=>c.rarity==='legendary');
+      if(legs.length) setTimeout(()=>showLegOverlay(legs[0]),400);
+    }).catch(()=>{});
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // PULL LOGIC
 // ═══════════════════════════════════════════════════════════════
 async function doPull1(){
@@ -1305,23 +1513,20 @@ async function doPull1(){
     if(!walletPK){document.getElementById('wallet-warn').classList.add('show');return}
     sig=await sendTokenPayment(serverConfig.pull1Cost); if(!sig) return;
   }
-  pulling=true; setBtns(false); animGlobe(); await delay(700);
-  try{
-    const r=await fetch('/api/gacha/pull',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})});
-    const d=await r.json();
-    if(d.error){showToast(d.error,true);pulling=false;setBtns(true);return}
-    myCollection.add(d.card.id); totalPulls++;
-    if(d.card.rarity==='legendary') totalLeg++;
-    updateStats();
-    const stage=document.getElementById('card-stage');
-    stage.innerHTML=''; await delay(80);
-    const el=makeCard(d.card,0); stage.appendChild(el);
-    await delay(120); el.classList.add('flipped');
-    if(d.card.rarity==='legendary'){await delay(500); showLegOverlay(d.card);}
-    else if(d.card.rarity==='epic') epicCelebrate();
-  }catch(e){showToast('Pull error: '+e.message,true)}
-  pulling=false; setBtns(true);
+  pulling=true; setBtns(false); animGlobe();
+
+  const fetchPromise=fetch('/api/gacha/pull',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})})
+    .then(r=>r.json())
+    .then(d=>{
+      if(d.error) throw new Error(d.error);
+      myCollection.add(d.card.id); totalPulls++;
+      if(d.card.rarity==='legendary') totalLeg++;
+      updateStats();
+      return d;
+    });
+
+  openPackModal(fetchPromise,false);
 }
 
 async function doPull10(){
@@ -1331,27 +1536,19 @@ async function doPull10(){
     if(!walletPK){document.getElementById('wallet-warn').classList.add('show');return}
     sig=await sendTokenPayment(serverConfig.pull10Cost); if(!sig) return;
   }
-  pulling=true; setBtns(false); animGlobe(); await delay(800);
-  try{
-    const r=await fetch('/api/gacha/pull/10',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})});
-    const d=await r.json();
-    if(d.error){showToast(d.error,true);pulling=false;setBtns(true);return}
-    d.cards.forEach(c=>{myCollection.add(c.id);if(c.rarity==='legendary')totalLeg++;});
-    totalPulls+=10; updateStats();
-    const stage=document.getElementById('card-stage');
-    stage.innerHTML='';
-    for(let i=0;i<d.cards.length;i++){await delay(65);stage.appendChild(makeCard(d.cards[i],i));}
-    await delay(380);
-    const els=stage.querySelectorAll('.card-wrap');
-    for(let i=0;i<d.cards.length;i++){
-      await delay(155); els[i]?.classList.add('flipped');
-      if(d.cards[i].rarity==='epic'){await delay(80);epicCelebrate();}
-    }
-    const legs=d.cards.filter(c=>c.rarity==='legendary');
-    if(legs.length){await delay(400);showLegOverlay(legs[0]);}
-  }catch(e){showToast('Pull error: '+e.message,true)}
-  pulling=false; setBtns(true);
+  pulling=true; setBtns(false); animGlobe();
+
+  const fetchPromise=fetch('/api/gacha/pull/10',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})})
+    .then(r=>r.json())
+    .then(d=>{
+      if(d.error) throw new Error(d.error);
+      d.cards.forEach(c=>{myCollection.add(c.id);if(c.rarity==='legendary')totalLeg++;});
+      totalPulls+=10; updateStats();
+      return d;
+    });
+
+  openPackModal(fetchPromise,true);
 }
 
 // ═══════════════════════════════════════════════════════════════
