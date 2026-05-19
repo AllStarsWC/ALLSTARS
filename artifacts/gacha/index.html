@@ -749,110 +749,15 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* ── Image-based hero card overlays ── */
 .hcard-img-wrap{
-  width:100%;height:100%;position:relative;border-radius:14px;overflow:hidden;
-  /* background-image crop: image=1023x1537, card frame=x155-855 y0-1300
-     scale=300/700=0.4286 → rendered 438x659; left-offset=155*0.4286=66px
-     x-pos=66/(438-300)*100=47.8%; top-clamps y=0 */
-  background-image:url('/card-template.png?v=1779207745');
-  background-size:146% auto;
-  background-position:48% 0;
-  background-repeat:no-repeat;
+  width:100%;height:100%;border-radius:14px;overflow:hidden;
 }
-.hcard-bg-img{display:none}
-
-/* Dark masks that paint over template placeholder text */
-.hov-mask{position:absolute;z-index:6;pointer-events:none;background:rgba(2,8,24,.99)}
-/* Calibrated for background-size:146% background-position:48% 0 on 300×430 card */
-.hov-mask-rating {top:19%;left:0;width:24%;height:12%}
-.hov-mask-pos    {top:30%;left:0;width:22%;height:8%}
-.hov-mask-flag   {top:37%;left:0;width:29%;height:12%}
-.hov-mask-badge  {top:48%;left:0;width:22%;height:22%}
-.hov-mask-jersey {top:56%;left:26%;width:44%;height:12%}
-.hov-mask-name   {bottom:0;left:5%;right:5%;height:9%}
-.hov-mask-stats  {display:none}
-.hov-mask-footer {display:none}
-.hov-mask-quote  {display:none}
-/* right margin: covers right-side annotation labels */
-.hov-mask-right  {top:0;right:0;width:20%;height:100%}
-/* thin left-edge cover */
-.hov-mask-left   {top:0;left:0;width:1%;height:100%}
-
-/* Shared overlay base */
-.hov{position:absolute;font-family:'Bebas Neue',sans-serif;pointer-events:none;z-index:10}
-
-/* Rating — top-left large gold number */
-.hov-rating{
-  top:19%;left:2%;
-  font-size:1.75rem;color:#FFD700;
-  text-shadow:0 0 14px rgba(255,215,0,1),0 2px 5px rgba(0,0,0,1);
-  line-height:1;
+.hcard-bg-img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+  border-radius:14px;
 }
-/* Position label */
-.hov-pos{
-  top:30%;left:2%;
-  font-size:.55rem;letter-spacing:2px;color:#FFD700;
-  text-shadow:0 1px 4px rgba(0,0,0,.9);
-}
-/* Country flag */
-.hov-flag{
-  top:39%;left:2%;
-  font-size:1.1rem;
-  filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));
-}
-/* Player quote — upper-right of art area */
-.hov-quote{
-  top:19%;left:33%;right:19%;
-  font-family:'Inter',sans-serif;font-size:.32rem;font-style:italic;
-  color:rgba(255,255,255,.88);line-height:1.7;text-align:center;
-  text-shadow:0 1px 4px rgba(0,0,0,1);
-}
-.hov-quote-name{color:rgba(255,215,0,.95);font-style:normal;display:block;margin-top:2px}
-
-/* 4 traits on right column */
-.hov-trait{
-  right:21%;display:flex;flex-direction:column;align-items:center;
-  background:rgba(5,14,35,.85);border:1px solid rgba(255,215,0,.5);
-  border-radius:10px;padding:3px 6px;text-align:center;
-  font-size:.28rem;color:rgba(255,255,255,.9);letter-spacing:.5px;
-  width:54px;box-shadow:0 0 8px rgba(255,215,0,.2);
-}
-.hov-trait span:first-child{font-size:.9rem;line-height:1.2}
-.hov-tname{font-size:.28rem;letter-spacing:.5px;color:rgba(255,215,0,.9);font-weight:bold}
-.hov-trait-1{top:27%}
-.hov-trait-2{top:38%}
-.hov-trait-3{top:49%}
-.hov-trait-4{top:60%}
-
-/* Player name — big gold centred */
-.hov-name{
-  bottom:10%;left:0;right:0;text-align:center;
-  font-size:1.3rem;letter-spacing:3px;color:#FFD700;
-  background:rgba(0,0,0,.55);padding:2px 0;
-  text-shadow:0 0 16px rgba(255,215,0,.9),0 2px 6px rgba(0,0,0,1);
-}
-
-/* Attribute stats row */
-.hov-stats{
-  bottom:21%;left:5%;right:5%;
-  display:flex;justify-content:space-around;
-}
-.hov-stat{display:flex;flex-direction:column;align-items:center;gap:0}
-.hov-stat-lbl{font-size:.32rem;letter-spacing:1px;color:#FFD700}
-.hov-stat-val{font-size:.75rem;color:white;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-
-/* Footer row */
-.hov-footer{
-  bottom:10%;left:4%;right:4%;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.hov-sm,.hov-pop{display:flex;flex-direction:column;gap:1px}
-.hov-sm-lbl,.hov-pop-lbl{font-size:.3rem;letter-spacing:1.5px;color:rgba(255,215,0,.85)}
-.hov-sm-stars,.hov-pop-stars{color:#FFD700;font-size:.48rem;letter-spacing:2px}
-.hov-emblem{
-  text-align:center;font-size:.7rem;
-  display:flex;flex-direction:column;align-items:center;
-}
-.hov-emblem-lbl{font-size:.28rem;letter-spacing:1px;color:#FFD700}
 </style>
 </head>
 <body>
@@ -1518,60 +1423,11 @@ function getUnique(card){
 function rn(n){ return Math.floor(Math.random()*n); }
 
 function makeHeroLegendaryCard(card){
-  const stats=getCardStats(card.position);
-  const traits=getCardTraits(card.position);
-  const posShort=getPosShort(card.position);
-  const quote=getQuote(card);
-  const [uIcon,uTitle]=getUnique(card);
-  const rating=96+rn(4);
-  const smCount=3+rn(3);
-  const popCount=4+rn(2);
-  const smStars='★'.repeat(smCount)+'☆'.repeat(5-smCount);
-  const popStars='★'.repeat(popCount)+'☆'.repeat(5-popCount);
-
   const outer=document.createElement('div');
   outer.className='hcard-outer';
   outer.innerHTML=`
     <div class="hcard-img-wrap">
-      <!-- The actual template image as card -->
-      <img src="/card-template.png" class="hcard-bg-img" alt="card template"/>
-
-      <!-- Masks to cover template placeholder text -->
-      <div class="hov-mask hov-mask-rating"></div>
-      <div class="hov-mask hov-mask-pos"></div>
-      <div class="hov-mask hov-mask-flag"></div>
-      <div class="hov-mask hov-mask-quote"></div>
-      <div class="hov-mask hov-mask-name"></div>
-      <div class="hov-mask hov-mask-stats"></div>
-      <div class="hov-mask hov-mask-footer"></div>
-      <div class="hov-mask hov-mask-left"></div>
-      <div class="hov-mask hov-mask-jersey"></div>
-      <div class="hov-mask hov-mask-right"></div>
-
-      <!-- Dynamic overlays positioned over the template zones -->
-
-      <!-- Rating top-left -->
-      <div class="hov hov-rating">${rating}</div>
-      <!-- Position -->
-      <div class="hov hov-pos">${posShort}</div>
-      <!-- Flag -->
-      <div class="hov hov-flag">${card.flag}</div>
-      <!-- Quote top-right -->
-      <div class="hov hov-quote">"${quote}"<br><span class="hov-quote-name">— ${card.name}</span></div>
-      <!-- Trait 1-4 on right -->
-      ${traits.map(([icon,name],i)=>`<div class="hov hov-trait hov-trait-${i+1}"><span>${icon}</span><span class="hov-tname">${name}</span></div>`).join('')}
-      <!-- Player name centre-bottom -->
-      <div class="hov hov-name">${card.name.toUpperCase()}</div>
-      <!-- Stats row -->
-      <div class="hov hov-stats">
-        ${Object.entries(stats).map(([k,v])=>`<div class="hov-stat"><div class="hov-stat-lbl">${k}</div><div class="hov-stat-val">${v}</div></div>`).join('')}
-      </div>
-      <!-- Footer -->
-      <div class="hov hov-footer">
-        <div class="hov-sm"><div class="hov-sm-lbl">SKILL MOVES</div><div class="hov-sm-stars">${smStars}</div></div>
-        <div class="hov-emblem"><div>${uIcon}</div><div class="hov-emblem-lbl">${uTitle}</div></div>
-        <div class="hov-pop"><div class="hov-pop-lbl">POPULARITY</div><div class="hov-pop-stars">${popStars}</div></div>
-      </div>
+      <img src="/card-mussi.png?v=2" class="hcard-bg-img" alt="${card.name} card"/>
     </div>`;
   return outer;
 }
