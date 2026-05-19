@@ -359,6 +359,14 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 #wallet-btn:hover{background:var(--gold)}
 #wallet-btn.connected{background:linear-gradient(135deg,#065f46,#059669);color:white}
+.x-social-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:8px;
+  color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);transition:all .2s;flex-shrink:0;
+}
+.x-social-btn:hover{background:rgba(255,255,255,.14);color:white;border-color:rgba(255,255,255,.3)}
+.x-social-btn svg{width:16px;height:16px}
 #token-balance{font-size:.78rem;font-weight:700;color:var(--green);white-space:nowrap}
 
 /* ══════════════ NAV TABS ══════════════ */
@@ -1273,7 +1281,10 @@ nav a:hover,nav a.active{color:var(--gold)}
 
   <div class="header-right">
     <span id="token-balance"></span>
-    <input type="text" id="username-input" placeholder="Your name" maxlength="20" value="Player"/>
+    <input type="text" id="username-input" placeholder="Your name" maxlength="20" value="Player" style="display:none"/>
+    <a href="https://x.com" target="_blank" rel="noopener" class="x-social-btn" aria-label="Follow on X">
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.042 2.25h6.672l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+    </a>
     <button id="wallet-btn" onclick="connectWallet()">🔌 Connect Wallet</button>
   </div>
 </header>
@@ -1292,16 +1303,16 @@ nav a:hover,nav a.active{color:var(--gold)}
         <button class="btn-dark" onclick="switchTab('home',null)"><span>Explore Market</span></button>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-val">100</div><div class="hero-stat-label">Cards</div></div>
-        <div class="hero-stat"><div class="hero-stat-val" id="hero-owners">0</div><div class="hero-stat-label">Owners</div></div>
-        <div class="hero-stat"><div class="hero-stat-val" id="hero-vol">0</div><div class="hero-stat-label">SOL Volume</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">1300</div><div class="hero-stat-label">Cards</div></div>
+        <div class="hero-stat"><div class="hero-stat-val" id="hero-owners">335</div><div class="hero-stat-label">Owners</div></div>
+        <div class="hero-stat"><div class="hero-stat-val" id="hero-vol">0</div><div class="hero-stat-label">Buyback Amount</div></div>
       </div>
     </div>
     <div class="hero-card-wrap">
       <div class="featured-card" id="hero-featured-card"></div>
       <div class="hero-badge-float">
         <p>Legendary pull rate</p>
-        <p>0.7%</p>
+        <p>2%</p>
       </div>
     </div>
   </section>
