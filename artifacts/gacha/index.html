@@ -750,60 +750,58 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* ── Image-based hero card overlays ── */
 .hcard-img-wrap{
   width:100%;height:100%;position:relative;border-radius:14px;overflow:hidden;
+  /* background-image crop: image=1023x1537, card frame=x155-855 y0-1300
+     scale=300/700=0.4286 → rendered 438x659; left-offset=155*0.4286=66px
+     x-pos=66/(438-300)*100=47.8%; top-clamps y=0 */
+  background-image:url('/card-template.png');
+  background-size:146% auto;
+  background-position:48% 0;
+  background-repeat:no-repeat;
 }
-.hcard-bg-img{
-  width:110%;height:110%;
-  object-fit:cover;
-  /* Crop: push right past left labels, pull up past bottom annotation block */
-  object-position:52% 38%;
-  display:block;
-  margin-left:-5%;
-  margin-top:-2%;
-}
+.hcard-bg-img{display:none}
 
 /* Dark masks that paint over template placeholder text */
-.hov-mask{position:absolute;z-index:6;pointer-events:none}
-.hov-mask-rating {top:13%;left:12%;width:17%;height:16%;background:rgba(2,8,24,.97)}
-.hov-mask-pos    {top:24%;left:12%;width:14%;height:6%;background:rgba(2,8,24,.97)}
-.hov-mask-flag   {top:29%;left:11%;width:22%;height:9%;background:rgba(2,8,24,.97)}
-.hov-mask-quote  {top:18%;left:33%;right:20%;height:16%;background:rgba(2,8,24,.92);border-radius:4px}
-.hov-mask-name   {bottom:22%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.96)}
-.hov-mask-stats  {bottom:13%;left:4%;right:4%;height:10%;background:rgba(2,8,24,.92)}
-.hov-mask-footer {bottom:2%;left:4%;right:4%;height:14%;background:rgba(2,8,24,.96)}
-/* block left-side annotation callouts */
-.hov-mask-left   {top:0;left:0;width:13%;height:100%;background:rgba(2,8,24,.98)}
-/* block right-side annotation callouts */
-.hov-mask-right  {top:0;right:0;width:25%;height:100%;background:rgba(2,8,24,.98)}
-/* block "PLAYER JERSEY" label in art area */
-.hov-mask-jersey {top:37%;left:18%;right:16%;height:13%;background:rgba(2,8,24,.99)}
-/* block ALL STARS BADGE label arrows on left */
-.hov-mask-badge  {top:40%;left:14%;width:20%;height:20%;background:transparent}
+.hov-mask{position:absolute;z-index:6;pointer-events:none;background:rgba(2,8,24,.99)}
+/* Calibrated for background-size:146% background-position:48% 0 on 300×430 card */
+.hov-mask-rating {top:19%;left:0;width:24%;height:12%}
+.hov-mask-pos    {top:30%;left:0;width:22%;height:8%}
+.hov-mask-flag   {top:37%;left:0;width:29%;height:12%}
+.hov-mask-badge  {top:48%;left:0;width:22%;height:22%}
+.hov-mask-jersey {top:56%;left:26%;width:44%;height:12%}
+.hov-mask-name   {bottom:0;left:5%;right:5%;height:9%}
+.hov-mask-stats  {display:none}
+.hov-mask-footer {display:none}
+.hov-mask-quote  {display:none}
+/* right margin: covers right-side annotation labels */
+.hov-mask-right  {top:0;right:0;width:20%;height:100%}
+/* thin left-edge cover */
+.hov-mask-left   {top:0;left:0;width:1%;height:100%}
 
 /* Shared overlay base */
 .hov{position:absolute;font-family:'Bebas Neue',sans-serif;pointer-events:none;z-index:10}
 
 /* Rating — top-left large gold number */
 .hov-rating{
-  top:14%;left:13%;
+  top:19%;left:2%;
   font-size:1.75rem;color:#FFD700;
   text-shadow:0 0 14px rgba(255,215,0,1),0 2px 5px rgba(0,0,0,1);
   line-height:1;
 }
 /* Position label */
 .hov-pos{
-  top:25%;left:13%;
+  top:30%;left:2%;
   font-size:.55rem;letter-spacing:2px;color:#FFD700;
   text-shadow:0 1px 4px rgba(0,0,0,.9);
 }
 /* Country flag */
 .hov-flag{
-  top:30%;left:13%;
+  top:39%;left:2%;
   font-size:1.1rem;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));
 }
 /* Player quote — upper-right of art area */
 .hov-quote{
-  top:19%;left:34%;right:28%;
+  top:19%;left:33%;right:19%;
   font-family:'Inter',sans-serif;font-size:.32rem;font-style:italic;
   color:rgba(255,255,255,.88);line-height:1.7;text-align:center;
   text-shadow:0 1px 4px rgba(0,0,0,1);
@@ -812,7 +810,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* 4 traits on right column */
 .hov-trait{
-  right:3%;display:flex;flex-direction:column;align-items:center;
+  right:21%;display:flex;flex-direction:column;align-items:center;
   background:rgba(5,14,35,.85);border:1px solid rgba(255,215,0,.5);
   border-radius:10px;padding:3px 6px;text-align:center;
   font-size:.28rem;color:rgba(255,255,255,.9);letter-spacing:.5px;
@@ -820,14 +818,14 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 .hov-trait span:first-child{font-size:.9rem;line-height:1.2}
 .hov-tname{font-size:.28rem;letter-spacing:.5px;color:rgba(255,215,0,.9);font-weight:bold}
-.hov-trait-1{top:26%}
-.hov-trait-2{top:37%}
-.hov-trait-3{top:48%}
-.hov-trait-4{top:59%}
+.hov-trait-1{top:27%}
+.hov-trait-2{top:38%}
+.hov-trait-3{top:49%}
+.hov-trait-4{top:60%}
 
 /* Player name — big gold centred */
 .hov-name{
-  bottom:25%;left:0;right:0;text-align:center;
+  bottom:10%;left:0;right:0;text-align:center;
   font-size:1.3rem;letter-spacing:3px;color:#FFD700;
   background:rgba(0,0,0,.55);padding:2px 0;
   text-shadow:0 0 16px rgba(255,215,0,.9),0 2px 6px rgba(0,0,0,1);
@@ -835,7 +833,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* Attribute stats row */
 .hov-stats{
-  bottom:16%;left:6%;right:6%;
+  bottom:21%;left:5%;right:5%;
   display:flex;justify-content:space-around;
 }
 .hov-stat{display:flex;flex-direction:column;align-items:center;gap:0}
@@ -844,7 +842,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* Footer row */
 .hov-footer{
-  bottom:5%;left:5%;right:5%;
+  bottom:10%;left:4%;right:4%;
   display:flex;justify-content:space-between;align-items:center;
 }
 .hov-sm,.hov-pop{display:flex;flex-direction:column;gap:1px}
