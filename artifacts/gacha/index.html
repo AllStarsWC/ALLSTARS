@@ -469,15 +469,6 @@ nav a:hover,nav a.active{color:var(--gold)}
 .gm-wrap:hover .gm-btn{opacity:1}
 .gm-img{width:100%;height:auto;display:block;border-radius:12px}
 
-/* Idle gold edge glow pulse */
-.gm-glow{
-  position:absolute;inset:0;border-radius:12px;pointer-events:none;
-  animation:gm-glow-pulse 2.5s ease-in-out infinite;
-}
-@keyframes gm-glow-pulse{
-  0%,100%{box-shadow:0 0 30px rgba(255,210,74,.2)}
-  50%{box-shadow:0 0 60px rgba(255,210,74,.45),0 0 100px rgba(255,210,74,.15)}
-}
 
 /* Shelf light flicker */
 .gm-shelf{
@@ -1052,7 +1043,6 @@ nav a:hover,nav a.active{color:var(--gold)}
       <div class="globe-wrap">
         <div class="gm-wrap" id="globe" onclick="doPull1()">
           <img src="/gacha-machine.png?v=2" class="gm-img" alt="Gacha Machine"/>
-          <div class="gm-glow"></div>
           <div class="gm-shelf gm-shelf-1"></div>
           <div class="gm-shelf gm-shelf-2"></div>
           <div class="gm-shelf gm-shelf-3"></div>
