@@ -1211,10 +1211,40 @@ nav a:hover,nav a.active{color:var(--gold)}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
 
+/* ══════════════ MOBILE BOTTOM NAV ══════════════ */
+.mobile-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:rgba(3,6,13,.97);
+  border-top:1px solid rgba(255,215,0,.2);
+  backdrop-filter:blur(20px);
+  padding:.5rem 0 env(safe-area-inset-bottom,.5rem);
+}
+.mobile-nav-inner{
+  display:flex;align-items:stretch;
+}
+.mobile-nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.2rem;padding:.5rem .25rem;
+  font-size:.6rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.45);cursor:pointer;
+  border:none;background:transparent;transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mobile-nav-btn .mnav-icon{font-size:1.3rem;line-height:1}
+.mobile-nav-btn.active{color:var(--gold)}
+.mobile-nav-btn.mnav-watch{color:rgba(255,80,80,.65)}
+.mobile-nav-btn.mnav-watch.active{color:#ff4444}
+
 @media(max-width:600px){
-  header{padding:.75rem 1rem}
+  header{padding:.65rem 1rem;gap:.5rem}
   nav{display:none}
+  .logo-img{height:40px}
+  #wallet-btn{font-size:.72rem;padding:.38rem .75rem}
+  .x-social-btn{width:30px;height:30px}
   .hero{padding:2rem 1rem}
+  .mobile-nav{display:block}
+  #app{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 }
 
 /* ── Image-based hero card overlays ── */
@@ -1288,6 +1318,24 @@ nav a:hover,nav a.active{color:var(--gold)}
     <button id="wallet-btn" onclick="connectWallet()">🔌 Connect Wallet</button>
   </div>
 </header>
+
+<!-- ══ MOBILE BOTTOM NAV ══ -->
+<nav class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-nav-btn active" id="mnav-home" onclick="switchTab('home',null)">
+      <span class="mnav-icon">🏠</span>Home
+    </button>
+    <button class="mobile-nav-btn" id="mnav-gacha" onclick="switchTab('gacha',null)">
+      <span class="mnav-icon">🎰</span>Gacha
+    </button>
+    <button class="mobile-nav-btn" id="mnav-vault" onclick="switchTab('vault',null)">
+      <span class="mnav-icon">🗄️</span>Vault
+    </button>
+    <button class="mobile-nav-btn mnav-watch" id="mnav-watch" onclick="switchTab('watch',null)">
+      <span class="mnav-icon">🔴</span>Watch
+    </button>
+  </div>
+</nav>
 
 <!-- ══ HOME PAGE ══ -->
 <div id="home-page" class="page active">
@@ -1651,7 +1699,6 @@ function switchTab(name, el){
   if(p) p.classList.add('active');
   if(el) el.classList.add('active');
   else{
-    // find nav link by tab name and activate it
     const links=document.querySelectorAll('nav a');
     links.forEach(a=>{
       if(a.getAttribute('onclick')&&a.getAttribute('onclick').includes("'"+name+"'")){
@@ -1659,6 +1706,10 @@ function switchTab(name, el){
       }
     });
   }
+  // sync mobile bottom nav
+  document.querySelectorAll('.mobile-nav-btn').forEach(b=>b.classList.remove('active'));
+  const mb=document.getElementById('mnav-'+name);
+  if(mb) mb.classList.add('active');
   if(name==='vault') renderVault();
 }
 
