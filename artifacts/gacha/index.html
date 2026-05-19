@@ -90,6 +90,216 @@ html,body{min-height:100%;background:var(--dark);color:var(--text);font-family:'
 .bg-fog{position:fixed;bottom:0;left:0;right:0;height:28vh;z-index:0;pointer-events:none;
   background:linear-gradient(0deg,rgba(8,25,12,.72) 0%,rgba(8,25,12,.3) 45%,transparent 100%);
   filter:blur(22px);}
+/* ══════════════ NAV WATCH BADGE ══════════════ */
+.nav-watch{color:#ff4444 !important;font-weight:700}
+.nav-watch.active{color:#ff6666 !important;border-bottom-color:#ff4444 !important}
+nav a{cursor:pointer}
+
+/* ══════════════ WATCH PAGE ══════════════ */
+#watch-page{position:relative;overflow:hidden;padding:0}
+
+/* VIP Gate */
+#vip-gate{
+  position:absolute;inset:0;z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(18px);
+}
+#vip-gate.hidden{display:none}
+.vip-gate-inner{
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  max-width:480px;width:90%;text-align:center;
+  background:linear-gradient(135deg,rgba(20,20,30,.95),rgba(10,10,20,.98));
+  border:1px solid rgba(255,210,74,.35);border-radius:24px;
+  padding:2.5rem 2rem;
+  box-shadow:0 0 80px rgba(255,210,74,.15),0 0 200px rgba(255,140,0,.08);
+}
+.vip-lock{font-size:3.5rem;filter:drop-shadow(0 0 20px rgba(255,210,74,.6))}
+.vip-badge-label{
+  font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:4px;
+  color:var(--gold);background:rgba(255,210,74,.12);
+  border:1px solid rgba(255,210,74,.3);border-radius:50px;
+  padding:.3rem 1.2rem;
+}
+.vip-gate-title{
+  font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:4px;
+  color:white;margin:0;line-height:1.1;
+}
+.vip-gate-sub{color:rgba(255,255,255,.55);font-size:.9rem;line-height:1.5;margin:0}
+.vip-perks{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%;margin:.25rem 0}
+.vip-perk{
+  display:flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:.6rem .9rem;font-size:.82rem;color:rgba(255,255,255,.75);
+  text-align:left;
+}
+.vp-icon{font-size:1.1rem}
+.vip-unlock-btn{width:100%;justify-content:center;font-size:1rem;margin-top:.25rem}
+.vip-gate-note{font-size:.72rem;color:rgba(255,255,255,.3);margin:0}
+
+/* Watch content */
+.watch-content{padding:1.5rem;max-width:1100px;margin:0 auto;transition:filter .3s}
+.watch-content.locked{filter:blur(6px);pointer-events:none;user-select:none}
+.watch-live-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.watch-section-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:4px;
+  color:white;display:flex;align-items:center;gap:.5rem;margin:0;
+}
+.live-match-count{
+  font-size:.75rem;letter-spacing:2px;font-weight:700;
+  color:#ff4444;background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.3);
+  border-radius:50px;padding:.25rem .85rem;
+}
+/* Pulsing live dot */
+.live-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:#ff4444;box-shadow:0 0 8px #ff4444;
+  animation:dot-pulse 1.2s ease-in-out infinite;flex-shrink:0;
+}
+.live-dot.small{width:6px;height:6px}
+@keyframes dot-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* Featured stream */
+.featured-stream{
+  display:grid;grid-template-columns:1fr 280px;gap:1rem;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;overflow:hidden;
+}
+@media(max-width:760px){.featured-stream{grid-template-columns:1fr}}
+.stream-player{display:flex;flex-direction:column}
+.stream-placeholder{
+  flex:1;min-height:300px;
+  background:linear-gradient(135deg,#050e18 0%,#0a1c2e 40%,#071520 100%);
+  position:relative;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.stream-placeholder::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 60%,rgba(34,197,94,.06),transparent),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 40px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 40px);
+}
+.stream-teams{
+  display:flex;align-items:center;gap:2rem;position:relative;z-index:1;
+}
+.stream-team{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.stream-flag{font-size:3.5rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.6))}
+.stream-team-name{
+  font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:3px;
+  color:rgba(255,255,255,.7);
+}
+.stream-score-wrap{text-align:center}
+.stream-score{
+  font-family:'Bebas Neue',sans-serif;font-size:3.8rem;color:var(--gold);
+  text-shadow:0 0 30px rgba(255,210,74,.5);line-height:1;
+}
+.stream-time{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  font-size:.8rem;color:rgba(255,255,255,.6);font-weight:700;margin-top:.25rem;
+}
+.stream-group{
+  position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);
+  font-size:.7rem;letter-spacing:3px;color:rgba(255,255,255,.4);font-weight:700;
+  text-transform:uppercase;white-space:nowrap;
+}
+.stream-watermark{
+  position:absolute;top:1rem;left:1rem;
+  font-size:.7rem;letter-spacing:2px;font-weight:700;
+  color:#ff4444;background:rgba(255,68,68,.15);border:1px solid rgba(255,68,68,.4);
+  border-radius:6px;padding:.2rem .5rem;
+}
+.stream-controls{
+  display:flex;gap:.5rem;padding:.75rem;
+  background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.06);
+}
+.sc-btn{
+  font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:1.5px;
+  padding:.45rem 1.1rem;border-radius:8px;cursor:pointer;border:none;
+  background:var(--gold);color:#000;transition:all .2s;
+}
+.sc-btn:hover{transform:scale(1.04);filter:brightness(1.1)}
+.sc-btn-ghost{
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);
+  border:1px solid rgba(255,255,255,.1);
+}
+.sc-btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* Sidebar */
+.stream-sidebar{
+  padding:1rem;display:flex;flex-direction:column;gap:.75rem;
+  border-left:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.2);
+  overflow:hidden;
+}
+.sidebar-section-title{
+  font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:3px;
+  color:rgba(255,255,255,.4);border-bottom:1px solid rgba(255,255,255,.07);
+  padding-bottom:.4rem;
+}
+.match-feed{display:flex;flex-direction:column;gap:.4rem;overflow-y:auto;max-height:200px}
+.mf-item{
+  display:flex;align-items:flex-start;gap:.4rem;
+  font-size:.75rem;color:rgba(255,255,255,.55);line-height:1.4;
+  padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.mf-item.mf-goal{color:rgba(255,255,255,.9)}
+.mf-min{font-weight:700;color:var(--gold);flex-shrink:0;width:24px}
+.mf-icon{flex-shrink:0}
+.mf-text b{color:white}
+.live-drop-teaser{
+  display:flex;align-items:center;gap:.75rem;
+  background:rgba(255,210,74,.07);border:1px solid rgba(255,210,74,.2);
+  border-radius:10px;padding:.6rem .75rem;
+}
+.ldt-icon{font-size:1.5rem}
+.ldt-title{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:1px;color:var(--gold)}
+.ldt-sub{font-size:.65rem;color:rgba(255,255,255,.4)}
+.ldt-timer{
+  margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:.9rem;
+  color:var(--gold);background:rgba(255,210,74,.12);
+  border-radius:6px;padding:.2rem .5rem;
+}
+
+/* Other matches */
+.other-matches{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-top:.75rem}
+.match-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:1rem;cursor:pointer;position:relative;
+  transition:all .2s;
+}
+.match-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,210,74,.25);transform:translateY(-2px)}
+.match-card.live-card{border-color:rgba(255,68,68,.25)}
+.mc-live-badge{
+  font-size:.6rem;letter-spacing:2px;font-weight:700;color:#ff4444;
+  margin-bottom:.5rem;
+}
+.mc-upcoming-badge{
+  font-size:.6rem;letter-spacing:2px;font-weight:700;color:rgba(255,255,255,.4);
+  margin-bottom:.5rem;
+}
+.mc-teams{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+.mc-team{display:flex;flex-direction:column;align-items:center;gap:.2rem;font-size:.75rem}
+.mc-name{color:rgba(255,255,255,.7);font-weight:700;font-size:.65rem;letter-spacing:.5px}
+.mc-score{
+  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);
+  text-align:center;min-width:40px;
+}
+.mc-info{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:1px;text-align:center}
+
+/* Schedule */
+.watch-schedule{margin-top:2rem;padding:1.25rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px}
+.schedule-list{display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem}
+.sched-row{
+  display:flex;align-items:center;gap:1rem;padding:.65rem .75rem;
+  background:rgba(255,255,255,.03);border-radius:10px;
+  border:1px solid rgba(255,255,255,.06);
+  font-size:.82rem;
+}
+.sched-row:hover{background:rgba(255,255,255,.06)}
+.sched-time{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--gold);letter-spacing:1px;min-width:45px}
+.sched-match{flex:1;display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.8);font-weight:600}
+.sched-vs{color:rgba(255,255,255,.3);font-size:.75rem}
+.sched-stage{font-size:.65rem;letter-spacing:1.5px;color:rgba(255,255,255,.35);font-weight:700;text-transform:uppercase}
+
 /* Gold screen-edge border glow */
 .bg-border-glow{
   position:fixed;inset:0;z-index:1;pointer-events:none;
@@ -1055,10 +1265,10 @@ nav a:hover,nav a.active{color:var(--gold)}
   </div>
 
   <nav>
-    <a class="active" onclick="switchTab('home',this)">Marketplace</a>
-    <a onclick="switchTab('gacha',this)">Gacha Pull</a>
+    <a class="active" onclick="switchTab('home',this)">Home</a>
+    <a onclick="switchTab('gacha',this)">Gacha</a>
     <a onclick="switchTab('vault',this)">Vault</a>
-    <a onclick="switchTab('rankings',this)">Rankings</a>
+    <a onclick="switchTab('watch',this)" class="nav-watch">🔴 Watch</a>
   </nav>
 
   <div class="header-right">
@@ -1230,10 +1440,139 @@ nav a:hover,nav a.active{color:var(--gold)}
   <div id="vault-grid"></div>
 </div>
 
-<!-- ══ RANKINGS PAGE ══ -->
-<div id="rankings-page" class="page">
-  <h2>🏆 Rankings</h2>
-  <div id="lb-list"></div>
+<!-- ══ WATCH PAGE ══ -->
+<div id="watch-page" class="page">
+  <!-- VIP gate overlay -->
+  <div id="vip-gate">
+    <div class="vip-gate-inner">
+      <div class="vip-lock">🔒</div>
+      <div class="vip-badge-label">VIP EXCLUSIVE</div>
+      <h2 class="vip-gate-title">LIVE MATCH ACCESS</h2>
+      <p class="vip-gate-sub">Watch every World Cup 2026 match live — only for VIP holders</p>
+      <div class="vip-perks">
+        <div class="vip-perk"><span class="vp-icon">📡</span><span>Live HD streams</span></div>
+        <div class="vip-perk"><span class="vp-icon">📊</span><span>Real-time match stats</span></div>
+        <div class="vip-perk"><span class="vp-icon">🃏</span><span>Match-day card drops</span></div>
+        <div class="vip-perk"><span class="vp-icon">💬</span><span>VIP match chat</span></div>
+      </div>
+      <button class="btn-gold vip-unlock-btn" onclick="unlockVIP()"><span>🌟 Unlock VIP Access</span></button>
+      <p class="vip-gate-note">Connect wallet holding 500+ ALL STARS tokens to unlock</p>
+    </div>
+  </div>
+
+  <!-- Watch content (blurred until VIP unlocked) -->
+  <div id="watch-content" class="watch-content locked">
+
+    <!-- Live header -->
+    <div class="watch-live-header">
+      <h2 class="watch-section-title"><span class="live-dot"></span> LIVE NOW</h2>
+      <span class="live-match-count" id="live-count">3 matches live</span>
+    </div>
+
+    <!-- Featured stream -->
+    <div class="featured-stream" id="featured-stream">
+      <div class="stream-player">
+        <div class="stream-placeholder">
+          <div class="stream-teams">
+            <div class="stream-team">
+              <span class="stream-flag">🇧🇷</span>
+              <span class="stream-team-name">BRAZIL</span>
+            </div>
+            <div class="stream-score-wrap">
+              <div class="stream-score" id="feat-score">2 – 1</div>
+              <div class="stream-time"><span class="live-dot small"></span> 67'</div>
+            </div>
+            <div class="stream-team">
+              <span class="stream-flag">🇦🇷</span>
+              <span class="stream-team-name">ARGENTINA</span>
+            </div>
+          </div>
+          <div class="stream-group">GROUP A · METLIFE STADIUM</div>
+          <div class="stream-watermark">🎬 LIVE</div>
+        </div>
+        <div class="stream-controls">
+          <button class="sc-btn" onclick="showToast('Stream starting…')">▶ Watch Full Match</button>
+          <button class="sc-btn sc-btn-ghost" onclick="showToast('Stats panel open')">📊 Stats</button>
+          <button class="sc-btn sc-btn-ghost" onclick="showToast('Chat opened')">💬 Chat</button>
+        </div>
+      </div>
+
+      <!-- Live sidebar -->
+      <div class="stream-sidebar">
+        <div class="sidebar-section-title">MATCH FEED</div>
+        <div class="match-feed" id="match-feed">
+          <div class="mf-item mf-goal"><span class="mf-min">67'</span><span class="mf-icon">⚽</span><span class="mf-text"><b>Vinicius Jr.</b> scores! Brazil lead</span></div>
+          <div class="mf-item"><span class="mf-min">54'</span><span class="mf-icon">🟡</span><span class="mf-text">Otamendi booked</span></div>
+          <div class="mf-item mf-goal"><span class="mf-min">38'</span><span class="mf-icon">⚽</span><span class="mf-text"><b>Messi</b> equalises from penalty</span></div>
+          <div class="mf-item"><span class="mf-min">21'</span><span class="mf-icon">🟡</span><span class="mf-text">Casemiro yellow card</span></div>
+          <div class="mf-item mf-goal"><span class="mf-min">14'</span><span class="mf-icon">⚽</span><span class="mf-text"><b>Rodrygo</b> opens scoring</span></div>
+          <div class="mf-item"><span class="mf-min">1'</span><span class="mf-icon">🏁</span><span class="mf-text">Kick off!</span></div>
+        </div>
+        <div class="sidebar-section-title" style="margin-top:1rem">LIVE CARD DROP</div>
+        <div class="live-drop-teaser">
+          <span class="ldt-icon">🃏</span>
+          <div>
+            <div class="ldt-title">MESSI CARD</div>
+            <div class="ldt-sub">Drops at full time</div>
+          </div>
+          <div class="ldt-timer" id="drop-timer">FT</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other live matches -->
+    <div class="watch-section-title" style="margin-top:2rem">OTHER MATCHES</div>
+    <div class="other-matches">
+      <div class="match-card live-card" onclick="switchFeatured('🇫🇷','FRANCE','🏴󠁧󠁢󠁥󠁮󠁧󠁿','ENGLAND','1 – 0','72\'','GROUP D · SoFi Stadium')">
+        <div class="mc-live-badge">● LIVE</div>
+        <div class="mc-teams">
+          <div class="mc-team"><span>🇫🇷</span><span class="mc-name">France</span></div>
+          <div class="mc-score">1 – 0</div>
+          <div class="mc-team"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="mc-name">England</span></div>
+        </div>
+        <div class="mc-info">72' · Group D</div>
+      </div>
+      <div class="match-card live-card" onclick="switchFeatured('🇪🇸','SPAIN','🇩🇪','GERMANY','0 – 0','45\'','GROUP B · AT&T Stadium')">
+        <div class="mc-live-badge">● LIVE</div>
+        <div class="mc-teams">
+          <div class="mc-team"><span>🇪🇸</span><span class="mc-name">Spain</span></div>
+          <div class="mc-score">0 – 0</div>
+          <div class="mc-team"><span>🇩🇪</span><span class="mc-name">Germany</span></div>
+        </div>
+        <div class="mc-info">45' · Group B</div>
+      </div>
+      <div class="match-card" onclick="showToast('Match starts in 45 min')">
+        <div class="mc-upcoming-badge">UPCOMING</div>
+        <div class="mc-teams">
+          <div class="mc-team"><span>🇵🇹</span><span class="mc-name">Portugal</span></div>
+          <div class="mc-score">vs</div>
+          <div class="mc-team"><span>🇺🇸</span><span class="mc-name">USA</span></div>
+        </div>
+        <div class="mc-info">21:00 · Group C</div>
+      </div>
+      <div class="match-card" onclick="showToast('Match starts in 2h 30min')">
+        <div class="mc-upcoming-badge">UPCOMING</div>
+        <div class="mc-teams">
+          <div class="mc-team"><span>🇯🇵</span><span class="mc-name">Japan</span></div>
+          <div class="mc-score">vs</div>
+          <div class="mc-team"><span>🇲🇦</span><span class="mc-name">Morocco</span></div>
+        </div>
+        <div class="mc-info">23:00 · Group F</div>
+      </div>
+    </div>
+
+    <!-- Schedule section -->
+    <div class="watch-schedule">
+      <div class="watch-section-title">📅 TOMORROW'S SCHEDULE</div>
+      <div class="schedule-list">
+        <div class="sched-row"><span class="sched-time">15:00</span><div class="sched-match"><span>🇩🇰 Denmark</span><span class="sched-vs">vs</span><span>🇳🇱 Netherlands</span></div><span class="sched-stage">Group E</span></div>
+        <div class="sched-row"><span class="sched-time">18:00</span><div class="sched-match"><span>🇧🇪 Belgium</span><span class="sched-vs">vs</span><span>🇨🇷 Croatia</span></div><span class="sched-stage">Group E</span></div>
+        <div class="sched-row"><span class="sched-time">21:00</span><div class="sched-match"><span>🇲🇽 Mexico</span><span class="sched-vs">vs</span><span>🇨🇦 Canada</span></div><span class="sched-stage">Group G</span></div>
+        <div class="sched-row"><span class="sched-time">23:00</span><div class="sched-match"><span>🇺🇾 Uruguay</span><span class="sched-vs">vs</span><span>🇰🇷 South Korea</span></div><span class="sched-stage">Group H</span></div>
+      </div>
+    </div>
+
+  </div><!-- /watch-content -->
 </div>
 
 </div><!-- #app -->
@@ -1296,8 +1635,60 @@ function switchTab(name, el){
   const p=document.getElementById(name+'-page');
   if(p) p.classList.add('active');
   if(el) el.classList.add('active');
+  else{
+    // find nav link by tab name and activate it
+    const links=document.querySelectorAll('nav a');
+    links.forEach(a=>{
+      if(a.getAttribute('onclick')&&a.getAttribute('onclick').includes("'"+name+"'")){
+        a.classList.add('active');
+      }
+    });
+  }
   if(name==='vault') renderVault();
-  if(name==='rankings') loadRankings();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WATCH / VIP
+// ═══════════════════════════════════════════════════════════════
+let isVIP=false;
+
+function unlockVIP(){
+  if(!walletPK){
+    showToast('Connect your wallet first to verify VIP status',true);
+    return;
+  }
+  // In production: check on-chain token balance here
+  // For demo: wallet connection = VIP granted
+  isVIP=true;
+  document.getElementById('vip-gate').classList.add('hidden');
+  document.getElementById('watch-content').classList.remove('locked');
+  showToast('🌟 VIP Access Unlocked! Enjoy the matches.');
+  startMatchClock();
+}
+
+function switchFeatured(flagA,teamA,flagB,teamB,score,time,venue){
+  const sp=document.getElementById('featured-stream');
+  if(!sp) return;
+  sp.querySelector('.stream-flag').textContent=flagA;
+  sp.querySelectorAll('.stream-team-name')[0].textContent=teamA;
+  sp.querySelectorAll('.stream-flag')[1].textContent=flagB;
+  sp.querySelectorAll('.stream-team-name')[1].textContent=teamB;
+  document.getElementById('feat-score').textContent=score;
+  sp.querySelector('.stream-time').innerHTML='<span class="live-dot small"></span> '+time;
+  sp.querySelector('.stream-group').textContent=venue;
+}
+
+let matchClockInterval=null;
+function startMatchClock(){
+  // Animate the featured match minute counter
+  let min=67;
+  if(matchClockInterval) clearInterval(matchClockInterval);
+  matchClockInterval=setInterval(()=>{
+    min++;
+    if(min>=90){min=90;clearInterval(matchClockInterval);}
+    const tw=document.querySelector('.stream-time');
+    if(tw) tw.innerHTML='<span class="live-dot small"></span> '+min+'\'';
+  },60000);
 }
 
 // ═══════════════════════════════════════════════════════════════
