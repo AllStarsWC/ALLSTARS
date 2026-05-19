@@ -45,16 +45,12 @@ header{
   backdrop-filter:blur(16px);
   position:sticky;top:0;z-index:200;
 }
-.logo-wrap{display:flex;align-items:center;gap:.75rem}
-.logo-icon{
-  width:48px;height:48px;border-radius:14px;
-  border:1px solid rgba(255,215,0,.4);
-  background:rgba(255,215,0,.08);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;box-shadow:0 0 20px rgba(255,215,0,.15)
+.logo-wrap{display:flex;align-items:center}
+.logo-img{
+  height:52px;width:auto;
+  filter:drop-shadow(0 0 12px rgba(255,215,0,.5));
+  object-fit:contain;
 }
-.logo-text p:first-child{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--gold)}
-.logo-text p:last-child{font-size:.65rem;text-transform:uppercase;letter-spacing:5px;color:var(--muted)}
 
 nav{display:flex;gap:1.5rem}
 nav a{font-size:.85rem;font-weight:700;color:var(--muted);cursor:pointer;transition:color .2s;text-decoration:none}
@@ -778,11 +774,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ HEADER ══ -->
 <header>
   <div class="logo-wrap">
-    <div class="logo-icon">🏆</div>
-    <div class="logo-text">
-      <p>ALL STARS</p>
-      <p>World Cup 2026</p>
-    </div>
+    <img src="/logo.png" class="logo-img" alt="All Stars World Cup 2026"/>
   </div>
 
   <nav>
