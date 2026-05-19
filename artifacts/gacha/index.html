@@ -145,13 +145,186 @@ nav a:hover,nav a.active{color:var(--gold)}
 .hero-stat-val{font-size:1.3rem;font-weight:900;color:var(--gold)}
 .hero-stat-label{font-size:.65rem;text-transform:uppercase;letter-spacing:3px;color:var(--muted);margin-top:1px}
 
-/* Floating featured card */
+/* ── Hero Legendary Card Template ── */
 .hero-card-wrap{display:flex;justify-content:center;position:relative}
-.hero-card-wrap .featured-card{
-  width:300px;
-  animation:float 4s ease-in-out infinite
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-18px) rotate(2deg)}}
+@keyframes hcard-border-angle{to{--hcard-angle:360deg}}
+@property --hcard-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+
+.hcard-outer{
+  width:260px;height:400px;position:relative;
+  animation:float 5s ease-in-out infinite;
+  filter:drop-shadow(0 0 30px rgba(255,215,0,.55)) drop-shadow(0 0 60px rgba(255,165,0,.25));
+  flex-shrink:0;
 }
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+.hcard{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,#020d1f 0%,#071428 45%,#030c1a 100%);
+  border:2px solid var(--gold);
+  border-radius:14px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+
+/* Animated conic border */
+.hcard::before{
+  content:'';position:absolute;inset:-2px;border-radius:15px;z-index:-1;
+  background:conic-gradient(from var(--hcard-angle,0deg),#FFD700,#FFA500,#FFE066,#FF8C00,#FFD700);
+  animation:hcard-border-angle 3s linear infinite;
+}
+
+/* Starfield */
+.hcard::after{
+  content:'';position:absolute;inset:0;border-radius:14px;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,215,0,.1),transparent 55%),
+    radial-gradient(circle at 25% 70%,rgba(37,99,235,.12),transparent 40%),
+    radial-gradient(circle at 75% 75%,rgba(255,165,0,.08),transparent 35%);
+}
+
+/* Corner decorations */
+.hcard-corner{position:absolute;width:18px;height:18px;border-color:var(--gold);border-style:solid;z-index:3}
+.hcard-corner.tl{top:7px;left:7px;border-width:2px 0 0 2px;border-radius:3px 0 0 0}
+.hcard-corner.tr{top:7px;right:7px;border-width:2px 2px 0 0;border-radius:0 3px 0 0}
+.hcard-corner.bl{bottom:7px;left:7px;border-width:0 0 2px 2px;border-radius:0 0 0 3px}
+.hcard-corner.br{bottom:7px;right:7px;border-width:0 2px 2px 0;border-radius:0 0 3px 0}
+
+/* Header */
+.hcard-header{
+  position:relative;z-index:2;text-align:center;
+  padding:8px 8px 5px;
+  border-bottom:1px solid rgba(255,215,0,.35);
+  background:rgba(0,0,0,.3);
+}
+.hcard-header-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:5px;
+  color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.7);line-height:1;
+}
+.hcard-header-sub{
+  font-family:'Bebas Neue',sans-serif;font-size:.48rem;letter-spacing:4px;
+  color:rgba(255,215,0,.75);margin-top:1px;
+}
+.hcard-header-stars{font-size:.5rem;color:var(--gold);letter-spacing:4px;margin-top:2px}
+
+/* Body row */
+.hcard-body{
+  position:relative;z-index:2;
+  display:flex;gap:3px;padding:5px 5px 3px;
+  flex:1;min-height:0;
+}
+
+/* Left column */
+.hcard-left{display:flex;flex-direction:column;align-items:center;gap:3px;width:50px;flex-shrink:0}
+.hcard-rating{
+  font-family:'Bebas Neue',sans-serif;font-size:2.1rem;line-height:1;
+  color:var(--gold);text-shadow:0 0 14px rgba(255,215,0,.9);
+}
+.hcard-pos{font-family:'Bebas Neue',sans-serif;font-size:.5rem;letter-spacing:2px;color:var(--gold)}
+.hcard-flag-pill{
+  font-size:1.2rem;border:1px solid rgba(255,215,0,.35);
+  background:rgba(255,215,0,.07);border-radius:5px;padding:2px 5px;
+}
+.hcard-badge-shield{
+  margin-top:2px;background:rgba(255,215,0,.07);
+  border:1px solid rgba(255,215,0,.4);
+  border-radius:50% 50% 40% 40%;
+  padding:4px 5px;text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:.32rem;
+  letter-spacing:1px;color:var(--gold);line-height:1.4;
+}
+.hcard-badge-shield .bs-s{font-size:.55rem}
+
+/* Center art */
+.hcard-art{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.hcard-art-glow{
+  position:absolute;bottom:0;width:100%;height:60%;
+  background:radial-gradient(ellipse at 50% 100%,rgba(255,215,0,.18),transparent 70%);
+  pointer-events:none;
+}
+.hcard-art-emoji{
+  font-size:4rem;
+  filter:drop-shadow(0 0 18px rgba(255,215,0,.6)) drop-shadow(0 4px 8px rgba(0,0,0,.8));
+  position:relative;z-index:1;
+  animation:art-pulse 3s ease-in-out infinite;
+}
+@keyframes art-pulse{0%,100%{filter:drop-shadow(0 0 18px rgba(255,215,0,.6)) drop-shadow(0 4px 8px rgba(0,0,0,.8))}50%{filter:drop-shadow(0 0 28px rgba(255,215,0,.9)) drop-shadow(0 4px 8px rgba(0,0,0,.8))}}
+.hcard-quote{
+  position:absolute;top:2px;right:0;
+  font-family:'Inter',sans-serif;font-size:.34rem;font-style:italic;
+  color:rgba(255,255,255,.65);line-height:1.5;text-align:right;max-width:80px;
+}
+.hcard-jersey-lbl{
+  position:absolute;bottom:2px;
+  font-family:'Bebas Neue',sans-serif;font-size:.38rem;
+  letter-spacing:2px;color:rgba(255,215,0,.55);
+}
+
+/* Right traits */
+.hcard-traits{display:flex;flex-direction:column;gap:2px;width:60px;flex-shrink:0}
+.hcard-trophy-badge{
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.35);
+  border-radius:6px;padding:3px 4px;text-align:center;
+  font-family:'Bebas Neue',sans-serif;font-size:.32rem;
+  letter-spacing:1px;color:var(--gold);line-height:1.5;margin-bottom:2px;
+}
+.hcard-trait-row{
+  background:rgba(0,0,0,.55);border:1px solid rgba(255,215,0,.22);
+  border-radius:7px;padding:3px 4px;
+  display:flex;align-items:center;gap:3px;
+}
+.hcard-trait-icon{font-size:.75rem;line-height:1}
+.hcard-trait-name{font-family:'Bebas Neue',sans-serif;font-size:.3rem;letter-spacing:.5px;color:rgba(255,255,255,.8);line-height:1.2}
+
+/* Player name */
+.hcard-name-section{
+  position:relative;z-index:2;text-align:center;
+  padding:4px 6px 3px;
+  border-top:1px solid rgba(255,215,0,.3);border-bottom:1px solid rgba(255,215,0,.3);
+  background:rgba(0,0,0,.35);
+}
+.hcard-player-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2.5px;
+  color:var(--gold);text-shadow:0 0 10px rgba(255,215,0,.65);line-height:1;
+}
+.hcard-name-stars{font-size:.48rem;color:var(--gold);letter-spacing:4px;margin-top:2px}
+
+/* Attribute stats */
+.hcard-stats-row{
+  position:relative;z-index:2;
+  display:flex;justify-content:space-around;
+  padding:4px 4px 3px;
+  border-bottom:1px solid rgba(255,215,0,.18);
+  background:rgba(0,0,0,.2);
+}
+.hcard-attr{display:flex;flex-direction:column;align-items:center;gap:0}
+.hcard-attr-lbl{font-family:'Bebas Neue',sans-serif;font-size:.36rem;letter-spacing:1px;color:var(--gold)}
+.hcard-attr-val{font-family:'Bebas Neue',sans-serif;font-size:.75rem;color:white;line-height:1.1}
+
+/* Footer */
+.hcard-footer-row{
+  position:relative;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:4px 6px 6px;
+}
+.hcard-sm-col,.hcard-pop-col{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.hcard-pop-col{align-items:flex-end}
+.hcard-sm-lbl,.hcard-pop-lbl{
+  font-family:'Bebas Neue',sans-serif;font-size:.32rem;letter-spacing:1.5px;
+  color:rgba(255,215,0,.8);
+}
+.hcard-sm-stars,.hcard-pop-stars{color:var(--gold);font-size:.52rem;letter-spacing:2px}
+.hcard-unique-emblem{
+  text-align:center;
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.4);
+  border-radius:50%;width:36px;height:36px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 10px rgba(255,215,0,.2);
+}
+.hcard-unique-icon{font-size:.9rem;line-height:1}
+.hcard-unique-title-lbl{font-family:'Bebas Neue',sans-serif;font-size:.25rem;letter-spacing:1px;color:var(--gold)}
+
+/* Badge float next to hero card */
 .hero-badge-float{
   position:absolute;right:-10px;top:20px;
   border:1px solid rgba(255,215,0,.3);background:rgba(0,0,0,.75);
@@ -1193,16 +1366,140 @@ function filterMarket(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// HERO FEATURED CARD
+// HERO FEATURED CARD — Full Template Style
 // ═══════════════════════════════════════════════════════════════
+function getCardStats(pos){
+  const p=(pos||'').toLowerCase();
+  if(p.includes('forward')||p.includes('striker')||p.includes('winger'))
+    return {PAC:93+rn(6),SHO:91+rn(7),PAS:87+rn(7),DRI:95+rn(4),DEF:34+rn(14),PHY:70+rn(12)};
+  if(p.includes('midfielder'))
+    return {PAC:82+rn(8),SHO:74+rn(13),PAS:93+rn(6),DRI:87+rn(8),DEF:71+rn(12),PHY:79+rn(10)};
+  if(p.includes('defender')||p.includes('back'))
+    return {PAC:77+rn(10),SHO:47+rn(16),PAS:71+rn(12),DRI:67+rn(11),DEF:93+rn(6),PHY:87+rn(9)};
+  return {PAC:78+rn(9),SHO:85+rn(9),PAS:84+rn(9),DRI:84+rn(9),DEF:62+rn(14),PHY:79+rn(11)};
+}
+function getCardTraits(pos){
+  const p=(pos||'').toLowerCase();
+  if(p.includes('forward')||p.includes('striker')||p.includes('winger'))
+    return [['⚡','DRIBBLE GOD'],['🌀','GOAT GENE'],['👑','FREE KICK KING'],['👻','CLUTCH ∞']];
+  if(p.includes('midfielder'))
+    return [['⚡','BOX-TO-BOX'],['🌀','VISION KING'],['👑','PRESS MASTER'],['👻','LEADER']];
+  if(p.includes('defender')||p.includes('back'))
+    return [['⚡','WALL MODE'],['🌀','AERIAL ACE'],['👑','TACKLE BEAST'],['👻','LEADER']];
+  return [['⚡','SPEED BURST'],['🌀','CLUTCH GENE'],['👑','AURA MAXED'],['👻','ICON']];
+}
+function getPosShort(pos){
+  const p=(pos||'').toLowerCase();
+  if(p.includes('goalkeeper')) return 'GK';
+  if(p.includes('defender')||p.includes('back')) return 'CB';
+  if(p.includes('midfielder')) return 'CM';
+  if(p.includes('winger')) return 'RW';
+  return 'ST';
+}
+function getQuote(card){
+  const q=[
+    '"The best is yet to come."','"Born for greatness."',
+    '"I live for these moments."','"Every match, a new legend."',
+    '"Glory is the only option."','"The world watches. I deliver."'
+  ];
+  return q[parseInt(card.id,10)%q.length];
+}
+function getUnique(card){
+  const u=[
+    ['⭐','LA PULGA'],['🔱','IL FENOMENO'],['🌟','LE PHÉNOMÈNE'],
+    ['🏆','THE KING'],['🎯','EL MAESTRO'],['👑','THE GOAT'],
+    ['⚡','LIGHTNING'],['🔥','EL DIABLO'],['🌙','SHADOW'],['💫','AURORA']
+  ];
+  return u[parseInt(card.id,10)%u.length];
+}
+function rn(n){ return Math.floor(Math.random()*n); }
+
+function makeHeroLegendaryCard(card){
+  const stats=getCardStats(card.position);
+  const traits=getCardTraits(card.position);
+  const posShort=getPosShort(card.position);
+  const quote=getQuote(card);
+  const [uIcon,uTitle]=getUnique(card);
+  const rating=96+rn(4);
+  const smCount=3+rn(3);
+  const popCount=4+rn(2);
+  const smStars='★'.repeat(smCount)+'☆'.repeat(5-smCount);
+  const popStars='★'.repeat(popCount)+'☆'.repeat(5-popCount);
+
+  const outer=document.createElement('div');
+  outer.className='hcard-outer';
+  outer.innerHTML=`
+    <div class="hcard">
+      <div class="hcard-corner tl"></div><div class="hcard-corner tr"></div>
+      <div class="hcard-corner bl"></div><div class="hcard-corner br"></div>
+
+      <div class="hcard-header">
+        <div class="hcard-header-title">ALL STARS</div>
+        <div class="hcard-header-sub">— WORLD CUP 2026 —</div>
+        <div class="hcard-header-stars">★ ★ ★ ★ ★</div>
+      </div>
+
+      <div class="hcard-body">
+        <div class="hcard-left">
+          <div class="hcard-rating">${rating}</div>
+          <div class="hcard-pos">${posShort}</div>
+          <div class="hcard-flag-pill">${card.flag}</div>
+          <div class="hcard-badge-shield">ALL<br>STARS<br>2026<br><span class="bs-s">★</span></div>
+        </div>
+
+        <div class="hcard-art">
+          <div class="hcard-art-glow"></div>
+          <div class="hcard-art-emoji">${card.flag}</div>
+          <div class="hcard-jersey-lbl">PLAYER JERSEY</div>
+          <div class="hcard-quote">${quote}<br><em>— ${card.name}</em></div>
+        </div>
+
+        <div class="hcard-traits">
+          <div class="hcard-trophy-badge">🏆 ALL<br>STARS 2026</div>
+          ${traits.map(([icon,name])=>`
+          <div class="hcard-trait-row">
+            <span class="hcard-trait-icon">${icon}</span>
+            <span class="hcard-trait-name">${name}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="hcard-name-section">
+        <div class="hcard-player-name">${card.name.toUpperCase()}</div>
+        <div class="hcard-name-stars">★ ★ ★ ★ ★</div>
+      </div>
+
+      <div class="hcard-stats-row">
+        ${Object.entries(stats).map(([k,v])=>`
+        <div class="hcard-attr">
+          <div class="hcard-attr-lbl">${k}</div>
+          <div class="hcard-attr-val">${v}</div>
+        </div>`).join('')}
+      </div>
+
+      <div class="hcard-footer-row">
+        <div class="hcard-sm-col">
+          <div class="hcard-sm-lbl">SKILL MOVES</div>
+          <div class="hcard-sm-stars">${smStars}</div>
+        </div>
+        <div class="hcard-unique-emblem">
+          <div class="hcard-unique-icon">${uIcon}</div>
+          <div class="hcard-unique-title-lbl">${uTitle}</div>
+        </div>
+        <div class="hcard-pop-col">
+          <div class="hcard-pop-lbl">POPULARITY</div>
+          <div class="hcard-pop-stars">${popStars}</div>
+        </div>
+      </div>
+    </div>`;
+  return outer;
+}
+
 function renderFeaturedCard(){
   const wrap=document.getElementById('hero-featured-card');
   if(!allCards.length) return;
   const leg=allCards.find(c=>c.rarity==='legendary')||allCards[0];
-  const el=makeCard(leg,0);
-  el.style.width='280px'; el.style.height='410px'; el.style.animation='none';
-  el.classList.add('flipped','legendary-reveal');
-  wrap.appendChild(el);
+  wrap.appendChild(makeHeroLegendaryCard(leg));
 }
 
 // ═══════════════════════════════════════════════════════════════
