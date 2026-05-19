@@ -68,33 +68,50 @@ function recordPull(username: string, card: Card) {
 
 const router = Router();
 
+router.get("/config", (_req, res) => {
+  res.json({ freeMode: true, pull1Cost: 0, pull10Cost: 0, pull1CostUI: 0, pull10CostUI: 0 });
+});
+
 router.get("/cards", (_req, res) => {
   res.json(cards);
 });
 
-router.get("/pull", (req, res) => {
-  const username = (req.query.username as string) || "Anonymous";
+function doPull1(username: string): Card {
   const card = weightedRandom(cards);
   recordPull(username, card);
-
   if (io) io.emit("pull-event", { username, card });
+  return card;
+}
 
-  res.json({ card });
-});
-
-router.get("/pull/10", (req, res) => {
-  const username = (req.query.username as string) || "Anonymous";
+function doPull10Bulk(username: string): Card[] {
   const results = pull10();
-
   results.forEach((card) => recordPull(username, card));
-
   if (io) {
     results
       .filter((c) => c.rarity === "legendary" || c.rarity === "epic")
       .forEach((card) => io!.emit("pull-event", { username, card }));
   }
+  return results;
+}
 
-  res.json({ cards: results });
+router.get("/pull", (req, res) => {
+  const username = (req.query.username as string) || "Anonymous";
+  res.json({ card: doPull1(username) });
+});
+
+router.post("/pull", (req, res) => {
+  const username = (req.body?.username as string) || "Anonymous";
+  res.json({ card: doPull1(username) });
+});
+
+router.get("/pull/10", (req, res) => {
+  const username = (req.query.username as string) || "Anonymous";
+  res.json({ cards: doPull10Bulk(username) });
+});
+
+router.post("/pull/10", (req, res) => {
+  const username = (req.body?.username as string) || "Anonymous";
+  res.json({ cards: doPull10Bulk(username) });
 });
 
 router.get("/collection/:username", (req, res) => {

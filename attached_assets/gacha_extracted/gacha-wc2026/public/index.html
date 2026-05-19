@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 <script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
 <script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js"></script>
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <style>
 /* ── Reset ── */
@@ -17,7 +17,7 @@
 :root{
   --gold:#FFD700;--gold2:#FFA500;--purple:#9B59FF;--blue:#3B82F6;
   --green:#22C55E;--dark:#03060d;--panel:rgba(255,255,255,0.04);
-  --border:rgba(255,255,255,0.08);--text:#E5E7EB;--muted:rgba(255,255,255,0.72);
+  --border:rgba(255,255,255,0.08);--text:#E5E7EB;--muted:rgba(255,255,255,0.45);
   --legendary-color:#FFD700;--epic-color:#9B59FF;--rare-color:#1E90FF;--common-color:#9CA3AF;
 }
 html,body{min-height:100%;background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
@@ -352,7 +352,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 .epic .rarity-badge{background:var(--purple);color:white}
 .rare .rarity-badge{background:#1E90FF;color:white}
 .common .rarity-badge{background:#374151;color:#9CA3AF}
-.card-num{font-size:.55rem;font-weight:700;color:rgba(255,255,255,.6)}
+.card-num{font-size:.55rem;font-weight:700;color:rgba(255,255,255,.35)}
 
 .card-img-area{
   flex:1;position:relative;overflow:hidden;
@@ -379,7 +379,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 .epic .card-name{color:#c4b5fd}
 .rare .card-name{color:#93c5fd}
 .common .card-name{color:var(--text)}
-.card-meta{display:flex;justify-content:space-between;font-size:.5rem;color:rgba(255,255,255,.65);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.card-meta{display:flex;justify-content:space-between;font-size:.5rem;color:rgba(255,255,255,.4);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
 /* Card fly-in */
 @keyframes card-fly{
@@ -419,7 +419,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* ══════════════ SIDEBAR ══════════════ */
 .sidebar{display:flex;flex-direction:column;gap:1.2rem}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:1rem}
-.panel-title{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;color:rgba(255,255,255,.7);margin-bottom:.75rem;text-transform:uppercase}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;color:rgba(255,255,255,.35);margin-bottom:.75rem;text-transform:uppercase}
 
 #live-feed{max-height:190px;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
 .feed-item{font-size:.78rem;padding:5px 8px;border-radius:8px;background:rgba(255,255,255,.03);border-left:3px solid var(--border);line-height:1.4;animation:feed-slide .3s ease}
@@ -797,7 +797,7 @@ let allCards=[], myCollection=new Set();
 let totalPulls=0, totalLeg=0, pulling=false;
 let vaultFilter='all', serverConfig={};
 let walletPK=null, solanaCon=null;
-const socket=io(window.location.origin,{path:'/socket.io'});
+const socket=io();
 
 // Featured market cards (from GPT template style)
 const marketCards=[
@@ -813,7 +813,7 @@ const marketCards=[
 // ═══════════════════════════════════════════════════════════════
 async function init(){
   try{
-    const r=await fetch('/api/gacha/config'); serverConfig=await r.json();
+    const r=await fetch('/api/config'); serverConfig=await r.json();
     document.getElementById('cost1-lbl').textContent=serverConfig.pull1CostUI+' tokens';
     document.getElementById('cost10-lbl').textContent=serverConfig.pull10CostUI+' tokens';
     if(serverConfig.freeMode){
@@ -822,11 +822,11 @@ async function init(){
     }
   }catch(e){serverConfig={freeMode:true,pull1Cost:0,pull10Cost:0,pull1CostUI:0,pull10CostUI:0}}
 
-  const r2=await fetch('/api/gacha/cards'); allCards=await r2.json();
+  const r2=await fetch('/api/cards'); allCards=await r2.json();
   renderMarket(); renderFeaturedCard(); renderVault();
 
-  try{const rpcUrl=serverConfig.rpcUrl||'https://api.mainnet-beta.solana.com';
-  if(typeof solanaWeb3!=='undefined') solanaCon=new solanaWeb3.Connection(rpcUrl,'confirmed');}catch(_){}
+  const rpcUrl=serverConfig.rpcUrl||'https://api.mainnet-beta.solana.com';
+  solanaCon=new solanaWeb3.Connection(rpcUrl,'confirmed');
 
   // Wait for Phantom to inject, then auto-reconnect if previously approved
   const phantomAuto=await getPhantom();
@@ -983,7 +983,7 @@ async function doPull1(){
   }
   pulling=true; setBtns(false); animGlobe(); await delay(700);
   try{
-    const r=await fetch('/api/gacha/pull',{method:'POST',headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/pull',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})});
     const d=await r.json();
     if(d.error){showToast(d.error,true);pulling=false;setBtns(true);return}
@@ -1009,7 +1009,7 @@ async function doPull10(){
   }
   pulling=true; setBtns(false); animGlobe(); await delay(800);
   try{
-    const r=await fetch('/api/gacha/pull/10',{method:'POST',headers:{'Content-Type':'application/json'},
+    const r=await fetch('/api/pull/10',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})});
     const d=await r.json();
     if(d.error){showToast(d.error,true);pulling=false;setBtns(true);return}
@@ -1044,11 +1044,11 @@ function makeCard(card, idx, big=false){
   const mediaHtml=hasVideo
     ?`<video src="/videos/${card.id}_legendary.mp4" autoplay loop muted playsinline
         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
-        onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')">
+        onerror="this.style.display='none';this.nextSibling.style.display='flex'">
       </video>
       <div class="card-flag" style="display:none">${card.flag}</div>`
     :`<img src="${card.image}" alt="${card.name}"
-        onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')"/>
+        onerror="this.style.display='none';this.nextSibling.style.display='flex'"/>
       <div class="card-flag" style="display:none">${card.flag}</div>`;
 
   wrap.innerHTML=`
@@ -1233,7 +1233,7 @@ function renderVault(){
             <span class="card-num">#${card.id}</span>
           </div>
           <div class="card-img-area">
-            <img src="${card.image}" alt="${card.name}" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')"/>
+            <img src="${card.image}" alt="${card.name}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/>
             <div class="card-flag" style="display:none">${card.flag}</div>
           </div>
           <div class="card-holo"></div>
@@ -1258,7 +1258,7 @@ function filterVault(r,btn){
 // RANKINGS
 // ═══════════════════════════════════════════════════════════════
 async function loadRankings(){
-  const r=await fetch('/api/gacha/leaderboard');
+  const r=await fetch('/api/leaderboard');
   const board=await r.json();
   const list=document.getElementById('lb-list');
   list.innerHTML='';
