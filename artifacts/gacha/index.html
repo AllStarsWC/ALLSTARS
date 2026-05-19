@@ -367,32 +367,76 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 .cost-chip .amt{color:var(--gold);font-weight:900}
 
-/* Globe */
+/* Gacha Machine Image */
 .globe-wrap{position:relative;display:flex;align-items:center;justify-content:center}
-.machine-globe{
-  width:210px;height:210px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#1e3a5f,#03060d 70%);
-  border:3px solid rgba(59,130,246,.45);
-  box-shadow:0 0 50px rgba(59,130,246,.3),0 0 100px rgba(59,130,246,.1),inset 0 0 50px rgba(0,0,0,.5);
-  display:flex;align-items:center;justify-content:center;
-  font-size:4rem;position:relative;cursor:pointer;
-  animation:globe-pulse 4s ease-in-out infinite
+.gm-wrap{
+  position:relative;width:340px;cursor:pointer;
+  filter:drop-shadow(0 0 24px rgba(255,210,74,.45));
+  transition:filter .3s;flex-shrink:0;
 }
-.machine-globe:hover{filter:brightness(1.1)}
-@keyframes globe-pulse{
-  0%,100%{box-shadow:0 0 50px rgba(59,130,246,.3),0 0 100px rgba(59,130,246,.1),inset 0 0 50px rgba(0,0,0,.5)}
-  50%{box-shadow:0 0 70px rgba(59,130,246,.5),0 0 130px rgba(59,130,246,.15),inset 0 0 50px rgba(0,0,0,.5)}
+.gm-wrap:hover .gm-btn{opacity:1}
+.gm-img{width:100%;height:auto;display:block;border-radius:12px}
+
+/* Idle gold edge glow pulse */
+.gm-glow{
+  position:absolute;inset:0;border-radius:12px;pointer-events:none;
+  animation:gm-glow-pulse 2.5s ease-in-out infinite;
 }
-.machine-globe.shaking{animation:shake .55s ease-in-out}
-.machine-globe.spinning{animation:globe-spin 1.2s ease-in-out}
-@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:translate(-8px,-2px) rotate(-4deg)}40%{transform:translate(8px,2px) rotate(4deg)}60%{transform:translate(-5px,-1px) rotate(-2deg)}80%{transform:translate(5px,1px) rotate(2deg)}}
-@keyframes globe-spin{0%{transform:scale(1) rotateY(0)}50%{transform:scale(1.12) rotateY(180deg);filter:brightness(1.6)}100%{transform:scale(1) rotateY(360deg)}}
-.globe-ring{position:absolute;border:2px solid rgba(255,215,0,.18);border-radius:50%;animation:ring-spin 8s linear infinite}
-.globe-ring:nth-child(1){width:88%;height:88%;border-style:dashed}
-.globe-ring:nth-child(2){width:108%;height:52%;border-color:rgba(59,130,246,.25);transform:rotateX(70deg)}
-@keyframes ring-spin{to{transform:rotate(360deg)}}
-.globe-ring:nth-child(2){animation:ring-spin2 6s linear infinite}
-@keyframes ring-spin2{to{transform:rotateX(70deg) rotate(360deg)}}
+@keyframes gm-glow-pulse{
+  0%,100%{box-shadow:0 0 0 2px rgba(255,210,74,.2),0 0 30px rgba(255,210,74,.15)}
+  50%{box-shadow:0 0 0 3px rgba(255,210,74,.55),0 0 60px rgba(255,210,74,.3),0 0 100px rgba(255,210,74,.1)}
+}
+
+/* Shelf light flicker */
+.gm-shelf{
+  position:absolute;left:3%;width:57%;height:14%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,220,100,.05) 0%,rgba(255,220,100,.13) 55%,rgba(255,220,100,.02) 100%);
+  border-radius:4px;
+}
+.gm-shelf-1{top:22%;animation:shelf-flicker 4s ease-in-out infinite}
+.gm-shelf-2{top:39%;animation:shelf-flicker 4s ease-in-out infinite 1.3s}
+.gm-shelf-3{top:56%;animation:shelf-flicker 4s ease-in-out infinite .6s}
+@keyframes shelf-flicker{
+  0%,85%,100%{opacity:1}
+  86%{opacity:.25}
+  88%{opacity:.9}
+  90%{opacity:.15}
+  92%{opacity:.85}
+}
+
+/* Football button pulse */
+.gm-btn{
+  position:absolute;left:21%;width:36%;top:73%;height:11%;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,210,74,.3) 0%,transparent 70%);
+  animation:gm-btn-pulse 1.6s ease-in-out infinite;
+}
+@keyframes gm-btn-pulse{
+  0%,100%{opacity:.65;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.1)}
+}
+
+/* Purple card slot glow */
+.gm-slot{
+  position:absolute;right:3%;width:34%;height:11%;top:76%;
+  border-radius:8px;pointer-events:none;
+  animation:slot-glow 2.2s ease-in-out infinite;
+}
+@keyframes slot-glow{
+  0%,100%{box-shadow:inset 0 0 18px rgba(147,51,234,.35);background:rgba(147,51,234,.05)}
+  50%{box-shadow:inset 0 0 32px rgba(147,51,234,.65),0 0 18px rgba(147,51,234,.25);background:rgba(147,51,234,.1)}
+}
+
+/* Machine shake + flash on pull */
+@keyframes shake{0%,100%{transform:translate(0)}20%{transform:translate(-8px,-2px) rotate(-3deg)}40%{transform:translate(8px,2px) rotate(3deg)}60%{transform:translate(-5px,-1px) rotate(-1.5deg)}80%{transform:translate(5px,1px) rotate(1.5deg)}}
+@keyframes gm-flash{
+  0%{filter:drop-shadow(0 0 24px rgba(255,210,74,.45))}
+  35%{filter:drop-shadow(0 0 70px rgba(255,210,74,.9)) brightness(1.5)}
+  65%{filter:drop-shadow(0 0 90px rgba(255,215,0,1)) brightness(1.7)}
+  100%{filter:drop-shadow(0 0 24px rgba(255,210,74,.45))}
+}
+.gm-wrap.shaking{animation:shake .55s ease-in-out}
+.gm-wrap.spinning{animation:gm-flash 1.2s ease-in-out}
 
 /* Pull buttons */
 .pull-btns{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
@@ -896,10 +940,14 @@ nav a:hover,nav a.active{color:var(--gold)}
     </div>
 
     <div class="globe-wrap">
-      <div class="machine-globe" id="globe" onclick="doPull1()">
-        <div class="globe-ring"></div>
-        <div class="globe-ring"></div>
-        ⚽
+      <div class="gm-wrap" id="globe" onclick="doPull1()">
+        <img src="/gacha-machine.png?v=1" class="gm-img" alt="Gacha Machine"/>
+        <div class="gm-glow"></div>
+        <div class="gm-shelf gm-shelf-1"></div>
+        <div class="gm-shelf gm-shelf-2"></div>
+        <div class="gm-shelf gm-shelf-3"></div>
+        <div class="gm-btn"></div>
+        <div class="gm-slot"></div>
       </div>
     </div>
 
