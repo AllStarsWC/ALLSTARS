@@ -189,6 +189,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 }
 .btn-gold span{display:inline-block;transform:skew(8deg)}
 .btn-gold:hover{filter:brightness(1.1);transform:skew(-8deg) translateY(-2px)}
+.btn-gold:disabled{opacity:.35;cursor:not-allowed;filter:none}
 .btn-dark{
   display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;
   padding:16px 34px;border-radius:14px;border:2px solid #d6a900;
@@ -1050,8 +1051,8 @@ nav a:hover,nav a.active{color:var(--gold)}
     <div class="wallet-warn" id="wallet-warn">⚠️ Connect your Phantom wallet to pull cards</div>
 
     <div class="pull-btns">
-      <button class="btn-pull btn-p1"  id="btn1"  onclick="doPull1()">Pull × 1</button>
-      <button class="btn-pull btn-p10" id="btn10" onclick="doPull10()">🎰 Pull × 10</button>
+      <button class="btn-gold" id="btn1"  onclick="doPull1()"><span>Pull × 1</span></button>
+      <button class="btn-gold" id="btn10" onclick="doPull10()"><span>🎰 Pull × 10</span></button>
     </div>
 
     <!-- Statistics panel -->
