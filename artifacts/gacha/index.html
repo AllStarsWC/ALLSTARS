@@ -623,8 +623,8 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* Badge float next to hero card */
 /* ══ WIN BANNER (hero) ══ */
 .win-banner{
-  position:absolute;right:-30px;top:-30px;
-  width:260px;
+  position:absolute;right:-20px;top:-20px;
+  width:180px;
   transform:rotate(6deg);
   transform-origin:center center;
   z-index:10;
@@ -671,29 +671,29 @@ nav a:hover,nav a.active{color:var(--gold)}
 .wb-trophy-l,.wb-trophy-r{position:absolute;z-index:2;font-size:2rem;opacity:.13;animation:trophy-float 4s ease-in-out infinite}
 .wb-trophy-l{left:6px;top:50%;transform:translateY(-50%)}
 .wb-trophy-r{right:6px;top:50%;transform:translateY(-50%);animation-delay:1s}
-.wb-line1{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:4px;
+.wb-line1{font-family:'Bebas Neue',sans-serif;font-size:.68rem;letter-spacing:3px;
   color:#FFE566;text-shadow:0 0 14px rgba(255,215,0,.4);
   position:relative;z-index:2;animation:txt-appear .8s both}
-.wb-line2{font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:6px;
+.wb-line2{font-family:'Bebas Neue',sans-serif;font-size:.5rem;letter-spacing:4px;
   color:rgba(255,255,255,.6);position:relative;z-index:2;animation:txt-appear .8s .15s both}
-.wb-amount-wrap{position:relative;z-index:2;animation:amount-pop 1s .3s cubic-bezier(.2,0,.2,1.5) both;display:flex;align-items:baseline;gap:2px}
-.wb-amount{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;line-height:.9;letter-spacing:-1px;
+.wb-amount-wrap{position:relative;z-index:2;animation:amount-pop 1s .3s cubic-bezier(.2,0,.2,1.5) both;display:flex;align-items:baseline;gap:1px}
+.wb-amount{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;line-height:.9;letter-spacing:-1px;
   background:linear-gradient(180deg,#FFF8C0 0%,#FFD700 30%,#C8960C 60%,#FFD700 80%,#7A5C00 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  filter:drop-shadow(0 0 12px rgba(255,215,0,.6));
+  filter:drop-shadow(0 0 10px rgba(255,215,0,.6));
   animation:amount-glow 2s ease-in-out infinite}
-.wb-exclaim{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;line-height:.9;
+.wb-exclaim{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;line-height:.9;
   background:linear-gradient(180deg,#FFF8C0,#FFD700,#C8960C);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:amount-glow 2s ease-in-out infinite}
-.wb-stars{display:flex;gap:4px;justify-content:center;position:relative;z-index:2;animation:txt-appear .8s .6s both}
-.wb-stars span{font-size:.8rem;animation:star-twinkle ease-in-out infinite}
+.wb-stars{display:flex;gap:3px;justify-content:center;position:relative;z-index:2;animation:txt-appear .8s .6s both}
+.wb-stars span{font-size:.55rem;animation:star-twinkle ease-in-out infinite}
 .wb-stars span:nth-child(1){animation-duration:1.4s}
 .wb-stars span:nth-child(2){animation-duration:1.2s;animation-delay:.2s}
-.wb-stars span:nth-child(3){animation-duration:1.5s;animation-delay:.1s;font-size:1rem}
+.wb-stars span:nth-child(3){animation-duration:1.5s;animation-delay:.1s;font-size:.7rem}
 .wb-stars span:nth-child(4){animation-duration:1.2s;animation-delay:.3s}
 .wb-stars span:nth-child(5){animation-duration:1.4s;animation-delay:.15s}
-.wb-tagline{font-family:'Bebas Neue',sans-serif;font-size:.52rem;letter-spacing:3px;
+.wb-tagline{font-family:'Bebas Neue',sans-serif;font-size:.38rem;letter-spacing:2px;
   color:rgba(255,215,0,.5);position:relative;z-index:2;animation:txt-appear .8s .8s both}
 .wb-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
 @media(max-width:900px){.win-banner{right:-10px;top:-20px;width:200px}}
