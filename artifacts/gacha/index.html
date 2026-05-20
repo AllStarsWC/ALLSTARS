@@ -1258,6 +1258,28 @@ nav a:hover,nav a.active{color:var(--gold)}
   display:block;
   border-radius:14px;
 }
+
+/* ── Hero pack image ── */
+.hero-pack-wrap{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.hero-pack-img{
+  width:340px;max-width:90vw;
+  filter:drop-shadow(0 0 40px rgba(255,215,0,.55)) drop-shadow(0 20px 60px rgba(0,0,0,.7));
+  cursor:pointer;
+  transition:transform .3s ease,filter .3s ease;
+  animation:pack-float 3s ease-in-out infinite;
+}
+.hero-pack-img:hover{
+  transform:scale(1.04) translateY(-6px);
+  filter:drop-shadow(0 0 60px rgba(255,215,0,.8)) drop-shadow(0 24px 70px rgba(0,0,0,.8));
+}
+@keyframes pack-float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+@media(max-width:600px){.hero-pack-img{width:240px}}
 </style>
 </head>
 <body>
@@ -1357,7 +1379,9 @@ nav a:hover,nav a.active{color:var(--gold)}
       </div>
     </div>
     <div class="hero-card-wrap">
-      <div class="featured-card" id="hero-featured-card"></div>
+      <div class="hero-pack-wrap" id="hero-featured-card">
+        <img src="/pack2.png" class="hero-pack-img" alt="Genesis Drop Pack" onclick="switchTab('gacha',null)"/>
+      </div>
       <div class="hero-badge-float">
         <p>Legendary pull rate</p>
         <p>2%</p>
@@ -2230,10 +2254,7 @@ function makeHeroLegendaryCard(card){
 }
 
 function renderFeaturedCard(){
-  const wrap=document.getElementById('hero-featured-card');
-  if(!allCards.length) return;
-  const leg=allCards.find(c=>c.rarity==='legendary')||allCards[0];
-  wrap.appendChild(makeHeroLegendaryCard(leg));
+  // Hero now shows the pack image — no card injection needed
 }
 
 // ═══════════════════════════════════════════════════════════════
