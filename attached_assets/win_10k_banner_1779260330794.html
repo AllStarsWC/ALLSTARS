@@ -1,0 +1,197 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#03060d;display:flex;align-items:center;justify-content:center;min-height:500px;overflow:hidden}
+
+.scene{position:relative;width:680px;height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* Background rays */
+.rays{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.rays svg{position:absolute;width:700px;height:700px;animation:ray-spin 20s linear infinite;opacity:.07}
+@keyframes ray-spin{to{transform:rotate(360deg)}}
+
+/* BG glow */
+.bg-glow{position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(255,165,0,.18) 0%,rgba(255,215,0,.08) 40%,transparent 70%);
+  animation:glow-pulse 3s ease-in-out infinite}
+@keyframes glow-pulse{0%,100%{opacity:.7}50%{opacity:1}}
+
+/* Outer frame */
+.frame{position:relative;width:640px;height:300px;border-radius:24px;
+  background:linear-gradient(160deg,#0d0800 0%,#1a1000 40%,#0d0800 100%);
+  overflow:hidden}
+
+/* Gold border animated */
+.frame::before{content:'';position:absolute;inset:-2px;border-radius:26px;z-index:0;
+  background:conic-gradient(from var(--a,0deg),#7A5C00,#FFD700,#FFF8C0,#C8960C,#FFD700,#7A5C00);
+  animation:border-spin 4s linear infinite}
+@property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes border-spin{to{--a:360deg}}
+.frame::after{content:'';position:absolute;inset:2px;border-radius:22px;
+  background:linear-gradient(160deg,#0d0800 0%,#1a1000 50%,#0d0800 100%);z-index:1}
+
+/* Inner content */
+.inner{position:absolute;inset:2px;border-radius:22px;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:20px 30px;overflow:hidden}
+
+/* Confetti dots bg */
+.confetti-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cdot{position:absolute;border-radius:50%;animation:cdrift linear infinite;opacity:0}
+@keyframes cdrift{0%{opacity:0;transform:translateY(0) rotate(0)}20%{opacity:.7}80%{opacity:.3}100%{opacity:0;transform:translateY(-280px) rotate(360deg)}}
+
+/* STAND A CHANCE */
+.line1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:6px;
+  color:#FFE566;text-shadow:0 0 20px rgba(255,215,0,.4);
+  animation:txt-appear .8s cubic-bezier(.2,0,.2,1.4) both;position:relative;z-index:1}
+@keyframes txt-appear{from{opacity:0;transform:translateY(-20px) scale(.9)}to{opacity:1;transform:none}}
+
+/* TO WIN */
+.line2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:8px;
+  color:rgba(255,255,255,.7);animation:txt-appear .8s .15s cubic-bezier(.2,0,.2,1.4) both;
+  position:relative;z-index:1}
+
+/* $10,000 */
+.amount-wrap{position:relative;z-index:1;animation:amount-pop 1s .3s cubic-bezier(.2,0,.2,1.5) both}
+@keyframes amount-pop{from{opacity:0;transform:scale(.3) rotateX(40deg)}to{opacity:1;transform:none}}
+
+.amount{font-family:'Bebas Neue',sans-serif;font-size:7rem;line-height:.9;letter-spacing:-2px;
+  background:linear-gradient(180deg,#FFF8C0 0%,#FFD700 30%,#C8960C 60%,#FFD700 80%,#7A5C00 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px rgba(255,215,0,.6));
+  animation:amount-glow 2s ease-in-out infinite}
+@keyframes amount-glow{0%,100%{filter:drop-shadow(0 0 20px rgba(255,215,0,.6))}50%{filter:drop-shadow(0 0 40px rgba(255,215,0,.9)) drop-shadow(0 0 60px rgba(255,165,0,.4))}}
+
+/* Exclamation */
+.exclaim{font-family:'Bebas Neue',sans-serif;font-size:7rem;line-height:.9;
+  background:linear-gradient(180deg,#FFF8C0,#FFD700,#C8960C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:amount-glow 2s ease-in-out infinite}
+
+/* Stars under amount */
+.stars-row{display:flex;gap:8px;justify-content:center;align-items:center;
+  animation:txt-appear .8s .6s both;position:relative;z-index:1}
+.star{font-size:1.3rem;animation:star-twinkle ease-in-out infinite}
+.star:nth-child(1){animation-duration:1.4s;animation-delay:.0s}
+.star:nth-child(2){animation-duration:1.2s;animation-delay:.2s}
+.star:nth-child(3){animation-duration:1.5s;animation-delay:.1s;font-size:1.8rem}
+.star:nth-child(4){animation-duration:1.2s;animation-delay:.3s}
+.star:nth-child(5){animation-duration:1.4s;animation-delay:.15s}
+@keyframes star-twinkle{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+
+/* Bottom tagline */
+.tagline{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:5px;
+  color:rgba(255,215,0,.55);animation:txt-appear .8s .8s both;position:relative;z-index:1}
+
+/* Corner ornaments */
+.corner{position:absolute;z-index:3;font-size:1.4rem;color:#C8960C;opacity:.7;animation:corner-pulse 2s ease-in-out infinite}
+.corner:nth-child(1){top:10px;left:14px}
+.corner:nth-child(2){top:10px;right:14px;transform:scaleX(-1)}
+.corner:nth-child(3){bottom:10px;left:14px;transform:scaleY(-1)}
+.corner:nth-child(4){bottom:10px;right:14px;transform:scale(-1,-1)}
+@keyframes corner-pulse{0%,100%{opacity:.5}50%{opacity:.9}}
+
+/* Shimmer sweep */
+.shimmer{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.06) 50%,transparent 65%);
+  background-size:300% 100%;background-position:-200% 0;
+  animation:shimmer-move 3s ease-in-out infinite}
+@keyframes shimmer-move{0%{background-position:-200% 0}60%,100%{background-position:200% 0}}
+
+/* Trophy icons */
+.trophy-l,.trophy-r{position:absolute;z-index:3;font-size:3.5rem;opacity:.15;
+  animation:trophy-float 4s ease-in-out infinite}
+.trophy-l{left:18px;top:50%;transform:translateY(-50%)}
+.trophy-r{right:18px;top:50%;transform:translateY(-50%);animation-delay:1s}
+@keyframes trophy-float{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(calc(-50% - 8px)) scale(1.05)}}
+
+/* Burst lines */
+.burst{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0;pointer-events:none;opacity:.12}
+</style>
+
+<div class="scene">
+  <div class="bg-glow"></div>
+
+  <!-- Sunray SVG -->
+  <div class="rays">
+    <svg viewBox="0 0 200 200" fill="none">
+      <g stroke="#FFD700" stroke-width=".5">
+        <line x1="100" y1="100" x2="100" y2="0"/>
+        <line x1="100" y1="100" x2="170" y2="15"/>
+        <line x1="100" y1="100" x2="200" y2="70"/>
+        <line x1="100" y1="100" x2="200" y2="130"/>
+        <line x1="100" y1="100" x2="170" y2="185"/>
+        <line x1="100" y1="100" x2="100" y2="200"/>
+        <line x1="100" y1="100" x2="30" y2="185"/>
+        <line x1="100" y1="100" x2="0" y2="130"/>
+        <line x1="100" y1="100" x2="0" y2="70"/>
+        <line x1="100" y1="100" x2="30" y2="15"/>
+        <line x1="100" y1="100" x2="150" y2="8"/>
+        <line x1="100" y1="100" x2="192" y2="50"/>
+        <line x1="100" y1="100" x2="192" y2="150"/>
+        <line x1="100" y1="100" x2="150" y2="192"/>
+        <line x1="100" y1="100" x2="50" y2="192"/>
+        <line x1="100" y1="100" x2="8" y2="150"/>
+        <line x1="100" y1="100" x2="8" y2="50"/>
+        <line x1="100" y1="100" x2="50" y2="8"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="frame">
+    <div class="inner">
+      <div class="confetti-bg" id="cbg"></div>
+
+      <!-- Corner decorations -->
+      <span class="corner">❖</span>
+      <span class="corner">❖</span>
+      <span class="corner">❖</span>
+      <span class="corner">❖</span>
+
+      <!-- Trophies -->
+      <div class="trophy-l">🏆</div>
+      <div class="trophy-r">🏆</div>
+
+      <div class="line1">STAND A CHANCE TO WIN</div>
+
+      <div class="amount-wrap">
+        <span class="amount">$10,000</span><span class="exclaim">!</span>
+      </div>
+
+      <div class="stars-row">
+        <span class="star">⭐</span>
+        <span class="star">⭐</span>
+        <span class="star">🌟</span>
+        <span class="star">⭐</span>
+        <span class="star">⭐</span>
+      </div>
+
+      <div class="tagline">ALL STARS · WORLD CUP 2026 · NFT GACHA</div>
+
+      <div class="shimmer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Confetti dots
+const cbg=document.getElementById('cbg');
+const colors=['#FFD700','#FFA500','#FF6B00','#FFE566','#ffffff','#FFF8C0','#C8960C'];
+for(let i=0;i<40;i++){
+  const d=document.createElement('div');
+  d.className='cdot';
+  const size=Math.random()*5+2;
+  d.style.cssText=`
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*20}%;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    animation-duration:${2.5+Math.random()*3}s;
+    animation-delay:${Math.random()*5}s;
+    border-radius:${Math.random()>.5?'50%':'2px'};
+    transform:rotate(${Math.random()*360}deg)
+  `;
+  cbg.appendChild(d);
+}
+</script>
