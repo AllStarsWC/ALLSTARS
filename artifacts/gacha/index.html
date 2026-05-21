@@ -1555,6 +1555,222 @@ nav a:hover,nav a.active{color:var(--gold)}
   .pull-console{gap:.6rem;padding:1rem .25rem}
   .pull-img-btn img{width:118px}
 }
+
+/* ══════════════════════════════════════════════════
+   HOW TO PLAY PAGE
+══════════════════════════════════════════════════ */
+#howto-page{padding:0;max-width:100%;overflow-x:hidden}
+#howto-page.active{display:block}
+
+/* ── Hero / Stadium scene ── */
+.htp-hero{
+  position:relative;min-height:400px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 90%,rgba(0,100,20,.4) 0%,transparent 65%),
+             radial-gradient(ellipse at 50% 20%,rgba(255,215,0,.07) 0%,transparent 55%);
+  display:flex;align-items:center;justify-content:center;
+  padding:3.5rem 1rem 170px;
+}
+.htp-hero-content{position:relative;z-index:2;text-align:center;max-width:560px}
+.htp-badge{
+  display:inline-block;
+  background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.35);
+  border-radius:50px;padding:.35rem 1.2rem;
+  font-size:.7rem;letter-spacing:2.5px;color:var(--gold);font-weight:700;
+  margin-bottom:1rem;text-transform:uppercase;
+}
+.htp-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,9vw,6rem);
+  letter-spacing:4px;line-height:1;color:#fff;margin-bottom:.75rem;
+}
+.htp-title span{color:var(--gold)}
+.htp-sub{font-size:.92rem;color:rgba(255,255,255,.68);line-height:1.65}
+
+/* Characters */
+.htp-char{
+  position:absolute;bottom:55px;height:320px;width:auto;
+  pointer-events:none;z-index:3;
+}
+.htp-mussi{
+  left:4%;
+  animation:mussi-enter .85s cubic-bezier(.22,1,.36,1) .15s both,
+             mussi-run 1.8s ease-in-out 1s infinite alternate;
+}
+.htp-runaldo{
+  right:4%;
+  animation:runaldo-enter .85s cubic-bezier(.22,1,.36,1) .3s both,
+             runaldo-celebrate 2.2s ease-in-out 1.2s infinite alternate;
+}
+@keyframes mussi-enter{
+  from{transform:translateX(-180px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+@keyframes mussi-run{
+  0%{transform:translateX(0) rotate(-1deg) scaleY(1)}
+  100%{transform:translateX(10px) rotate(1deg) scaleY(1.02)}
+}
+@keyframes runaldo-enter{
+  from{transform:translateX(180px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+@keyframes runaldo-celebrate{
+  0%{transform:rotate(-3deg) scale(1)}
+  100%{transform:rotate(3deg) scale(1.04) translateY(-6px)}
+}
+
+/* Grass */
+.htp-grass{
+  position:absolute;bottom:0;left:0;width:100%;
+  height:150px;object-fit:cover;object-position:bottom;
+  z-index:4;pointer-events:none;
+  animation:grass-sway 5s ease-in-out infinite alternate;
+}
+@keyframes grass-sway{
+  0%{transform:scaleX(1.015)}
+  100%{transform:scaleX(.985)}
+}
+
+/* ── Content ── */
+.htp-content{
+  max-width:920px;margin:0 auto;padding:2.5rem 1.5rem 5rem;
+  display:flex;flex-direction:column;gap:1.75rem;
+}
+.htp-section{
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,215,0,.1);border-radius:20px;
+  padding:1.75rem 2rem;
+}
+.htp-step-badge{
+  display:inline-block;background:var(--gold);color:#000;
+  font-weight:900;font-size:.62rem;letter-spacing:2px;
+  border-radius:50px;padding:.22rem .75rem;margin-bottom:.75rem;
+}
+.htp-section-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.7rem;
+  letter-spacing:2px;color:var(--gold);margin-bottom:.65rem;
+}
+.htp-section-desc{color:rgba(255,255,255,.72);margin-bottom:1.2rem;font-size:.88rem;line-height:1.6}
+
+/* Pack cards */
+.htp-packs{display:flex;gap:1rem;flex-wrap:wrap}
+.htp-pack{
+  flex:1 1 200px;background:rgba(0,0,0,.4);border-radius:16px;
+  padding:1.25rem;border:1px solid rgba(255,215,0,.2);text-align:center;
+  position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;
+}
+.htp-pack:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(255,215,0,.12)}
+.htp-pack-ten{border-color:rgba(147,51,234,.45)}
+.htp-pack-ten:hover{box-shadow:0 8px 30px rgba(147,51,234,.2)}
+.htp-pack-badge{
+  position:absolute;top:10px;right:10px;
+  background:#7c3aed;color:#fff;font-size:.58rem;font-weight:900;
+  padding:.2rem .55rem;border-radius:50px;letter-spacing:1px;
+}
+.htp-pack-icon{font-size:2.2rem;margin-bottom:.5rem}
+.htp-pack-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px}
+.htp-pack-cost{color:var(--gold);font-weight:900;font-size:1.6rem;margin:.2rem 0}
+.htp-pack-desc{font-size:.76rem;color:var(--muted)}
+
+/* Rarity bars */
+.htp-rarity-grid{display:flex;flex-direction:column;gap:.7rem}
+.htp-rarity-row{display:flex;align-items:center;gap:.75rem}
+.htp-r-name{width:115px;font-weight:700;font-size:.84rem;flex-shrink:0}
+.htp-r-bar{flex:1;background:rgba(255,255,255,.08);border-radius:50px;height:9px;overflow:hidden}
+.htp-r-bar span{display:block;height:100%;border-radius:50px}
+.htp-r-common .htp-r-bar span{background:rgba(255,255,255,.4)}
+.htp-r-rare .htp-r-bar span{background:#93c5fd}
+.htp-r-epic .htp-r-bar span{background:#c4b5fd}
+.htp-r-legendary .htp-r-bar span{background:linear-gradient(90deg,var(--gold),#fff8c0)}
+.htp-r-pct{font-size:.82rem;font-weight:900;color:var(--gold);width:35px;text-align:right;flex-shrink:0}
+
+/* Reward cards */
+.htp-rewards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:.85rem}
+.htp-reward-card{
+  border-radius:14px;padding:1.1rem;text-align:center;border:1px solid transparent;
+  transition:transform .2s,box-shadow .2s;
+}
+.htp-reward-card:hover{transform:translateY(-4px)}
+.htp-reward-legendary{background:rgba(255,215,0,.09);border-color:rgba(255,215,0,.35)}
+.htp-reward-epic{background:rgba(196,181,253,.07);border-color:rgba(196,181,253,.28)}
+.htp-reward-rare{background:rgba(147,197,253,.07);border-color:rgba(147,197,253,.28)}
+.htp-reward-common{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+.htp-rw-tier{font-weight:700;font-size:.78rem;margin-bottom:.4rem}
+.htp-rw-amount{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);line-height:1.1}
+.htp-rw-bonus{display:block;font-size:.6rem;color:#a3e635;font-family:inherit;font-weight:900;letter-spacing:1px;margin-top:.15rem}
+.htp-rw-note{font-size:.68rem;color:var(--muted);margin-top:.3rem}
+
+/* Legendary special */
+.htp-legendary-section{
+  background:linear-gradient(135deg,rgba(255,215,0,.07) 0%,rgba(0,0,0,.25) 100%);
+  border-color:rgba(255,215,0,.28);
+}
+.htp-examples{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+.htp-example{
+  flex:1 1 180px;background:rgba(0,0,0,.32);border-radius:12px;
+  padding:1rem;border:1px solid rgba(255,215,0,.22);
+}
+.htp-ex-player{font-weight:900;font-size:.88rem;margin-bottom:.4rem}
+.htp-ex-goals{font-size:.78rem;color:var(--muted);margin-bottom:.5rem}
+.htp-ex-earn{color:var(--gold);font-size:.92rem}
+.htp-track-note{font-size:.73rem;color:var(--muted);margin-top:.75rem}
+
+/* Hold or Trade */
+.htp-ht-grid{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.htp-ht-card{
+  flex:1 1 175px;background:rgba(0,0,0,.3);border-radius:14px;
+  padding:1.25rem;text-align:center;border:1px solid rgba(255,215,0,.14);
+  transition:transform .2s;
+}
+.htp-ht-card:hover{transform:translateY(-3px)}
+.htp-ht-icon{font-size:2rem;margin-bottom:.5rem}
+.htp-ht-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);margin-bottom:.4rem}
+.htp-ht-card p{font-size:.8rem;color:rgba(255,255,255,.68);line-height:1.5}
+.htp-example-scenario{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;
+  background:rgba(0,0,0,.28);border-radius:12px;padding:.9rem 1rem;
+}
+.htp-scenario-step{
+  background:rgba(255,255,255,.07);border-radius:8px;
+  padding:.35rem .7rem;font-size:.75rem;font-weight:700;white-space:nowrap;
+}
+.htp-scenario-arrow{color:var(--gold);font-size:.85rem;font-weight:900}
+
+/* Tips */
+.htp-tips{display:flex;flex-direction:column;gap:.55rem}
+.htp-tip{
+  background:rgba(0,0,0,.28);border-radius:10px;padding:.7rem 1rem;
+  font-size:.86rem;font-weight:700;border-left:3px solid var(--gold);
+  transition:transform .15s,background .15s;
+}
+.htp-tip:hover{transform:translateX(5px);background:rgba(255,215,0,.07)}
+
+/* Important */
+.htp-important{border-color:rgba(251,146,60,.3);background:rgba(255,80,0,.04)}
+.htp-important .htp-section-title{color:#fb923c}
+.htp-important-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.55rem}
+.htp-important-list li{
+  padding:.6rem 1rem;background:rgba(0,0,0,.28);border-radius:10px;
+  font-size:.83rem;color:rgba(255,255,255,.78);line-height:1.5;
+  border-left:3px solid rgba(251,146,60,.5);
+}
+
+/* Tagline */
+.htp-tagline{text-align:center;padding:1.5rem 1rem 0}
+.htp-tagline-main{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,6vw,3.5rem);letter-spacing:3px;color:var(--gold);
+}
+.htp-tagline-sub{font-size:.98rem;color:rgba(255,255,255,.55);margin-top:.3rem}
+
+@media(max-width:640px){
+  .htp-char{height:180px;bottom:40px}
+  .htp-grass{height:110px}
+  .htp-hero{padding-bottom:120px;min-height:280px}
+  .htp-section{padding:1.25rem}
+  .htp-content{padding:1.5rem 1rem 3rem}
+  .htp-mussi{left:0}
+  .htp-runaldo{right:0}
+}
 </style>
 </head>
 <body>
@@ -1603,6 +1819,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     <a class="active" onclick="switchTab('home',this)">Home</a>
     <a onclick="switchTab('gacha',this)">Gacha</a>
     <a onclick="switchTab('vault',this)">Vault</a>
+    <a onclick="switchTab('howto',this)">How To Play</a>
     <a onclick="switchTab('watch',this)" class="nav-watch">🔴 Watch</a>
   </nav>
 
@@ -1628,6 +1845,9 @@ nav a:hover,nav a.active{color:var(--gold)}
     </button>
     <button class="mobile-nav-btn" id="mnav-vault" onclick="switchTab('vault',null)">
       <span class="mnav-icon">🗄️</span>Vault
+    </button>
+    <button class="mobile-nav-btn" id="mnav-howto" onclick="switchTab('howto',null)">
+      <span class="mnav-icon">📖</span>How To
     </button>
     <button class="mobile-nav-btn" id="mnav-claim" onclick="switchTab('claim',null)" style="color:rgba(255,215,0,.65)">
       <span class="mnav-icon">💰</span>Claim
@@ -2042,6 +2262,181 @@ nav a:hover,nav a.active{color:var(--gold)}
 
   </div>
 </div>
+
+<!-- ══ HOW TO PLAY PAGE ══ -->
+<div id="howto-page" class="page">
+
+  <!-- Hero: stadium scene with animated characters -->
+  <div class="htp-hero">
+    <div class="htp-hero-content">
+      <div class="htp-badge">⚽ All Stars World Cup 2026</div>
+      <h1 class="htp-title">HOW TO <span>PLAY</span></h1>
+      <p class="htp-sub">Pull your favorite players, hold them through the tournament,<br>and earn rewards when they perform on the biggest stage.</p>
+    </div>
+    <img src="/mussi.png"   class="htp-char htp-mussi"   alt="Mussi"/>
+    <img src="/runaldo.png" class="htp-char htp-runaldo" alt="Runaldo"/>
+    <img src="/grass.png"   class="htp-grass" alt=""/>
+  </div>
+
+  <div class="htp-content">
+
+    <!-- Step 1 -->
+    <div class="htp-section">
+      <div class="htp-step-badge">STEP 1</div>
+      <h2 class="htp-section-title">🎰 Pull Your Cards</h2>
+      <p class="htp-section-desc">Choose your pack and pull random players from the ALL STARS World Cup collection.</p>
+      <div class="htp-packs">
+        <div class="htp-pack">
+          <div class="htp-pack-icon">💎</div>
+          <div class="htp-pack-name">Single Pull</div>
+          <div class="htp-pack-cost">0.5 SOL</div>
+          <div class="htp-pack-desc">1× random player card</div>
+        </div>
+        <div class="htp-pack htp-pack-ten">
+          <div class="htp-pack-badge">20% DISCOUNT</div>
+          <div class="htp-pack-icon">💜</div>
+          <div class="htp-pack-name">10× Pull</div>
+          <div class="htp-pack-cost">4 SOL</div>
+          <div class="htp-pack-desc">10× cards with BONUS value</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Rarities -->
+    <div class="htp-section">
+      <h2 class="htp-section-title">🃏 Card Rarities</h2>
+      <p class="htp-section-desc">Total Supply: <strong>1,300 NFTs</strong></p>
+      <div class="htp-rarity-grid">
+        <div class="htp-rarity-row htp-r-common">
+          <span class="htp-r-name">⬜ Common</span>
+          <span class="htp-r-bar"><span style="width:70%"></span></span>
+          <span class="htp-r-pct">70%</span>
+        </div>
+        <div class="htp-rarity-row htp-r-rare">
+          <span class="htp-r-name">💙 Rare</span>
+          <span class="htp-r-bar"><span style="width:25%"></span></span>
+          <span class="htp-r-pct">25%</span>
+        </div>
+        <div class="htp-rarity-row htp-r-epic">
+          <span class="htp-r-name">💜 Epic</span>
+          <span class="htp-r-bar"><span style="width:12%"></span></span>
+          <span class="htp-r-pct">3%</span>
+        </div>
+        <div class="htp-rarity-row htp-r-legendary">
+          <span class="htp-r-name">⭐ Legendary</span>
+          <span class="htp-r-bar"><span style="width:8%"></span></span>
+          <span class="htp-r-pct">2%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goal Rewards -->
+    <div class="htp-section">
+      <h2 class="htp-section-title">⚽ Goal Reward Tiers</h2>
+      <p class="htp-section-desc">Earn SOL every time your player scores during the World Cup — per goal scored.</p>
+      <div class="htp-rewards-grid">
+        <div class="htp-reward-card htp-reward-legendary">
+          <div class="htp-rw-tier">⭐ Legendary</div>
+          <div class="htp-rw-amount">0.8 SOL<span class="htp-rw-bonus">+ 0.2 SOL BONUS</span></div>
+          <div class="htp-rw-note">per goal scored</div>
+        </div>
+        <div class="htp-reward-card htp-reward-epic">
+          <div class="htp-rw-tier">💜 Epic</div>
+          <div class="htp-rw-amount">0.5 SOL</div>
+          <div class="htp-rw-note">per goal scored</div>
+        </div>
+        <div class="htp-reward-card htp-reward-rare">
+          <div class="htp-rw-tier">💙 Rare</div>
+          <div class="htp-rw-amount">0.2 SOL</div>
+          <div class="htp-rw-note">per goal scored</div>
+        </div>
+        <div class="htp-reward-card htp-reward-common">
+          <div class="htp-rw-tier">⬜ Common</div>
+          <div class="htp-rw-amount">0.1 SOL</div>
+          <div class="htp-rw-note">per goal scored</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legendary Special -->
+    <div class="htp-section htp-legendary-section">
+      <h2 class="htp-section-title">⭐ Legendary Cards — 1 of 1</h2>
+      <p class="htp-section-desc">Legendary cards are SPECIAL exclusive 1-of-1 NFTs. They retain higher secondary market value on Magic Eden / Tensor and have a higher probability of being a HIGH SCORING PLAYER (Golden Boots / Golden Ball winner).</p>
+      <div class="htp-examples">
+        <div class="htp-example">
+          <div class="htp-ex-player">🇫🇷 Legendary Mbappé</div>
+          <div class="htp-ex-goals">Scores 8 goals</div>
+          <div class="htp-ex-earn">💰 8 × (0.8 + 0.2) = <strong>8 SOL</strong></div>
+        </div>
+        <div class="htp-example">
+          <div class="htp-ex-player">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Legendary Kane</div>
+          <div class="htp-ex-goals">Scores 3 goals</div>
+          <div class="htp-ex-earn">💰 3 × (0.8 + 0.2) = <strong>3 SOL</strong></div>
+        </div>
+      </div>
+      <p class="htp-track-note">* All rewards are automatically tracked throughout WC26 via SPORTSMONK.</p>
+    </div>
+
+    <!-- Hold or Trade -->
+    <div class="htp-section">
+      <h2 class="htp-section-title">📈 Hold Or Trade</h2>
+      <div class="htp-ht-grid">
+        <div class="htp-ht-card">
+          <div class="htp-ht-icon">🔒</div>
+          <div class="htp-ht-title">Hold</div>
+          <p>Keep your card through the tournament and collect rewards as your player scores.</p>
+        </div>
+        <div class="htp-ht-card">
+          <div class="htp-ht-icon">💹</div>
+          <div class="htp-ht-title">Trade</div>
+          <p>Sell your card on the marketplace. As demand rises, your card value may increase.</p>
+        </div>
+      </div>
+      <div class="htp-example-scenario">
+        <div class="htp-scenario-step">Pull <strong>Legendary Mbappé</strong></div>
+        <span class="htp-scenario-arrow">→</span>
+        <div class="htp-scenario-step">France starts winning</div>
+        <span class="htp-scenario-arrow">→</span>
+        <div class="htp-scenario-step">Mbappé scores</div>
+        <span class="htp-scenario-arrow">→</span>
+        <div class="htp-scenario-step">Demand rises</div>
+        <span class="htp-scenario-arrow">→</span>
+        <div class="htp-scenario-step" style="color:var(--gold)">Sell anytime 💰</div>
+      </div>
+    </div>
+
+    <!-- Strategy Tips -->
+    <div class="htp-section">
+      <h2 class="htp-section-title">🎯 Strategy Tips</h2>
+      <div class="htp-tips">
+        <div class="htp-tip">⚡ Pull early before top stars are discovered</div>
+        <div class="htp-tip">🛡 Hold players with easy group matches</div>
+        <div class="htp-tip">👟 Watch Golden Boot contenders</div>
+        <div class="htp-tip">📊 Trade based on tournament momentum</div>
+        <div class="htp-tip">💎 Some cards may become more valuable than their rewards</div>
+      </div>
+    </div>
+
+    <!-- Important -->
+    <div class="htp-section htp-important">
+      <h2 class="htp-section-title">⚠️ Important</h2>
+      <ul class="htp-important-list">
+        <li>Rewards apply only to eligible cards and active World Cup matches.</li>
+        <li>Card ownership at reward snapshot determines who receives rewards.</li>
+        <li>If you sell a card, future rewards belong to the new owner.</li>
+        <li>Claims will only be available at the end of the tournament.</li>
+      </ul>
+    </div>
+
+    <!-- Tagline -->
+    <div class="htp-tagline">
+      <div class="htp-tagline-main">Pull smart. Trade smarter.</div>
+      <div class="htp-tagline-sub">Own the player. Own the moment.</div>
+      <button class="btn-gold" onclick="switchTab('gacha',null)" style="margin-top:1.75rem"><span>🎰 Start Pulling</span></button>
+    </div>
+
+  </div>
+</div><!-- /howto-page -->
 
 </div><!-- #app -->
 <div id="toast"></div>
