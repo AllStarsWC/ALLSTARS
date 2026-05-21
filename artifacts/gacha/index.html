@@ -782,23 +782,6 @@ nav a:hover,nav a.active{color:var(--gold)}
   background:radial-gradient(circle,rgba(255,210,74,.3) 0%,transparent 70%);
   animation:gm-btn-pulse 1.6s ease-in-out infinite;
 }
-/* All Stars orb overlay on machine ball */
-.gm-orb-wrap{
-  position:absolute;
-  left:21%;top:73%;
-  width:36%;
-  transform:translateY(-50%);
-  pointer-events:none;
-  z-index:2;
-}
-.gm-orb-overlay{
-  width:100%;height:auto;display:block;
-  border-radius:50%;
-  animation:orb-spin 22s linear infinite,orb-glow-pulse 3s ease-in-out infinite;
-}
-.gm-wrap.spinning .gm-orb-overlay,.gm-wrap.shaking .gm-orb-overlay{
-  animation:orb-spin 1.5s linear infinite,orb-glow-fast .4s ease-in-out infinite;
-}
 @keyframes gm-btn-pulse{
   0%,100%{opacity:.65;transform:scale(1)}
   50%{opacity:1;transform:scale(1.1)}
@@ -1821,9 +1804,6 @@ nav a:hover,nav a.active{color:var(--gold)}
           <div class="gm-shelf gm-shelf-3"></div>
           <div class="gm-btn"></div>
           <div class="gm-slot"></div>
-          <div class="gm-orb-wrap">
-            <img src="/allstars-orb.png" class="gm-orb-overlay" alt="All Stars Orb"/>
-          </div>
         </div>
       </div>
 
