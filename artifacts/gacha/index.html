@@ -897,11 +897,11 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* Back */
 .card-back{
-  background:linear-gradient(145deg,#1e3a5f,#03060d);
-  border:2px solid rgba(59,130,246,.4);
+  background:url('/card-back.png') center/cover no-repeat;
+  border:none;
   display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px
 }
-.card-back-logo{font-family:'Bebas Neue',sans-serif;font-size:.6rem;letter-spacing:2px;color:rgba(255,215,0,.5)}
+.card-back-logo{display:none}
 
 /* Front */
 .card-front{transform:rotateY(180deg);display:flex;flex-direction:column;position:relative}
@@ -3059,10 +3059,7 @@ function makeCard(card, idx, big=false){
 
   wrap.innerHTML=`
     <div class="card-inner">
-      <div class="card-face card-back">
-        <div style="font-size:2.2rem">⚽</div>
-        <div class="card-back-logo">WC 2026</div>
-      </div>
+      <div class="card-face card-back"></div>
       <div class="card-face card-front ${card.rarity}">
         <div class="card-banner">
           <span class="rarity-badge">${card.rarity.toUpperCase()}</span>
@@ -3279,8 +3276,8 @@ function renderVault(){
     wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
     wrap.innerHTML=`
       <div class="card-inner">
-        <div class="card-face card-back" style="padding:0;overflow:hidden">
-          ${isOwned?`<div style="font-size:2rem">⚽</div><div class="card-back-logo">WC 2026</div>`:`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`}
+        <div class="card-face card-back" style="${isOwned?'':'padding:0;overflow:hidden'}">
+          ${isOwned?'':`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`}
         </div>
         <div class="card-face card-front ${card.rarity}">
           <div class="card-banner">
@@ -3560,8 +3557,8 @@ function renderGachaVault(){
     wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
     wrap.innerHTML=`
       <div class="card-inner">
-        <div class="card-face card-back" style="padding:0;overflow:hidden">
-          ${isOwned?`<div style="font-size:1.1rem">⚽</div><div class="card-back-logo" style="font-size:.45rem">WC 2026</div>`:`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:6px"/>`}
+        <div class="card-face card-back" style="${isOwned?'':'padding:0;overflow:hidden'}">
+          ${isOwned?'':`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:6px"/>`}
         </div>
         <div class="card-face card-front ${card.rarity}">
           <div class="card-banner">
