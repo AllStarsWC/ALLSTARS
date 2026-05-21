@@ -1521,7 +1521,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* ══════════════ PULL CONSOLE ══════════════ */
 .pull-console{
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:flex-start;justify-content:center;
   gap:1.25rem;padding:1.5rem 1rem;
   max-width:600px;width:100%;margin:1.5rem auto;
 }
@@ -1529,6 +1529,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 .pull-img-btn{
   background:none;border:none;padding:0;cursor:pointer;
   flex-shrink:0;position:relative;
+  display:flex;flex-direction:column;align-items:center;
   transition:transform .15s cubic-bezier(.34,1.56,.64,1),filter .2s;
   -webkit-tap-highlight-color:transparent;
 }
