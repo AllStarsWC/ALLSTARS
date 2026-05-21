@@ -1526,37 +1526,11 @@ nav a:hover,nav a.active{color:var(--gold)}
   font-size:.58rem;letter-spacing:2px;text-align:center;
   margin-top:.35rem;color:rgba(255,255,255,.35);text-transform:uppercase;
 }
-/* Centre orb */
-.orb-console-wrap{
-  flex-shrink:0;cursor:pointer;position:relative;
-  transition:transform .2s;
-}
-.orb-console-wrap:hover{transform:scale(1.05)}
-.orb-console-img{
-  width:210px;display:block;
-  animation:orb-spin 22s linear infinite,orb-glow-pulse 3s ease-in-out infinite;
-}
-@keyframes orb-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes orb-glow-pulse{
-  0%,100%{filter:drop-shadow(0 0 10px rgba(255,200,0,.4)) drop-shadow(0 0 22px rgba(147,51,234,.3))}
-  50%{filter:drop-shadow(0 0 28px rgba(255,200,0,.9)) drop-shadow(0 0 50px rgba(147,51,234,.6))}
-}
-.orb-console-wrap:hover .orb-console-img{
-  animation:orb-spin 8s linear infinite,orb-glow-fast .7s ease-in-out infinite;
-}
-@keyframes orb-glow-fast{
-  0%,100%{filter:drop-shadow(0 0 20px rgba(255,200,0,.8)) drop-shadow(0 0 40px rgba(147,51,234,.5))}
-  50%{filter:drop-shadow(0 0 45px rgba(255,200,0,1)) drop-shadow(0 0 80px rgba(147,51,234,.85))}
-}
 /* Pulling state */
 .pull-console.pulling .pull-img-btn{opacity:.35;pointer-events:none}
-.pull-console.pulling .orb-console-img{
-  animation:orb-spin 1.2s linear infinite,orb-glow-fast .4s ease-in-out infinite;
-}
 @media(max-width:560px){
   .pull-console{gap:.6rem;padding:1rem .25rem}
   .pull-img-btn img{width:118px}
-  .orb-console-img{width:150px}
 }
 </style>
 </head>
