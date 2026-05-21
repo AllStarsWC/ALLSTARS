@@ -1496,141 +1496,67 @@ nav a:hover,nav a.active{color:var(--gold)}
   .lb-bonus{display:none}
 }
 
-/* ══════════════ STADIUM TERMINAL ══════════════ */
-.stadium-terminal{
-  position:relative;width:100%;max-width:480px;margin:1.5rem auto;
-  background:linear-gradient(180deg,#0d1326 0%,#08080f 100%);
-  border-radius:32px;
-  border:2px solid rgba(255,208,70,.3);
-  box-shadow:0 0 60px rgba(255,200,0,.2),0 0 120px rgba(147,51,234,.12),inset 0 0 50px rgba(255,200,0,.06);
-  overflow:hidden;
-}
-.stadium-terminal::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.012) 3px,rgba(255,255,255,.012) 4px);
-}
-/* Header */
-.st-hdr{
-  background:linear-gradient(90deg,transparent,rgba(255,208,70,.07),transparent);
-  border-bottom:1px solid rgba(255,208,70,.2);
-  padding:.65rem 1.5rem;text-align:center;position:relative;z-index:2;
-}
-.st-hdr-inner{
-  font-family:'Courier New',monospace;font-size:.78rem;font-weight:700;
-  letter-spacing:3px;color:rgba(255,208,70,.85);
-  display:flex;align-items:center;justify-content:center;gap:.6rem;
-}
-.st-bracket{color:rgba(255,208,70,.35);font-size:.7rem}
-/* Body row */
-.st-body{
+/* ══════════════ PULL CONSOLE ══════════════ */
+.pull-console{
   display:flex;align-items:center;justify-content:center;
-  gap:1.25rem;padding:1.75rem 1.25rem 1.25rem;position:relative;z-index:2;
+  gap:1.25rem;padding:1.5rem 1rem;
+  max-width:600px;width:100%;margin:1.5rem auto;
 }
-/* Paddles */
-.st-paddle{
-  flex-shrink:0;width:88px;height:130px;border-radius:18px;
-  background:linear-gradient(160deg,#161b32,#0a0c18);
-  border:1px solid rgba(255,208,70,.22);
-  cursor:pointer;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:.4rem;
-  transition:transform .12s,box-shadow .15s,border-color .15s;
-  box-shadow:0 6px 24px rgba(0,0,0,.6);
-  position:relative;overflow:hidden;
+/* Image-based pull buttons */
+.pull-img-btn{
+  background:none;border:none;padding:0;cursor:pointer;
+  flex-shrink:0;position:relative;
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1),filter .2s;
+  -webkit-tap-highlight-color:transparent;
 }
-.st-paddle::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(160deg,rgba(255,208,70,.07),transparent 60%);
-  opacity:0;transition:opacity .15s;
+.pull-img-btn img{
+  width:172px;display:block;pointer-events:none;
+  transition:filter .2s;
 }
-.st-paddle:hover::after{opacity:1}
-.st-paddle:hover{
-  border-color:rgba(255,208,70,.65);
-  box-shadow:0 0 25px rgba(255,200,0,.35),0 6px 24px rgba(0,0,0,.5);
-  transform:scale(1.05);
+.pull-img-btn:hover{transform:scale(1.07) translateY(-4px)}
+.pull1-btn:hover img{
+  filter:drop-shadow(0 0 14px rgba(255,200,0,.85)) drop-shadow(0 0 30px rgba(255,170,0,.5));
 }
-.st-paddle:active{transform:scale(.95);box-shadow:0 0 40px rgba(255,200,0,.6),inset 0 0 20px rgba(255,200,0,.15)}
-.st-paddle:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
-.paddle-arrow{font-size:1.6rem;color:rgba(255,208,70,.65);line-height:1;transition:color .15s}
-.st-paddle:hover .paddle-arrow{color:rgba(255,208,70,1)}
-.paddle-lbl{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:white;line-height:1}
-.paddle-cost{font-size:.58rem;color:rgba(255,255,255,.35);letter-spacing:1px}
-/* Orb area */
-.st-orb-zone{
-  display:flex;flex-direction:column;align-items:center;gap:.6rem;
-  cursor:pointer;position:relative;
+.pull10-btn:hover img{
+  filter:drop-shadow(0 0 14px rgba(167,51,234,.95)) drop-shadow(0 0 30px rgba(147,51,234,.6));
 }
-.st-ring-outer{
-  width:158px;height:158px;border-radius:50%;
-  background:conic-gradient(from 0deg,#FFD700,#FF8C00,#B8860B,#FFD700,#FFF8C0,#B8860B,#FFD700);
-  padding:4px;
-  box-shadow:0 0 35px rgba(255,200,0,.45),0 0 70px rgba(147,51,234,.2);
-  animation:ring-hue 8s linear infinite;
-  position:relative;
+.pull-img-btn:active{transform:scale(.94) translateY(0)}
+.pull-img-btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.pull-cost-tag{
+  font-size:.58rem;letter-spacing:2px;text-align:center;
+  margin-top:.35rem;color:rgba(255,255,255,.35);text-transform:uppercase;
 }
-@keyframes ring-hue{0%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(20deg) brightness(1.1)}100%{filter:hue-rotate(0deg) brightness(1)}}
-.st-ring-mid{
-  width:100%;height:100%;border-radius:50%;
-  background:linear-gradient(135deg,#1a0a2e,#0c1020);
-  padding:7px;position:relative;
+/* Centre orb */
+.orb-console-wrap{
+  flex-shrink:0;cursor:pointer;position:relative;
+  transition:transform .2s;
 }
-.st-ring-mid::after{
-  content:'';position:absolute;inset:4px;border-radius:50%;
-  border:1px solid rgba(147,51,234,.45);
-  box-shadow:inset 0 0 25px rgba(147,51,234,.2);pointer-events:none;
+.orb-console-wrap:hover{transform:scale(1.05)}
+.orb-console-img{
+  width:210px;display:block;
+  animation:orb-spin 22s linear infinite,orb-glow-pulse 3s ease-in-out infinite;
 }
-.st-orb{
-  width:100%;height:100%;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),rgba(147,51,234,.08) 45%,transparent 70%),
-             radial-gradient(circle,#1c0a32 0%,#050510 100%);
-  display:flex;align-items:center;justify-content:center;
-  font-size:3.2rem;line-height:1;
-  animation:orb-pulse 2.2s ease-in-out infinite;
-  position:relative;z-index:2;
+@keyframes orb-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes orb-glow-pulse{
+  0%,100%{filter:drop-shadow(0 0 10px rgba(255,200,0,.4)) drop-shadow(0 0 22px rgba(147,51,234,.3))}
+  50%{filter:drop-shadow(0 0 28px rgba(255,200,0,.9)) drop-shadow(0 0 50px rgba(147,51,234,.6))}
 }
-@keyframes orb-pulse{
-  0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px rgba(255,200,0,.35))}
-  50%{transform:scale(1.09);filter:drop-shadow(0 0 22px rgba(255,200,0,.9)) drop-shadow(0 0 40px rgba(147,51,234,.5))}
+.orb-console-wrap:hover .orb-console-img{
+  animation:orb-spin 8s linear infinite,orb-glow-fast .7s ease-in-out infinite;
 }
-/* Electric arc ring */
-.st-arc{
-  position:absolute;width:175px;height:175px;border-radius:50%;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  background:conic-gradient(from 0deg,transparent 55deg,rgba(147,51,234,.45) 80deg,rgba(255,200,0,.3) 105deg,transparent 130deg,transparent 200deg,rgba(147,51,234,.3) 230deg,rgba(255,200,0,.2) 260deg,transparent 285deg);
-  animation:arc-spin 2.8s linear infinite;
-  pointer-events:none;
-}
-@keyframes arc-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.st-arc2{
-  position:absolute;width:192px;height:192px;border-radius:50%;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  background:conic-gradient(from 90deg,transparent 70deg,rgba(255,200,0,.2) 95deg,transparent 120deg,transparent 260deg,rgba(147,51,234,.25) 290deg,transparent 320deg);
-  animation:arc-spin 4.5s linear infinite reverse;
-  pointer-events:none;
-}
-.st-pull-glory{
-  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:5px;
-  color:rgba(255,208,70,.65);text-shadow:0 0 12px rgba(255,200,0,.4);
-  animation:glory-flicker 5s ease-in-out infinite;
-}
-@keyframes glory-flicker{0%,90%,100%{opacity:1}94%{opacity:.3}97%{opacity:.9}}
-/* Footer strip */
-.st-ftr{
-  border-top:1px solid rgba(255,208,70,.12);
-  padding:.55rem 1.5rem;text-align:center;
-  font-family:'Courier New',monospace;font-size:.58rem;
-  color:rgba(255,208,70,.25);letter-spacing:3px;z-index:2;position:relative;
+@keyframes orb-glow-fast{
+  0%,100%{filter:drop-shadow(0 0 20px rgba(255,200,0,.8)) drop-shadow(0 0 40px rgba(147,51,234,.5))}
+  50%{filter:drop-shadow(0 0 45px rgba(255,200,0,1)) drop-shadow(0 0 80px rgba(147,51,234,.85))}
 }
 /* Pulling state */
-.stadium-terminal.pulling .st-paddle{pointer-events:none;opacity:.5}
-.stadium-terminal.pulling .st-orb{animation:orb-spin-pull .6s linear infinite}
-@keyframes orb-spin-pull{to{transform:rotate(360deg) scale(1.12);filter:drop-shadow(0 0 35px rgba(255,200,0,1)) drop-shadow(0 0 20px rgba(147,51,234,.8))}}
-@media(max-width:520px){
-  .stadium-terminal{border-radius:22px}
-  .st-orb-zone{cursor:default}
-  .st-ring-outer{width:130px;height:130px}
-  .st-paddle{width:74px;height:110px}
-  .st-body{gap:.75rem;padding:1.25rem .75rem 1rem}
-  .st-orb{font-size:2.6rem}
+.pull-console.pulling .pull-img-btn{opacity:.35;pointer-events:none}
+.pull-console.pulling .orb-console-img{
+  animation:orb-spin 1.2s linear infinite,orb-glow-fast .4s ease-in-out infinite;
+}
+@media(max-width:560px){
+  .pull-console{gap:.6rem;padding:1rem .25rem}
+  .pull-img-btn img{width:118px}
+  .orb-console-img{width:150px}
 }
 </style>
 </head>
@@ -1890,48 +1816,26 @@ nav a:hover,nav a.active{color:var(--gold)}
 
     <div class="wallet-warn" id="wallet-warn">⚠️ Connect your Phantom wallet to pull cards</div>
 
-    <!-- ⚽ STADIUM TERMINAL -->
-    <div class="stadium-terminal" id="stadium-terminal">
+    <!-- ⚽ PULL CONSOLE -->
+    <div class="pull-console" id="stadium-terminal">
 
-      <div class="st-hdr">
-        <div class="st-hdr-inner">
-          <span class="st-bracket">╔══</span>
-          <span>⚽ STADIUM TERMINAL</span>
-          <span class="st-bracket">══╗</span>
-        </div>
+      <!-- Pull × 1 -->
+      <button class="pull-img-btn pull1-btn" id="btn1" onclick="doPull1()" title="Pull × 1">
+        <img src="/pull1-btn.png" alt="Pull x1"/>
+        <div class="pull-cost-tag" id="cost1-lbl">FREE</div>
+      </button>
+
+      <!-- Centre orb — click = single pull -->
+      <div class="orb-console-wrap" onclick="doPull1()" title="Pull × 1">
+        <img src="/allstars-orb.png" alt="All Stars WC 2026" class="orb-console-img"/>
       </div>
 
-      <div class="st-body">
+      <!-- Pull × 10 -->
+      <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10">
+        <img src="/pull10-btn.png" alt="Pull x10"/>
+        <div class="pull-cost-tag" id="cost10-lbl">FREE</div>
+      </button>
 
-        <!-- Left paddle — Single pull -->
-        <button class="st-paddle" id="btn1" onclick="doPull1()" title="Single Pull">
-          <div class="paddle-arrow">◄</div>
-          <div class="paddle-lbl">SINGLE</div>
-          <div class="paddle-cost" id="cost1-lbl">FREE</div>
-        </button>
-
-        <!-- Centre orb -->
-        <div class="st-orb-zone" onclick="doPull1()">
-          <div class="st-arc"></div>
-          <div class="st-arc2"></div>
-          <div class="st-ring-outer">
-            <div class="st-ring-mid">
-              <div class="st-orb">⚽</div>
-            </div>
-          </div>
-          <div class="st-pull-glory">PULL TO GLORY</div>
-        </div>
-
-        <!-- Right paddle — x10 Rush -->
-        <button class="st-paddle" id="btn10" onclick="doPull10()" title="Pull × 10">
-          <div class="paddle-arrow">►</div>
-          <div class="paddle-lbl">x10 RUSH</div>
-          <div class="paddle-cost" id="cost10-lbl">FREE <span style="color:#4ade80;font-size:.5rem">10%OFF</span></div>
-        </button>
-
-      </div>
-
-      <div class="st-ftr">╚══════════════════════════════╝</div>
     </div>
 
     <!-- Statistics panel -->
