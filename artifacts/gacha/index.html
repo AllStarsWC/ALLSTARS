@@ -3279,9 +3279,8 @@ function renderVault(){
     wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
     wrap.innerHTML=`
       <div class="card-inner">
-        <div class="card-face card-back">
-          <div style="font-size:2rem">⚽</div>
-          <div class="card-back-logo">WC 2026</div>
+        <div class="card-face card-back" style="padding:0;overflow:hidden">
+          ${isOwned?`<div style="font-size:2rem">⚽</div><div class="card-back-logo">WC 2026</div>`:`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`}
         </div>
         <div class="card-face card-front ${card.rarity}">
           <div class="card-banner">
@@ -3561,9 +3560,8 @@ function renderGachaVault(){
     wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
     wrap.innerHTML=`
       <div class="card-inner">
-        <div class="card-face card-back">
-          <div style="font-size:1.1rem">⚽</div>
-          <div class="card-back-logo" style="font-size:.45rem">WC 2026</div>
+        <div class="card-face card-back" style="padding:0;overflow:hidden">
+          ${isOwned?`<div style="font-size:1.1rem">⚽</div><div class="card-back-logo" style="font-size:.45rem">WC 2026</div>`:`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:6px"/>`}
         </div>
         <div class="card-face card-front ${card.rarity}">
           <div class="card-banner">
