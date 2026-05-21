@@ -714,10 +714,40 @@ nav a:hover,nav a.active{color:var(--gold)}
 .feature-icon{font-size:1.2rem}
 
 /* ══════════════ GACHA MACHINE ══════════════ */
-#gacha-page{padding:2rem 1rem;max-width:1100px;margin:0 auto}
-#gacha-page.active{display:flex;flex-direction:column;align-items:center;gap:0}
+/* ── two-column gacha layout ── */
+#gacha-page{padding:1rem 1.5rem;max-width:1500px;margin:0 auto}
+#gacha-page.active{display:flex;flex-direction:row;align-items:flex-start;gap:1.5rem}
 
-.machine-col{display:flex;flex-direction:column;align-items:center;gap:1.25rem;width:100%}
+/* Left: inline vault */
+.gacha-vault-col{
+  flex:1 1 260px;min-width:0;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,215,0,.15);border-radius:16px;
+  padding:.85rem;
+  max-height:calc(100vh - 90px);
+  overflow-y:auto;position:sticky;top:0;
+}
+.gacha-vault-col::-webkit-scrollbar{width:4px}
+.gacha-vault-col::-webkit-scrollbar-track{background:transparent}
+.gacha-vault-col::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
+.gacha-vault-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
+.gacha-vault-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--gold)}
+.gacha-vault-prog{font-size:.72rem;color:var(--muted)}
+.gacha-vault-pills{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.65rem}
+.gacha-vault-pills .pill{padding:.22rem .5rem;font-size:.65rem}
+#gacha-vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:5px}
+
+/* Right: machine column */
+.gacha-machine-col{
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:1rem;
+  width:min(640px,100%);
+}
+
+@media(max-width:900px){
+  #gacha-page.active{flex-direction:column}
+  .gacha-vault-col{max-height:280px;position:static;width:100%}
+  .gacha-machine-col{width:100%}
+}
 
 .machine-title-wrap{text-align:center}
 .machine-title-wrap h2{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:3px;line-height:1}
@@ -1755,36 +1785,37 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
 
-  <div class="machine-col">
+  <!-- LEFT: inline vault -->
+  <div class="gacha-vault-col">
+    <div class="gacha-vault-header">
+      <span class="gacha-vault-title">MY COLLECTION</span>
+      <span id="gacha-vault-prog" class="gacha-vault-prog">0 / 100</span>
+    </div>
+    <div class="gacha-vault-pills">
+      <button class="pill active" onclick="filterGachaVault('all',this)">All</button>
+      <button class="pill" onclick="filterGachaVault('legendary',this)">⭐</button>
+      <button class="pill" onclick="filterGachaVault('epic',this)">💜</button>
+      <button class="pill" onclick="filterGachaVault('rare',this)">💙</button>
+      <button class="pill" onclick="filterGachaVault('common',this)">⬜</button>
+    </div>
+    <div id="gacha-vault-grid"></div>
+  </div>
+
+  <!-- RIGHT: machine column -->
+  <div class="gacha-machine-col">
     <div class="machine-title-wrap">
       <h2>ALL STARS <span>GACHA</span></h2>
       <p>FIFA World Cup 2026 — Pull to Collect</p>
     </div>
 
-
-    <div class="globe-outer">
-      <!-- Left floating stats -->
-      <div class="float-stats">
-        <div class="float-stat">🏆 Collection: <span class="fs-val" id="stat-owned">0</span></div>
-        <div class="float-stat">💎 Memes: <span class="fs-val" id="stat-pulls">0</span></div>
-      </div>
-
-      <!-- Machine -->
-      <div class="globe-wrap">
-        <div class="gm-wrap" id="globe" onclick="doPull1()">
-          <img src="/gacha-machine.png?v=2" class="gm-img" alt="Gacha Machine"/>
-          <div class="gm-shelf gm-shelf-1"></div>
-          <div class="gm-shelf gm-shelf-2"></div>
-          <div class="gm-shelf gm-shelf-3"></div>
-          <div class="gm-btn"></div>
-          <div class="gm-slot"></div>
-        </div>
-      </div>
-
-      <!-- Right floating stats -->
-      <div class="float-stats">
-        <div class="float-stat" style="animation-delay:.5s">⭐ Legendary: <span class="fs-val" id="stat-leg">0</span></div>
-        <div class="float-stat" style="animation-delay:1.5s">🎟 Goals: <span class="fs-val">—</span></div>
+    <div class="globe-wrap">
+      <div class="gm-wrap" id="globe" onclick="doPull1()">
+        <img src="/gacha-machine.png?v=2" class="gm-img" alt="Gacha Machine"/>
+        <div class="gm-shelf gm-shelf-1"></div>
+        <div class="gm-shelf gm-shelf-2"></div>
+        <div class="gm-shelf gm-shelf-3"></div>
+        <div class="gm-btn"></div>
+        <div class="gm-slot"></div>
       </div>
     </div>
 
@@ -1792,19 +1823,14 @@ nav a:hover,nav a.active{color:var(--gold)}
 
     <!-- ⚽ PULL CONSOLE -->
     <div class="pull-console" id="stadium-terminal">
-
-      <!-- Pull × 1 -->
       <button class="pull-img-btn pull1-btn" id="btn1" onclick="doPull1()" title="Pull × 1">
         <img src="/pull1-btn.png" alt="Pull x1"/>
         <div class="pull-cost-tag" id="cost1-lbl">FREE</div>
       </button>
-
-      <!-- Pull × 10 -->
       <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10">
         <img src="/pull10-btn.png" alt="Pull x10"/>
         <div class="pull-cost-tag" id="cost10-lbl">FREE</div>
       </button>
-
     </div>
 
     <!-- Statistics panel -->
@@ -2101,7 +2127,7 @@ async function init(){
   }catch(e){serverConfig={freeMode:true,pull1Cost:0,pull10Cost:0,pull1CostUI:0,pull10CostUI:0}}
 
   const r2=await fetch('/api/gacha/cards'); allCards=await r2.json();
-  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim();
+  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim(); renderGachaVault();
 
   // Win banner confetti dots
   (function(){
@@ -2959,10 +2985,59 @@ function setBtns(on){
   document.getElementById('btn1').disabled=!on;
   document.getElementById('btn10').disabled=!on;
 }
+// ═══════════════════════════════════════════════════════════════
+// GACHA PAGE INLINE VAULT
+// ═══════════════════════════════════════════════════════════════
+let gachaVaultFilter='all';
+function renderGachaVault(){
+  const grid=document.getElementById('gacha-vault-grid');
+  const prog=document.getElementById('gacha-vault-prog');
+  if(!grid) return;
+  const filtered=gachaVaultFilter==='all'?allCards:allCards.filter(c=>c.rarity===gachaVaultFilter);
+  const owned=filtered.filter(c=>myCollection.has(c.id)).length;
+  if(prog) prog.textContent=`${myCollection.size} / 100`;
+  grid.innerHTML='';
+  filtered.forEach((card,i)=>{
+    const isOwned=myCollection.has(card.id);
+    const wrap=document.createElement('div');
+    wrap.className='card-wrap vault-card'+(isOwned?' owned':'');
+    wrap.style.animationDelay=(i*8)+'ms';
+    wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
+    wrap.innerHTML=`
+      <div class="card-inner">
+        <div class="card-face card-back">
+          <div style="font-size:1.1rem">⚽</div>
+          <div class="card-back-logo" style="font-size:.45rem">WC 2026</div>
+        </div>
+        <div class="card-face card-front ${card.rarity}">
+          <div class="card-banner">
+            <span class="rarity-badge">${card.rarity.substring(0,1).toUpperCase()}</span>
+          </div>
+          <div class="card-img-area">
+            <img src="${card.image}" alt="${card.name}" onerror="this.style.display='none'"/>
+            <div class="card-flag" style="display:none">${card.flag}</div>
+          </div>
+          <div class="card-holo"></div>
+          <div class="card-footer">
+            <div class="card-name" style="font-size:.5rem">${card.name}</div>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(wrap);
+  });
+}
+function filterGachaVault(r,btn){
+  gachaVaultFilter=r;
+  document.querySelectorAll('.gacha-vault-pills .pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGachaVault();
+}
+
 function updateStats(){
-  document.getElementById('stat-pulls').textContent=totalPulls;
-  document.getElementById('stat-owned').textContent=myCollection.size;
-  document.getElementById('stat-leg').textContent=totalLeg;
+  const ep=document.getElementById('stat-pulls'); if(ep) ep.textContent=totalPulls;
+  const eo=document.getElementById('stat-owned'); if(eo) eo.textContent=myCollection.size;
+  const el=document.getElementById('stat-leg');  if(el) el.textContent=totalLeg;
+  renderGachaVault();
 }
 function getUN(){ return document.getElementById('username-input').value.trim()||'Player'; }
 function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
