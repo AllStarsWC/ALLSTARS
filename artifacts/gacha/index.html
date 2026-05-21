@@ -782,6 +782,23 @@ nav a:hover,nav a.active{color:var(--gold)}
   background:radial-gradient(circle,rgba(255,210,74,.3) 0%,transparent 70%);
   animation:gm-btn-pulse 1.6s ease-in-out infinite;
 }
+/* All Stars orb overlay on machine ball */
+.gm-orb-wrap{
+  position:absolute;
+  left:21%;top:73%;
+  width:36%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  z-index:2;
+}
+.gm-orb-overlay{
+  width:100%;height:auto;display:block;
+  border-radius:50%;
+  animation:orb-spin 22s linear infinite,orb-glow-pulse 3s ease-in-out infinite;
+}
+.gm-wrap.spinning .gm-orb-overlay,.gm-wrap.shaking .gm-orb-overlay{
+  animation:orb-spin 1.5s linear infinite,orb-glow-fast .4s ease-in-out infinite;
+}
 @keyframes gm-btn-pulse{
   0%,100%{opacity:.65;transform:scale(1)}
   50%{opacity:1;transform:scale(1.1)}
@@ -1804,6 +1821,9 @@ nav a:hover,nav a.active{color:var(--gold)}
           <div class="gm-shelf gm-shelf-3"></div>
           <div class="gm-btn"></div>
           <div class="gm-slot"></div>
+          <div class="gm-orb-wrap">
+            <img src="/allstars-orb.png" class="gm-orb-overlay" alt="All Stars Orb"/>
+          </div>
         </div>
       </div>
 
@@ -1824,11 +1844,6 @@ nav a:hover,nav a.active{color:var(--gold)}
         <img src="/pull1-btn.png" alt="Pull x1"/>
         <div class="pull-cost-tag" id="cost1-lbl">FREE</div>
       </button>
-
-      <!-- Centre orb — click = single pull -->
-      <div class="orb-console-wrap" onclick="doPull1()" title="Pull × 1">
-        <img src="/allstars-orb.png" alt="All Stars WC 2026" class="orb-console-img"/>
-      </div>
 
       <!-- Pull × 10 -->
       <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10">
