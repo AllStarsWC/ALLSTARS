@@ -727,9 +727,8 @@ nav a:hover,nav a.active{color:var(--gold)}
   max-height:calc(100vh - 90px);
   overflow-y:auto;position:sticky;top:0;
 }
-.gacha-vault-col::-webkit-scrollbar{width:4px}
-.gacha-vault-col::-webkit-scrollbar-track{background:transparent}
-.gacha-vault-col::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
+.gacha-vault-col::-webkit-scrollbar{display:none}
+.gacha-vault-col{scrollbar-width:none;-ms-overflow-style:none}
 .gacha-vault-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
 .gacha-vault-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--gold)}
 .gacha-vault-prog{font-size:.72rem;color:var(--muted)}
@@ -1788,7 +1787,7 @@ nav a:hover,nav a.active{color:var(--gold)}
   <!-- LEFT: inline vault -->
   <div class="gacha-vault-col">
     <div class="gacha-vault-header">
-      <span class="gacha-vault-title">MY COLLECTION</span>
+      <span class="gacha-vault-title">Gacha Collection</span>
       <span id="gacha-vault-prog" class="gacha-vault-prog">0 / 100</span>
     </div>
     <div class="gacha-vault-pills">
@@ -2993,8 +2992,7 @@ function renderGachaVault(){
   const grid=document.getElementById('gacha-vault-grid');
   const prog=document.getElementById('gacha-vault-prog');
   if(!grid) return;
-  const filtered=gachaVaultFilter==='all'?allCards:allCards.filter(c=>c.rarity===gachaVaultFilter);
-  const owned=filtered.filter(c=>myCollection.has(c.id)).length;
+  const filtered=(gachaVaultFilter==='all'?allCards:allCards.filter(c=>c.rarity===gachaVaultFilter)).slice(0,50);
   if(prog) prog.textContent=`${myCollection.size} / 100`;
   grid.innerHTML='';
   filtered.forEach((card,i)=>{
