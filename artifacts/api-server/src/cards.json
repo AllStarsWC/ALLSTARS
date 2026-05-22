@@ -1070,5 +1070,149 @@
     "country": "Spain",
     "flag": "🇪🇸",
     "image": "/cards/VICKOR_MUNOZ.png"
+  },
+  {
+    "id": "108",
+    "name": "CARLOS SANTOI",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/CARLOS_SANTOI.jpeg"
+  },
+  {
+    "id": "109",
+    "name": "EDILSON BARGES",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/EDILSON_BARGES.jpeg"
+  },
+  {
+    "id": "110",
+    "name": "IANIQUE TAVAROS",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/IANIQUE_TAVAROS.jpeg"
+  },
+  {
+    "id": "111",
+    "name": "JOAO PAULO FERNANDOS",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/JOAO_PAULO_FERNANDOS.jpeg"
+  },
+  {
+    "id": "112",
+    "name": "JOSMIAR DIUS",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/JOSMIAR_DIUS.jpeg"
+  },
+  {
+    "id": "113",
+    "name": "KELVIN PARES",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/KELVIN_PARES.jpeg"
+  },
+  {
+    "id": "114",
+    "name": "MARCIO DI ROSA",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/MARCIO_DI_ROSA.jpeg"
+  },
+  {
+    "id": "115",
+    "name": "ROBERTO LOPIS CABRAL",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/ROBERTO_LOPIS_CABRAL.jpeg"
+  },
+  {
+    "id": "116",
+    "name": "STEVEN MORAIRA",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/STEVEN_MORAIRA.jpeg"
+  },
+  {
+    "id": "117",
+    "name": "WAGNER PINI",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Cabo Verde",
+    "flag": "🇨🇻",
+    "image": "/cards/WAGNER_PINI.jpeg"
+  },
+  {
+    "id": "118",
+    "name": "DAVID DOUBTERA",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/DAVID_DOUBTERA.png"
+  },
+  {
+    "id": "119",
+    "name": "JINDRICH STAREK",
+    "rarity": "rare",
+    "position": "GK",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/JINDRICH_STAREK.png"
+  },
+  {
+    "id": "120",
+    "name": "LUKASH HORNYCHECK",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/LUKASH_HORNYCHECK.png"
+  },
+  {
+    "id": "121",
+    "name": "MATEJ COWAR",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/MATEJ_COWAR.png"
+  },
+  {
+    "id": "122",
+    "name": "TOMAS HOLESHOT",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/TOMAS_HOLESHOT.png"
+  },
+  {
+    "id": "123",
+    "name": "VLADIMIR GOOFAL",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Czech Republic",
+    "flag": "🇨🇿",
+    "image": "/cards/VLADIMIR_GOOFAL.png"
   }
 ]
