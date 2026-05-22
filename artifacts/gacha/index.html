@@ -1412,20 +1412,22 @@ nav a:hover,nav a.active{color:var(--gold)}
 .claim-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:2px;line-height:1}
 .claim-title span{color:var(--gold)}
 .claim-sub{color:var(--muted);font-size:.85rem;margin-top:.4rem;max-width:420px}
-.claim-summary-cards{display:flex;gap:1rem;flex-wrap:wrap}
-.cscard{
-  background:var(--panel);border:1px solid var(--border);border-radius:14px;
-  padding:.9rem 1.3rem;text-align:center;min-width:100px;
-}
-.cscard-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold)}
-.cscard-lbl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
+/* Metrics strip */
+.claim-metrics{display:flex;align-items:stretch;border:1px solid var(--border);border-radius:12px;overflow:hidden;width:100%}
+.cm-block{flex:1;text-align:center;padding:.85rem .5rem;background:rgba(255,255,255,.02);min-width:80px}
+.cm-block:not(:last-child){border-right:1px solid var(--border)}
+.cm-val{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;line-height:1;color:var(--gold)}
+.cm-val.claimable{color:var(--green)}
+.cm-lbl{font-size:.5rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-top:4px}
 
+/* Live dot for labels */
+.live-dot{display:inline-block;width:7px;height:7px;background:#ff4444;border-radius:50%;animation:blink 1s infinite;flex-shrink:0}
 /* Goal ticker */
 .goal-ticker-wrap{
   background:rgba(0,0,0,.35);border:1px solid rgba(255,215,0,.15);border-radius:12px;
   padding:.6rem 1rem;margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;overflow:hidden;
 }
-.gt-label{font-size:.6rem;font-weight:900;letter-spacing:3px;color:var(--gold);white-space:nowrap;
+.gt-label{display:flex;align-items:center;gap:.45rem;font-size:.6rem;font-weight:900;letter-spacing:3px;color:var(--gold);white-space:nowrap;
   background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:6px;padding:.2rem .6rem}
 .goal-ticker{
   display:flex;gap:2rem;overflow:hidden;white-space:nowrap;flex:1;
@@ -1481,8 +1483,9 @@ nav a:hover,nav a.active{color:var(--gold)}
 .cp-goals-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
 .cp-goals-count{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1}
 .cp-goals-label{font-size:.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted)}
-.cp-balls{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:.4rem}
-.cp-ball{font-size:.8rem}
+.cp-balls{display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin-bottom:.4rem}
+.cp-ball-dot{display:inline-block;width:9px;height:9px;background:var(--gold);border-radius:50%;box-shadow:0 0 5px rgba(255,215,0,.45)}
+.cp-ball-extra{font-size:.65rem;font-weight:700;color:var(--gold);margin-left:1px}
 .cp-last-goal{font-size:.65rem;color:rgba(255,255,255,.55);margin-bottom:.75rem}
 .cp-reward-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
 .cp-reward-val{font-size:1rem;font-weight:900;color:var(--green)}
@@ -1507,9 +1510,12 @@ nav a:hover,nav a.active{color:var(--gold)}
   border-radius:16px;color:var(--muted);background:rgba(255,215,0,.02);
   margin-bottom:2rem;
 }
-.claim-empty-icon{font-size:3rem;margin-bottom:1rem}
+.claim-empty-icon{width:60px;height:60px;margin:0 auto 1.25rem;border:1.5px solid rgba(255,215,0,.25);border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,215,0,.04)}
 .claim-empty-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:rgba(255,255,255,.5)}
 .claim-empty-sub{font-size:.82rem;margin-top:.5rem}
+
+/* Leaderboard header */
+.lb-header{display:grid;grid-template-columns:40px 1fr auto auto;gap:.75rem;padding:.55rem 1.25rem;border-bottom:2px solid rgba(255,255,255,.08);font-size:.52rem;text-transform:uppercase;letter-spacing:2.5px;color:rgba(255,255,255,.22)}
 
 /* Leaderboard */
 .claim-lb{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:3rem}
@@ -2384,16 +2390,16 @@ nav a:hover,nav a.active{color:var(--gold)}
     <!-- Hero header -->
     <div class="claim-hero">
       <div>
-        <div class="claim-label">⚽ WC 2026 · LIVE REWARDS</div>
+        <div class="claim-label" style="display:flex;align-items:center;gap:.4rem"><span class="live-dot"></span>WC 2026 · LIVE REWARDS</div>
         <h2 class="claim-title">MY SCORING <span>PLAYERS</span></h2>
         <p class="claim-sub">Every goal your minted players score earns you real SOL rewards. Connect your Phantom wallet and claim instantly.</p>
       </div>
-      <div class="claim-summary-cards" id="claim-summary"></div>
+      <div id="claim-summary" style="align-self:flex-end;width:100%;max-width:440px"></div>
     </div>
 
     <!-- Live goal ticker -->
     <div class="goal-ticker-wrap">
-      <div class="gt-label">⚽ LIVE</div>
+      <div class="gt-label"><span class="live-dot"></span>LIVE</div>
       <div class="goal-ticker">
         <div class="goal-ticker-inner" id="goal-ticker-inner"></div>
       </div>
@@ -2402,18 +2408,25 @@ nav a:hover,nav a.active{color:var(--gold)}
     <!-- My scoring players -->
     <div class="claim-section-header">
       <div class="claim-section-hd">MY PLAYERS</div>
-      <button class="claim-all-btn" id="claim-all-btn" onclick="claimAll()">⚡ Claim All</button>
+      <button class="claim-all-btn" id="claim-all-btn" onclick="claimAll()">Claim All</button>
     </div>
     <div class="claim-player-grid" id="claim-player-grid"></div>
     <div id="claim-empty" class="claim-empty" style="display:none">
-      <div class="claim-empty-icon">🃏</div>
+      <div class="claim-empty-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="4" width="16" height="20" rx="2.5" stroke="rgba(255,215,0,.5)" stroke-width="1.5"/>
+          <rect x="9" y="2" width="16" height="20" rx="2.5" stroke="rgba(255,215,0,.3)" stroke-width="1.5"/>
+          <line x1="7" y1="11" x2="15" y2="11" stroke="rgba(255,215,0,.4)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="7" y1="15" x2="13" y2="15" stroke="rgba(255,215,0,.3)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div class="claim-empty-title">No Players Yet</div>
       <div class="claim-empty-sub">Pull cards in the Gacha tab — players you collect will appear here with their WC 2026 stats.</div>
     </div>
 
     <!-- Leaderboard -->
     <div class="claim-section-header">
-      <div class="claim-section-hd">🏆 TOP EARNERS</div>
+      <div class="claim-section-hd">TOP EARNERS</div>
     </div>
     <div class="claim-lb" id="claim-lb"></div>
 
@@ -3391,7 +3404,7 @@ function renderClaim(){
     const canClaim=g.goals>0&&!isClaimed;
     if(canClaim) claimableCount++;
 
-    const balls='⚽'.repeat(Math.min(g.goals,5))+(g.goals>5?` +${g.goals-5}`:'');
+    const ballDots=Array.from({length:Math.min(g.goals,5)}).map(()=>'<span class="cp-ball-dot"></span>').join('')+(g.goals>5?`<span class="cp-ball-extra">+${g.goals-5}</span>`:'');
     const rarityClass=card.rarity+'-card';
 
     const div=document.createElement('div');
@@ -3401,7 +3414,7 @@ function renderClaim(){
       ${g.live?'<div class="cp-live-badge">LIVE</div>':''}
       <div class="cp-img-wrap">
         ${card.image?`<img src="${card.image}" alt="${card.name}" onerror="this.style.display='none'"/>`:
-          `<div class="cp-img-placeholder">${card.flag||'⚽'}</div>`}
+          `<div class="cp-img-placeholder">${card.flag||''}</div>`}
       </div>
       <div class="cp-rarity-bar ${card.rarity}"></div>
       <div class="cp-body">
@@ -3414,29 +3427,30 @@ function renderClaim(){
           </div>
           ${g.assists?`<div style="margin-left:1rem"><div class="cp-goals-count" style="color:var(--blue)">${g.assists}</div><div class="cp-goals-label">Assists</div></div>`:''}
         </div>
-        ${g.goals>0?`<div class="cp-balls">${balls}</div>`:'<div class="cp-balls" style="color:var(--muted);font-size:.7rem">No goals yet</div>'}
+        ${g.goals>0?`<div class="cp-balls">${ballDots}</div>`:'<div class="cp-balls" style="color:var(--muted);font-size:.7rem;letter-spacing:1px;text-transform:uppercase">No goals yet</div>'}
         ${g.lastGoal?`<div class="cp-last-goal">Last goal: ${g.lastGoal}</div>`:'<div class="cp-last-goal">Yet to score</div>'}
         <div class="cp-reward-row">
           <div class="cp-reward-lbl">Reward</div>
           <div class="cp-reward-val">${g.reward>0?'+'+g.reward.toFixed(2)+' SOL':'—'}</div>
         </div>
         ${canClaim
-          ? `<button class="btn-claim-active" onclick="claimReward('${card.id}','${card.name}',${g.reward})">⚡ CLAIM ${g.reward.toFixed(2)} SOL</button>`
+          ? `<button class="btn-claim-active" onclick="claimReward('${card.id}','${card.name}',${g.reward})">CLAIM ${g.reward.toFixed(2)} SOL</button>`
           : isClaimed
-            ? `<button class="btn-claim-active claimed" disabled>✓ CLAIMED</button>`
+            ? `<button class="btn-claim-active claimed" disabled>CLAIMED</button>`
             : `<button class="btn-claim-inactive" disabled>${g.goals===0?'No Goals to Claim':'Already Claimed'}</button>`
         }
       </div>`;
     grid.appendChild(div);
   });
 
-  // --- summary cards ---
+  // --- summary metrics strip ---
   if(sumEl){
-    sumEl.innerHTML=`
-      <div class="cscard"><div class="cscard-val">${myCards.length}</div><div class="cscard-lbl">My Players</div></div>
-      <div class="cscard"><div class="cscard-val">${totalGoals}</div><div class="cscard-lbl">Total Goals</div></div>
-      <div class="cscard"><div class="cscard-val">${totalReward.toFixed(2)}</div><div class="cscard-lbl">SOL Earned</div></div>
-      <div class="cscard"><div class="cscard-val">${claimableCount}</div><div class="cscard-lbl">Claimable</div></div>`;
+    sumEl.innerHTML=`<div class="claim-metrics">
+      <div class="cm-block"><div class="cm-val">${myCards.length}</div><div class="cm-lbl">My Players</div></div>
+      <div class="cm-block"><div class="cm-val">${totalGoals}</div><div class="cm-lbl">Total Goals</div></div>
+      <div class="cm-block"><div class="cm-val">${totalReward.toFixed(2)}</div><div class="cm-lbl">SOL Earned</div></div>
+      <div class="cm-block"><div class="cm-val claimable">${claimableCount}</div><div class="cm-lbl">Claimable</div></div>
+    </div>`;
   }
   if(allBtn) allBtn.disabled=(claimableCount===0);
 
@@ -3444,9 +3458,10 @@ function renderClaim(){
   const lb=document.getElementById('claim-lb');
   if(lb){
     const rankClass=r=>r===1?'gold':r===2?'silver':r===3?'bronze':'';
-    lb.innerHTML=claimLeaderboard.map(e=>`
+    lb.innerHTML=`<div class="lb-header"><div>Rank</div><div>Collector</div><div>Earned</div><div>Bonus</div></div>`+
+    claimLeaderboard.map(e=>`
       <div class="lb-row">
-        <div class="lb-rank ${rankClass(e.rank)}">${e.rank===1?'🥇':e.rank===2?'🥈':e.rank===3?'🥉':e.rank}</div>
+        <div class="lb-rank ${rankClass(e.rank)}">${e.rank}</div>
         <div>
           <div class="lb-name">${e.name}</div>
           <div class="lb-players">${e.players}</div>
@@ -3467,11 +3482,11 @@ async function claimReward(cardId, cardName, amount){
     return;
   }
   const btn=document.querySelector(`#cp-${cardId} .btn-claim-active`);
-  if(btn){ btn.textContent='⏳ Claiming…'; btn.disabled=true; }
+  if(btn){ btn.textContent='Claiming...'; btn.disabled=true; }
   // Simulate on-chain claim (replace with real Helius/program call in production)
   await new Promise(r=>setTimeout(r,1800));
   claimedRewards.add(cardId);
-  showToast(`✅ ${cardName}: +${amount.toFixed(2)} SOL claimed to your wallet!`);
+  showToast(`${cardName}: +${amount.toFixed(2)} SOL claimed to your wallet!`);
   renderClaim();
 }
 
@@ -3487,11 +3502,11 @@ async function claimAll(){
   });
   if(claimable.length===0){ showToast('Nothing left to claim!', true); return; }
   const btn=document.getElementById('claim-all-btn');
-  if(btn){ btn.textContent='⏳ Claiming…'; btn.disabled=true; }
+  if(btn){ btn.textContent='Claiming...'; btn.disabled=true; }
   await new Promise(r=>setTimeout(r,2000));
   let total=0;
   claimable.forEach(c=>{ claimedRewards.add(c.id); total+=(wcGoals[c.id]?.reward||0); });
-  showToast(`✅ All claimed! +${total.toFixed(2)} SOL sent to your wallet!`);
+  showToast(`All claimed — +${total.toFixed(2)} SOL sent to your wallet!`);
   renderClaim();
 }
 
