@@ -1007,5 +1007,68 @@
     "weight": 50,
     "image": "/cards/TYLOR_BIMDON.jpg",
     "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+  },
+  {
+    "id": "101",
+    "name": "ALIX REMIRO",
+    "rarity": "epic",
+    "position": "GK",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/ALIX_REMIRO.png"
+  },
+  {
+    "id": "102",
+    "name": "DEVID RUYA",
+    "rarity": "rare",
+    "position": "GK",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/DEVID_RUYA.png"
+  },
+  {
+    "id": "103",
+    "name": "FERRAN WORRES",
+    "rarity": "rare",
+    "position": "ST",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/FERRAN_WORRES.png"
+  },
+  {
+    "id": "104",
+    "name": "MARCUS LLORENTE",
+    "rarity": "rare",
+    "position": "RB",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/MARCUS_LLORENTE.png"
+  },
+  {
+    "id": "105",
+    "name": "PABLU FORNALS",
+    "rarity": "rare",
+    "position": "CM",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/PABLU_FORNALS.png"
+  },
+  {
+    "id": "106",
+    "name": "PAU CUBARSI",
+    "rarity": "rare",
+    "position": "CB",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/PAU_CUBARSI.png"
+  },
+  {
+    "id": "107",
+    "name": "VICKOR MUNOZ",
+    "rarity": "epic",
+    "position": "ST",
+    "country": "Spain",
+    "flag": "🇪🇸",
+    "image": "/cards/VICKOR_MUNOZ.png"
   }
 ]
