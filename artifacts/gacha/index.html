@@ -1169,9 +1169,25 @@ nav a:hover,nav a.active{color:var(--gold)}
 .chat-row input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);color:white;padding:.35rem .6rem;border-radius:8px;font-size:.8rem;outline:none;font-family:'Inter',sans-serif}
 .chat-row button{background:var(--blue);border:none;color:white;padding:.35rem .75rem;border-radius:8px;cursor:pointer;font-weight:700;font-size:.8rem}
 
-.rarity-guide{display:flex;flex-direction:column;gap:6px}
-.rg-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.rg-row:last-child{border:none}
+/* ── Stats panel ── */
+.stat-panel{position:relative;overflow:hidden}
+.stat-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,.04) 0%,transparent 60%);pointer-events:none}
+.stat-strip{display:flex;align-items:stretch;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem}
+.stat-block{flex:1;text-align:center;padding:.85rem .5rem;background:rgba(255,255,255,.02)}
+.stat-block:not(:last-child){border-right:1px solid var(--border)}
+.stat-block-val{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;line-height:1;color:var(--gold)}
+.stat-block-val.leg-val{text-shadow:0 0 14px rgba(255,215,0,.55)}
+.stat-block-lbl{font-size:.52rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-top:4px}
+.stat-section-hd{font-size:.52rem;text-transform:uppercase;letter-spacing:2.5px;color:rgba(255,255,255,.25);padding-bottom:.5rem;border-bottom:1px solid var(--border);margin-bottom:.6rem}
+.rarity-guide{display:flex;flex-direction:column;gap:5px}
+.rg-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.rg-left{display:flex;align-items:center;gap:8px}
+.rg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rg-name{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.8)}
+.rg-right{display:flex;align-items:center;gap:7px}
+.rg-bar-track{width:72px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.rg-bar-fill{height:100%;border-radius:2px}
+.rg-pct{font-size:.68rem;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;color:var(--muted);min-width:28px;text-align:right}
 
 /* ══════════════ MARKETPLACE ══════════════ */
 #market-page{padding:2rem;max-width:1280px;margin:0 auto}
@@ -2146,13 +2162,40 @@ nav a:hover,nav a.active{color:var(--gold)}
     </div>
 
     <!-- Statistics panel -->
-    <div class="panel" style="max-width:380px;width:100%;margin-top:.5rem">
-      <div class="panel-title">📊 Statistics</div>
+    <div class="panel stat-panel" style="max-width:380px;width:100%;margin-top:.5rem">
+      <div class="panel-title">Session Statistics</div>
+      <div class="stat-strip">
+        <div class="stat-block">
+          <div class="stat-block-val" id="stat-pulls">0</div>
+          <div class="stat-block-lbl">Total Pulls</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-block-val" id="stat-owned">0</div>
+          <div class="stat-block-lbl">Cards Owned</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-block-val leg-val" id="stat-leg">0</div>
+          <div class="stat-block-lbl">Legendaries</div>
+        </div>
+      </div>
+      <div class="stat-section-hd">Pull Rates</div>
       <div class="rarity-guide">
-        <div class="rg-row"><span style="color:rgba(255,255,255,.45);font-weight:700">⬜ Common</span><span style="color:var(--muted)">70%</span></div>
-        <div class="rg-row"><span style="color:#93c5fd;font-weight:700">💙 Rare</span><span style="color:var(--muted)">25%</span></div>
-        <div class="rg-row"><span style="color:#c4b5fd;font-weight:700">💜 Epic</span><span style="color:var(--muted)">3%</span></div>
-        <div class="rg-row"><span style="color:var(--gold);font-weight:700">⭐ Legendary</span><span style="color:var(--muted)">2%</span></div>
+        <div class="rg-row">
+          <div class="rg-left"><span class="rg-dot" style="background:rgba(255,255,255,.3)"></span><span class="rg-name">Common</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:74%;background:rgba(255,255,255,.3)"></div></div><span class="rg-pct">74%</span></div>
+        </div>
+        <div class="rg-row">
+          <div class="rg-left"><span class="rg-dot" style="background:#93c5fd;box-shadow:0 0 6px rgba(147,197,253,.5)"></span><span class="rg-name" style="color:#93c5fd">Rare</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:19%;background:#93c5fd"></div></div><span class="rg-pct">19%</span></div>
+        </div>
+        <div class="rg-row">
+          <div class="rg-left"><span class="rg-dot" style="background:#c4b5fd;box-shadow:0 0 6px rgba(196,181,253,.5)"></span><span class="rg-name" style="color:#c4b5fd">Epic</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:6%;background:#c4b5fd"></div></div><span class="rg-pct">6%</span></div>
+        </div>
+        <div class="rg-row">
+          <div class="rg-left"><span class="rg-dot" style="background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.6)"></span><span class="rg-name" style="color:var(--gold)">Legendary</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:1%;background:var(--gold)"></div></div><span class="rg-pct">1%</span></div>
+        </div>
       </div>
     </div>
 
