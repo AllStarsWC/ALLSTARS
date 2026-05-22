@@ -1736,5 +1736,122 @@
     "country": "Senegal",
     "flag": "🇸🇳",
     "image": "/cards/PATHE_CISS.jpg"
+  },
+  {
+    "id": "182",
+    "name": "AUBROY MAPHOSAI MODIBAE",
+    "rarity": "common",
+    "position": "LB",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/AUBROY_MAPHOSAI_MODIBAE.jpg"
+  },
+  {
+    "id": "183",
+    "name": "BATHUSEE JORRY AUBISS",
+    "rarity": "common",
+    "position": "DM",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/BATHUSEE_JORRY_AUBISS.jpg"
+  },
+  {
+    "id": "184",
+    "name": "ELIAAS SEPHOO MOKWANANA",
+    "rarity": "rare",
+    "position": "FW",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/ELIAAS_SEPHOO_MOKWANANA.jpg"
+  },
+  {
+    "id": "185",
+    "name": "KHULUMANOOI NDAMANEEZ",
+    "rarity": "common",
+    "position": "CB",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/KHULUMANOOI_NDAMANEEZ.jpg"
+  },
+  {
+    "id": "186",
+    "name": "LYLEE BRENENT FOOSTER",
+    "rarity": "common",
+    "position": "FW",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/LYLEE_BRENENT_FOOSTER.jpg"
+  },
+  {
+    "id": "187",
+    "name": "MOHAAU LENITIE NKOOTAS",
+    "rarity": "common",
+    "position": "FW",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/MOHAAU_LENITIE_NKOOTAS.jpg"
+  },
+  {
+    "id": "188",
+    "name": "OOSWIN REAGOON APPOOLLIS",
+    "rarity": "common",
+    "position": "AM",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/OOSWIN_REAGOON_APPOOLLIS.jpg"
+  },
+  {
+    "id": "189",
+    "name": "RONWEN WILLIAMS",
+    "rarity": "common",
+    "position": "GK",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/RONWEN_WILLIAMS.jpg"
+  },
+  {
+    "id": "190",
+    "name": "SAMEKELEE ALUCIOOUS KABINEE",
+    "rarity": "common",
+    "position": "LB",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/SAMEKELEE_ALUCIOOUS_KABINEE.jpg"
+  },
+  {
+    "id": "191",
+    "name": "SIPHOOS CHAINEE",
+    "rarity": "common",
+    "position": "GK",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/SIPHOOS_CHAINEE.jpg"
+  },
+  {
+    "id": "192",
+    "name": "SIYAABOOGA NGEZANOS",
+    "rarity": "common",
+    "position": "CB",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/SIYAABOOGA_NGEZANOS.jpg"
+  },
+  {
+    "id": "193",
+    "name": "STUARTE RICARDOS GROSS",
+    "rarity": "common",
+    "position": "GK",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/STUARTE_RICARDOS_GROSS.jpg"
+  },
+  {
+    "id": "194",
+    "name": "TYLOON CHRISTOOPHEY SMITHEY",
+    "rarity": "common",
+    "position": "CB",
+    "country": "South Africa",
+    "flag": "🇿🇦",
+    "image": "/cards/TYLOON_CHRISTOOPHEY_SMITHEY.jpg"
   }
 ]
