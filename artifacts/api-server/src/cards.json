@@ -1556,5 +1556,77 @@
     "country": "Japan",
     "flag": "🇯🇵",
     "image": "/cards/KAISHUU_SANOO.jpg"
+  },
+  {
+    "id": "162",
+    "name": "TAKEHIRO TOMIYASU",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/TAKEHIRO_TOMIYASU.jpg"
+  },
+  {
+    "id": "163",
+    "name": "TOMOKEE HAYAAKAWAAI",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/TOMOKEE_HAYAAKAWAAI.jpg"
+  },
+  {
+    "id": "164",
+    "name": "TSUYOOSHI WATANUBAE",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/TSUYOOSHI_WATANUBAE.jpg"
+  },
+  {
+    "id": "165",
+    "name": "WATAROO ENDOZ",
+    "rarity": "rare",
+    "position": "DM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/WATAROO_ENDOZ.jpg"
+  },
+  {
+    "id": "166",
+    "name": "YUITOO SUZUKEE",
+    "rarity": "rare",
+    "position": "AM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/YUITOO_SUZUKEE.jpg"
+  },
+  {
+    "id": "167",
+    "name": "YUKINARI SUGAWAROO",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/YUKINARI_SUGAWAROO.jpg"
+  },
+  {
+    "id": "168",
+    "name": "YUTOO NAGUTOMOO",
+    "rarity": "common",
+    "position": "LB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/YUTOO_NAGUTOMOO.jpg"
+  },
+  {
+    "id": "169",
+    "name": "ZION SUZUKI",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/ZION_SUZUKI.jpg"
   }
 ]
