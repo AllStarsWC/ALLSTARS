@@ -1214,5 +1214,185 @@
     "country": "Czech Republic",
     "flag": "🇨🇿",
     "image": "/cards/VLADIMIR_GOOFAL.png"
+  },
+  {
+    "id": "124",
+    "name": "AHMEED ELF FOOTOH",
+    "rarity": "common",
+    "position": "LB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/AHMEED_ELF_FOOTOH.jpg"
+  },
+  {
+    "id": "125",
+    "name": "ATAAY ABDOOLLAH",
+    "rarity": "common",
+    "position": "FW",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/ATAAY_ABDOOLLAH.jpg"
+  },
+  {
+    "id": "126",
+    "name": "EL MAAHADY SOOLIMAN",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/EK_MAAHADY_SOOLIMAN.jpg"
+  },
+  {
+    "id": "127",
+    "name": "EMAAM ASHORH",
+    "rarity": "common",
+    "position": "CM",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/EMAAM_ASHORH.jpg"
+  },
+  {
+    "id": "128",
+    "name": "HAAMDEY FAATHEY",
+    "rarity": "common",
+    "position": "DM",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/HAAMDEY_FAATHEY.jpg"
+  },
+  {
+    "id": "129",
+    "name": "HAISSOOM HASSEEN",
+    "rarity": "common",
+    "position": "CF",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/HAISSOOM_HASSEEN.jpg"
+  },
+  {
+    "id": "130",
+    "name": "HOOSSEAM ABDELMAAGOOD",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/HOOSSEAM_ABDELMAAGOOD.jpg"
+  },
+  {
+    "id": "131",
+    "name": "KARIM HAAFOZ",
+    "rarity": "common",
+    "position": "LB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/KARIM_HAAFOZ.jpg"
+  },
+  {
+    "id": "132",
+    "name": "KHALOOD SOBII",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/KHALOOD_SOBIL.jpg"
+  },
+  {
+    "id": "133",
+    "name": "MAAHMOOD SABOOR",
+    "rarity": "common",
+    "position": "CM",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MAAHMOOD_SABOOR.jpg"
+  },
+  {
+    "id": "134",
+    "name": "MAARWAIN ATTIAH",
+    "rarity": "common",
+    "position": "DM",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MAARWAIN_ATTIAH.jpg"
+  },
+  {
+    "id": "135",
+    "name": "MAHMOOD TREZAGOAT",
+    "rarity": "common",
+    "position": "LM",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MAHMOOD_TREZAGOAT.jpg"
+  },
+  {
+    "id": "136",
+    "name": "MOHAAMEED ALAAH",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MOHAAMEED_ALAAH.jpg"
+  },
+  {
+    "id": "137",
+    "name": "MOHAMED EL SHENANY",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MOHAMED_EL_SHENANY.jpg"
+  },
+  {
+    "id": "138",
+    "name": "MOHAMEED ABDEELMONEY",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MOHAMEED_ABDEELMONEY.jpg"
+  },
+  {
+    "id": "139",
+    "name": "MOHAMEED HENY",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MOHAMEED_HENY.jpg"
+  },
+  {
+    "id": "140",
+    "name": "MOUSTAFAH SHOOBEER",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/MOUSTAFAH_SHOOBEER.jpg"
+  },
+  {
+    "id": "141",
+    "name": "OMAAR MARMOOSH",
+    "rarity": "rare",
+    "position": "FW",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/OMAAR_MARMOOSH.jpg"
+  },
+  {
+    "id": "142",
+    "name": "TAROOK ALAAH",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/TAROOK_ALAAH.jpg"
+  },
+  {
+    "id": "143",
+    "name": "YESSEER IBRAAHIM",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Egypt",
+    "flag": "🇪🇬",
+    "image": "/cards/YESSEER_IBRAAHIM.jpg"
   }
 ]
