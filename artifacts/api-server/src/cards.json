@@ -1628,5 +1628,113 @@
     "country": "Japan",
     "flag": "🇯🇵",
     "image": "/cards/ZION_SUZUKI.jpg"
+  },
+  {
+    "id": "170",
+    "name": "ABDOULAYE SECK",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/ABDOULAYE_SECK.jpg"
+  },
+  {
+    "id": "171",
+    "name": "EL HADJI MALICK DIOUF",
+    "rarity": "common",
+    "position": "LB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/EL_HADJI_MALICK_DIOUF.jpg"
+  },
+  {
+    "id": "172",
+    "name": "HABIB DIARRA",
+    "rarity": "rare",
+    "position": "CM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/HABIB_DIARRA.jpg"
+  },
+  {
+    "id": "173",
+    "name": "IDRISSA GANA GUEYE",
+    "rarity": "rare",
+    "position": "CDM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/IDRISSA_GANA_GUEYE.jpg"
+  },
+  {
+    "id": "174",
+    "name": "ISMAIL JAKOBS",
+    "rarity": "common",
+    "position": "LB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/ISMAIL_JAKOBS.jpg"
+  },
+  {
+    "id": "175",
+    "name": "LAMINE CAMARA",
+    "rarity": "common",
+    "position": "CM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/LAMINE_CAMARA.jpg"
+  },
+  {
+    "id": "176",
+    "name": "MAMADOU SARR",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/MAMADOU_SARR.jpg"
+  },
+  {
+    "id": "177",
+    "name": "MOUSSA NIAKHATE",
+    "rarity": "rare",
+    "position": "CB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/MOUSSA_NIAKHATE.jpg"
+  },
+  {
+    "id": "178",
+    "name": "MOUSTAPHA MBOW",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/MOUSTAPHA_MBOW.jpg"
+  },
+  {
+    "id": "179",
+    "name": "PAPE GUEYE",
+    "rarity": "rare",
+    "position": "CM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/PAPE_GUEYE.jpg"
+  },
+  {
+    "id": "180",
+    "name": "PAPE MATAR SARR",
+    "rarity": "rare",
+    "position": "CM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/PAPE_MATAR_SARR.jpg"
+  },
+  {
+    "id": "181",
+    "name": "PATHE CISS",
+    "rarity": "common",
+    "position": "CM",
+    "country": "Senegal",
+    "flag": "🇸🇳",
+    "image": "/cards/PATHE_CISS.jpg"
   }
 ]
