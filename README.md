@@ -158,19 +158,19 @@ Examples:
 
 Legendary Mbappé:
 
-6 goals
+8 goals
 
 Reward:
 
-6 SOL
+8 SOL
 
 Legendary Kane:
 
-4 goals
+5 goals
 
 Reward:
 
-4 SOL
+5 SOL
 
 Rewards follow active ownership.
 
@@ -282,14 +282,24 @@ Future rewards transfer to the new owner.
 
 ---
 
-### Can multiple users own Legendary versions?
+### Can multiple users own Legendary versions of similiar player?
 
 No.
 
 Legendary cards are unique 1/1 collectibles.
 
 ---
+### Can multiple users own Legendary versions of different players?
 
+Yes.
+
+---
+### Will Common/ Rare/ Epic versions of get rewards?
+
+Yes.
+Rewards are based on any scoring players throughout the torunament.
+
+---
 ### Can Common and Rare have duplicates?
 
 Yes.
