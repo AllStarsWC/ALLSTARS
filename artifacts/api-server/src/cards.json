@@ -1853,5 +1853,185 @@
     "country": "South Africa",
     "flag": "🇿🇦",
     "image": "/cards/TYLOON_CHRISTOOPHEY_SMITHEY.jpg"
+  },
+  {
+    "id": 195,
+    "name": "Hassan Al-Hydros",
+    "position": "CAM",
+    "rating": 74,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Hassan_Al-Hydros.png"
+  },
+  {
+    "id": 196,
+    "name": "Issa Layup",
+    "position": "CB",
+    "rating": 66,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Issa_Layup.png"
+  },
+  {
+    "id": 197,
+    "name": "Jassim Gamer",
+    "position": "CM",
+    "rating": 71,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Jassim_Gamer.png"
+  },
+  {
+    "id": 198,
+    "name": "Kareem Bootyhalf",
+    "position": "CDM",
+    "rating": 73,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Kareem_Bootyhalf.png"
+  },
+  {
+    "id": 199,
+    "name": "Lukaku Mendes",
+    "position": "CB",
+    "rating": 73,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Lukaku_Mendes.png"
+  },
+  {
+    "id": 200,
+    "name": "Mahmood Avocado",
+    "position": "GK",
+    "rating": 66,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Mahmood_Avocado.png"
+  },
+  {
+    "id": 201,
+    "name": "Meshall Barbecue",
+    "position": "GK",
+    "rating": 73,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Meshall_Barbecue.png"
+  },
+  {
+    "id": 202,
+    "name": "Mohammed Manwhy",
+    "position": "CAM",
+    "rating": 68,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Mohammed_Manwhy.png"
+  },
+  {
+    "id": 203,
+    "name": "Abdulazi Hotman",
+    "position": "CM",
+    "rating": 75,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Abdulazi_Hotman.png"
+  },
+  {
+    "id": 204,
+    "name": "Ahmed El-Gameahi",
+    "position": "RW",
+    "rating": 71,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Ahmed_El-Gameahi.png"
+  },
+  {
+    "id": 205,
+    "name": "Ahmed Fatty",
+    "position": "CM",
+    "rating": 72,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Ahmed_Fatty.png"
+  },
+  {
+    "id": 206,
+    "name": "Akram Ahfish",
+    "position": "LW",
+    "rating": 82,
+    "rarity": "rare",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Akram_Ahfish.png"
+  },
+  {
+    "id": 207,
+    "name": "Al-Cashmi Al-Huhu",
+    "position": "CB",
+    "rating": 69,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Al-Cashmi_Al-Huhu.png"
+  },
+  {
+    "id": 208,
+    "name": "Almost Ali",
+    "position": "ST",
+    "rating": 80,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Almost_Ali.png"
+  },
+  {
+    "id": 209,
+    "name": "Autis Madboi",
+    "position": "CDM",
+    "rating": 70,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Autis_Madboi.png"
+  },
+  {
+    "id": 210,
+    "name": "Ayoop Al-Alowie",
+    "position": "LB",
+    "rating": 68,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Ayoop_Al-Alowie.png"
+  },
+  {
+    "id": 211,
+    "name": "Bassham Al-Ravioli",
+    "position": "CB",
+    "rating": 74,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Bassham_Al-Ravioli.png"
+  },
+  {
+    "id": 212,
+    "name": "Booalem Cookie",
+    "position": "CB",
+    "rating": 76,
+    "rarity": "common",
+    "country": "Qatar",
+    "flag": "🇶🇦",
+    "image": "/cards/Booalem_Cookie.png"
   }
 ]
