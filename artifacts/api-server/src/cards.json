@@ -1394,5 +1394,167 @@
     "country": "Egypt",
     "flag": "🇪🇬",
     "image": "/cards/YESSEER_IBRAAHIM.jpg"
+  },
+  {
+    "id": "144",
+    "name": "KEISUKEEI OSAKOOS",
+    "rarity": "common",
+    "position": "GK",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KEISUKEEI_OSAKOOS.jpg"
+  },
+  {
+    "id": "145",
+    "name": "KEISUKI GOTOOZ",
+    "rarity": "common",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KEISUKI_GOTOOZ.jpg"
+  },
+  {
+    "id": "146",
+    "name": "KEITOO NAKAMERAE",
+    "rarity": "rare",
+    "position": "LM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KEITOO_NAKAMERAE.jpg"
+  },
+  {
+    "id": "147",
+    "name": "KENTOO SHIOOGAIN",
+    "rarity": "epic",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KENTOO_SHIOOGAIN.jpg"
+  },
+  {
+    "id": "148",
+    "name": "KOKEE OGAAWAA",
+    "rarity": "epic",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KOKEE_OGAAWAA.jpg"
+  },
+  {
+    "id": "149",
+    "name": "KOO ITAKURI",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KOO_ITAKURI.jpg"
+  },
+  {
+    "id": "150",
+    "name": "RITSOO DOIANE",
+    "rarity": "rare",
+    "position": "RM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/RITSOO_DOIANE.jpg"
+  },
+  {
+    "id": "151",
+    "name": "SHOGOO TANIGOOCHIE",
+    "rarity": "common",
+    "position": "CB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/SHOGOO_TANIGOOCHIE.jpg"
+  },
+  {
+    "id": "152",
+    "name": "TAKEFUSAA KUBOOI",
+    "rarity": "epic",
+    "position": "AM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/TAKEFUSAA_KUBOOI.jpg"
+  },
+  {
+    "id": "153",
+    "name": "AOOI TANAKAZ",
+    "rarity": "epic",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/AOOI_TANAKAZ.jpg"
+  },
+  {
+    "id": "154",
+    "name": "AYASEE UEDAAZ",
+    "rarity": "rare",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/AYASEE_UEDAAZ.jpg"
+  },
+  {
+    "id": "155",
+    "name": "AYUMUU SEKOOS",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/AYUMUU_SEKOOS.jpg"
+  },
+  {
+    "id": "156",
+    "name": "DAICHEA KAMADAAI",
+    "rarity": "rare",
+    "position": "CM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/DAICHEA_KAMADAAI.jpg"
+  },
+  {
+    "id": "157",
+    "name": "DAIZEN MAEDA",
+    "rarity": "rare",
+    "position": "FW",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/DAIZEN_MAEDA.jpg"
+  },
+  {
+    "id": "158",
+    "name": "HIROKEE ITOOT",
+    "rarity": "common",
+    "position": "RB",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/HIROKEE_ITOOT.jpg"
+  },
+  {
+    "id": "159",
+    "name": "JUNNOESUKEI SUZUKEE",
+    "rarity": "common",
+    "position": "DM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/JUNNOESUKEI_SUZUKEE.jpg"
+  },
+  {
+    "id": "160",
+    "name": "JUNYA ITO",
+    "rarity": "rare",
+    "position": "LM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/JUNYA_ITO.jpg"
+  },
+  {
+    "id": "161",
+    "name": "KAISHUU SANOO",
+    "rarity": "epic",
+    "position": "DM",
+    "country": "Japan",
+    "flag": "🇯🇵",
+    "image": "/cards/KAISHUU_SANOO.jpg"
   }
 ]
