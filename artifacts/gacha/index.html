@@ -699,19 +699,34 @@ nav a:hover,nav a.active{color:var(--gold)}
 @media(max-width:900px){.win-banner{right:-10px;top:-20px;width:200px}}
 @media(max-width:600px){.win-banner{display:none}}
 
-/* Feature strip */
-.feature-strip{
-  border-top:1px solid rgba(255,215,0,.1);border-bottom:1px solid rgba(255,215,0,.1);
-  background:rgba(0,0,0,.35);padding:1.25rem 2rem
+/* Nations ticker */
+.nations-ticker{
+  border-top:1px solid rgba(255,215,0,.18);border-bottom:1px solid rgba(255,215,0,.18);
+  background:rgba(0,0,0,.45);padding:.7rem 0;overflow:hidden;position:relative
 }
-.feature-strip-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1280px;margin:0 auto}
-@media(max-width:700px){.feature-strip-inner{grid-template-columns:repeat(2,1fr)}}
-.feature-item{
-  display:flex;align-items:center;gap:.75rem;
-  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);
-  border-radius:20px;padding:.85rem 1rem;font-size:.85rem;font-weight:900
+.nations-ticker::before,.nations-ticker::after{
+  content:'';position:absolute;top:0;width:80px;height:100%;z-index:2;pointer-events:none
 }
-.feature-icon{font-size:1.2rem}
+.nations-ticker::before{left:0;background:linear-gradient(to right,#0a0a0f,transparent)}
+.nations-ticker::after{right:0;background:linear-gradient(to left,#0a0a0f,transparent)}
+.nations-ticker-track{
+  display:flex;align-items:center;gap:0;
+  width:max-content;
+  animation:nations-scroll 60s linear infinite
+}
+.nations-ticker-track:hover{animation-play-state:paused}
+@keyframes nations-scroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+.nation-chip{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.3rem 1.1rem;
+  font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  color:rgba(255,255,255,.75);white-space:nowrap;
+  border-right:1px solid rgba(255,215,0,.12)
+}
+.nation-chip .nflag{font-size:1rem;line-height:1}
 
 /* ══════════════ GACHA MACHINE ══════════════ */
 /* ── two-column gacha layout ── */
@@ -2043,15 +2058,39 @@ nav a:hover,nav a.active{color:var(--gold)}
     </div>
   </section>
 
-  <!-- Feature strip -->
-  <div class="feature-strip">
-    <div class="feature-strip-inner">
-      <div class="feature-item"><span class="feature-icon">🔥</span> Live Auctions</div>
-      <div class="feature-item"><span class="feature-icon">⭐</span> Rare Traits</div>
-      <div class="feature-item"><span class="feature-icon">🛡️</span> Nation Sets</div>
-      <div class="feature-item"><span class="feature-icon">👑</span> Legendary Vault</div>
-    </div>
+  <!-- Nations ticker -->
+  <div class="nations-ticker">
+    <div class="nations-ticker-track" id="nations-track"></div>
   </div>
+  <script>
+  (function(){
+    var nations=[
+      {flag:'🇦🇺',name:'Australia'},{flag:'🇮🇷',name:'Iran'},{flag:'🇮🇶',name:'Iraq'},
+      {flag:'🇯🇵',name:'Japan'},{flag:'🇯🇴',name:'Jordan'},{flag:'🇶🇦',name:'Qatar'},
+      {flag:'🇸🇦',name:'Saudi Arabia'},{flag:'🇰🇷',name:'South Korea'},{flag:'🇺🇿',name:'Uzbekistan'},
+      {flag:'🇩🇿',name:'Algeria'},{flag:'🇨🇻',name:'Cape Verde'},{flag:'🇨🇩',name:'DR Congo'},
+      {flag:'🇪🇬',name:'Egypt'},{flag:'🇬🇭',name:'Ghana'},{flag:'🇨🇮',name:'Ivory Coast'},
+      {flag:'🇲🇦',name:'Morocco'},{flag:'🇸🇳',name:'Senegal'},{flag:'🇿🇦',name:'South Africa'},
+      {flag:'🇹🇳',name:'Tunisia'},{flag:'🇨🇦',name:'Canada'},{flag:'🇨🇼',name:'Curaçao'},
+      {flag:'🇭🇹',name:'Haiti'},{flag:'🇲🇽',name:'Mexico'},{flag:'🇵🇦',name:'Panama'},
+      {flag:'🇺🇸',name:'United States'},{flag:'🇦🇷',name:'Argentina'},{flag:'🇧🇷',name:'Brazil'},
+      {flag:'🇨🇴',name:'Colombia'},{flag:'🇪🇨',name:'Ecuador'},{flag:'🇵🇾',name:'Paraguay'},
+      {flag:'🇺🇾',name:'Uruguay'},{flag:'🇳🇿',name:'New Zealand'},{flag:'🇦🇹',name:'Austria'},
+      {flag:'🇧🇪',name:'Belgium'},{flag:'🇧🇦',name:'Bosnia and Herzegovina'},{flag:'🇭🇷',name:'Croatia'},
+      {flag:'🇨🇿',name:'Czech Republic'},{flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'England'},{flag:'🇫🇷',name:'France'},
+      {flag:'🇩🇪',name:'Germany'},{flag:'🇳🇱',name:'Netherlands'},{flag:'🇳🇴',name:'Norway'},
+      {flag:'🇵🇹',name:'Portugal'},{flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Scotland'},{flag:'🇪🇸',name:'Spain'},
+      {flag:'🇸🇪',name:'Sweden'},{flag:'🇨🇭',name:'Switzerland'}
+    ];
+    var track=document.getElementById('nations-track');
+    var html='';
+    var doubled=nations.concat(nations);
+    doubled.forEach(function(n){
+      html+='<div class="nation-chip"><span class="nflag">'+n.flag+'</span>'+n.name+'</div>';
+    });
+    track.innerHTML=html;
+  })();
+  </script>
 
   <!-- Marketplace grid -->
   <section id="market-page" style="display:block">
