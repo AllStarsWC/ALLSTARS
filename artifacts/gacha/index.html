@@ -3148,11 +3148,13 @@ function closePackModal(triggerOverlay=true){
 async function doPull1(){
   if(pulling) return;
 
-  // Wallet required for on-chain mint
+  // ── Auto-connect wallet if not yet connected ─────────────────
   if(!walletPK){
-    document.getElementById('wallet-warn').classList.add('show');
-    showToast('Connect your Phantom wallet to pull cards',true);
-    return;
+    document.getElementById('wallet-warn').classList.remove('show');
+    showToast('Connecting Phantom wallet...');
+    await connectWallet();
+    // connectWallet() sets walletPK on success; if still null the user cancelled
+    if(!walletPK) return;
   }
 
   // ── Step 1: on-chain Candy Machine v3 mint ────────────────────
@@ -3161,7 +3163,7 @@ async function doPull1(){
   }
 
   setBtns(false);
-  showToast('Waiting for Phantom approval...');
+  showToast('Approve the 0.5 SOL mint transaction in Phantom...');
 
   let mintResult=null;
   try{
