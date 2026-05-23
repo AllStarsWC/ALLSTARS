@@ -1137,6 +1137,34 @@ nav a:hover,nav a.active{color:var(--gold)}
   display:none;flex-direction:column;align-items:center;gap:1rem;
   max-height:90vh;overflow-y:auto;padding:.5rem 1rem;
 }
+/* Mint success bar */
+#mint-result-bar{
+  display:none;background:linear-gradient(135deg,rgba(0,255,128,.08),rgba(0,200,100,.04));
+  border:1px solid rgba(0,255,128,.35);border-radius:12px;
+  padding:1rem 1.4rem;text-align:center;width:100%;max-width:480px;
+  animation:reveal-slam .4s cubic-bezier(.2,0,.2,1.4) both;
+}
+#mint-result-bar .mint-badge{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:4px;
+  color:#00ff80;text-shadow:0 0 12px rgba(0,255,128,.6);margin-bottom:.6rem;
+}
+#mint-result-bar .mint-nft-img{
+  width:96px;height:96px;object-fit:contain;border-radius:8px;
+  border:1px solid rgba(0,255,128,.3);margin:.5rem auto;display:block;
+}
+#mint-result-bar .mint-nft-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;
+  color:#e5e7eb;margin:.25rem 0 .75rem;
+}
+#mint-result-bar .mint-links{
+  display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;
+}
+#mint-result-bar .mint-link{
+  font-size:.72rem;font-weight:600;letter-spacing:.5px;padding:.35rem .75rem;
+  border-radius:6px;background:rgba(0,255,128,.12);color:#00ff80;
+  border:1px solid rgba(0,255,128,.3);text-decoration:none;transition:background .2s;
+}
+#mint-result-bar .mint-link:hover{background:rgba(0,255,128,.22)}
 @keyframes reveal-slam{from{transform:scale(.25) rotateY(90deg);opacity:0}to{transform:none;opacity:1}}
 #pack-modal[data-stage="reveal"] #pack-result-area{
   display:flex;animation:reveal-slam .55s cubic-bezier(.2,0,.2,1.4) both;
@@ -1937,6 +1965,15 @@ nav a:hover,nav a.active{color:var(--gold)}
     <div id="pack-result-area">
       <div class="pack-result-title" id="pack-result-title">YOU PULLED</div>
       <div class="pack-result-cards" id="pack-result-cards"></div>
+      <div id="mint-result-bar">
+        <div class="mint-badge">NFT MINTED ON-CHAIN</div>
+        <img class="mint-nft-img" id="mint-nft-img" src="" alt=""/>
+        <div class="mint-nft-name" id="mint-nft-name"></div>
+        <div class="mint-links">
+          <a class="mint-link" id="mint-tx-link" href="#" target="_blank" rel="noopener">View Transaction on Solscan</a>
+          <a class="mint-link" id="mint-nft-link" href="#" target="_blank" rel="noopener">View NFT on Solscan</a>
+        </div>
+      </div>
       <button id="pack-close-btn" onclick="closePackModal()">✦ ADD TO COLLECTION ✦</button>
     </div>
   </div>
@@ -2199,10 +2236,13 @@ nav a:hover,nav a.active{color:var(--gold)}
         <img src="/pull1-btn.png" alt="Pull x1"/>
         <div class="pull-cost-tag" id="cost1-lbl">0.5 SOL</div>
       </button>
-      <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10">
-        <img src="/pull10-btn.png" alt="Pull x10"/>
-        <div class="pull-cost-tag" id="cost10-lbl">4 SOL</div>
-        <div class="pull-discount-tag">20% discount*</div>
+      <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10 — Coming Soon" style="position:relative">
+        <img src="/pull10-btn.png" alt="Pull x10" style="opacity:.45;filter:grayscale(.5)"/>
+        <div class="pull-cost-tag" id="cost10-lbl" style="opacity:.45">4 SOL</div>
+        <div class="pull-discount-tag" style="opacity:.45">20% discount*</div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:3px;color:#FFD700;background:rgba(0,0,0,.72);padding:.3rem .7rem;border-radius:6px;border:1px solid rgba(255,215,0,.4)">COMING SOON</span>
+        </div>
       </button>
     </div>
 
@@ -3058,13 +3098,32 @@ async function tapPack(){
 
   modal.setAttribute('data-stage','reveal');
 
+  // Show on-chain mint result if this was a Candy Machine pull
+  if(data._mintResult) showMintResultBar(data._mintResult);
+
   // Epic celebrate for any epics in the batch
   const hasEpic=cards.some(c=>c.rarity==='epic');
   if(hasEpic) setTimeout(epicCelebrate,400);
 }
 
+function showMintResultBar(mintResult){
+  const bar=document.getElementById('mint-result-bar');
+  if(!bar||!mintResult) return;
+  const sig=mintResult.signature;
+  const mint=mintResult.mintAddress;
+  document.getElementById('mint-tx-link').href='https://solscan.io/tx/'+sig;
+  document.getElementById('mint-nft-link').href='https://solscan.io/token/'+mint;
+  const img=document.getElementById('mint-nft-img');
+  if(mintResult.image){img.src=mintResult.image;img.style.display='block';}
+  else{img.style.display='none';}
+  document.getElementById('mint-nft-name').textContent=mintResult.name||'NFT #'+mint.slice(0,6)+'...'+mint.slice(-4);
+  bar.style.display='block';
+}
+
 function closePackModal(triggerOverlay=true){
   pulling=false; setBtns(true);
+  const bar=document.getElementById('mint-result-bar');
+  if(bar) bar.style.display='none';
   const modal=document.getElementById('pack-modal');
   modal.classList.remove('show');
   setTimeout(()=>{
@@ -3088,21 +3147,58 @@ function closePackModal(triggerOverlay=true){
 // ═══════════════════════════════════════════════════════════════
 async function doPull1(){
   if(pulling) return;
-  let sig=null;
-  if(!serverConfig.freeMode){
-    if(!walletPK){document.getElementById('wallet-warn').classList.add('show');return}
-    sig=await sendTokenPayment(serverConfig.pull1Cost); if(!sig) return;
+
+  // Wallet required for on-chain mint
+  if(!walletPK){
+    document.getElementById('wallet-warn').classList.add('show');
+    showToast('Connect your Phantom wallet to pull cards',true);
+    return;
   }
-  pulling=true; setBtns(false); animGlobe();
+
+  // ── Step 1: on-chain Candy Machine v3 mint ────────────────────
+  if(typeof window.mintV3!=='function'){
+    showToast('Mint module not loaded — please refresh',true); return;
+  }
+
+  setBtns(false);
+  showToast('Waiting for Phantom approval...');
+
+  let mintResult=null;
+  try{
+    mintResult=await window.mintV3();
+    showToast('Mint confirmed — opening pack...');
+  }catch(e){
+    setBtns(true);
+    const code=e.code||'';
+    const msg=(e.message||'').toLowerCase();
+    if(code==='wallet_not_connected'||msg.includes('connect')){
+      showToast('Connect your wallet first',true);
+    } else if(code==='user_rejected'||msg.includes('reject')||msg.includes('cancel')||e.code===4001){
+      showToast('Transaction rejected',true);
+    } else if(code==='sold_out'||msg.includes('sold out')){
+      showToast('Sold out — all NFTs minted!',true);
+    } else if(code==='insufficient_sol'||msg.includes('insufficient')||msg.includes('0x1')){
+      showToast('Insufficient SOL — need 0.5 SOL + fees',true);
+    } else if(code==='rpc_error'){
+      showToast('RPC error — check your connection',true);
+    } else {
+      showToast('Mint failed: '+(e.message||'unknown error').slice(0,60),true);
+    }
+    return;
+  }
+
+  // ── Step 2: gacha animation (card reveal) ──────────────────────
+  pulling=true; animGlobe();
 
   const fetchPromise=fetch('/api/gacha/pull',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})})
+    body:JSON.stringify({username:getUN(),wallet:walletPK,signature:mintResult.signature})})
     .then(r=>r.json())
     .then(d=>{
       if(d.error) throw new Error(d.error);
       myCollection.add(d.card.id); totalPulls++;
       if(d.card.rarity==='legendary') totalLeg++;
       updateStats();
+      d._mintResult=mintResult; // carry mint data to reveal
       return d;
     });
 
@@ -3110,25 +3206,7 @@ async function doPull1(){
 }
 
 async function doPull10(){
-  if(pulling) return;
-  let sig=null;
-  if(!serverConfig.freeMode){
-    if(!walletPK){document.getElementById('wallet-warn').classList.add('show');return}
-    sig=await sendTokenPayment(serverConfig.pull10Cost); if(!sig) return;
-  }
-  pulling=true; setBtns(false); animGlobe();
-
-  const fetchPromise=fetch('/api/gacha/pull/10',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({username:getUN(),wallet:walletPK||'free',signature:sig})})
-    .then(r=>r.json())
-    .then(d=>{
-      if(d.error) throw new Error(d.error);
-      d.cards.forEach(c=>{myCollection.add(c.id);if(c.rarity==='legendary')totalLeg++;});
-      totalPulls+=10; updateStats();
-      return d;
-    });
-
-  openPackModal(fetchPromise,true);
+  showToast('Pull x10 on-chain is coming soon!',true);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3701,5 +3779,8 @@ function showToast(msg,err=false){
 // ═══════════════════════════════════════════════════════════════
 init();
 </script>
+
+<!-- Candy Machine v3 mint module (loaded as ES module, exposes window.mintV3) -->
+<script type="module" src="/src/mint.ts"></script>
 </body>
 </html>
