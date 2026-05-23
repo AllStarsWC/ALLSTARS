@@ -297,7 +297,7 @@ Yes.
 ### Will Common/ Rare/ Epic versions of get rewards?
 
 Yes.
-Rewards are based on any scoring players throughout the torunament.
+Rewards are based on any scoring players throughout the torunament depending on tier level.
 
 ---
 ### Can Common and Rare have duplicates?
@@ -310,9 +310,12 @@ Duplicates are allowed.
 
 ### What happens when World Cup ends?
 
-Cards remain collectible historical assets.
+Cards remain collectible assets for future matches like EPL, MSL league, etc.
 
-Rewards end after tournament completion.
+Rewards end after tournament completion for this season. Next season, coming soon. More players, more vibe!
+
+Buyback will be available by ALLSTARS via verfication, to trade for next coming NFT season.
+
 
 ---
 
