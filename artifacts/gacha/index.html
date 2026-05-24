@@ -2314,6 +2314,40 @@ nav a:hover,nav a.active{color:var(--gold)}
   .myplayers-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem}
   .myplayers-header h2{font-size:2rem}
 }
+
+/* ══ POWERED BY ══ */
+.powered-by-section{
+  padding:3.5rem 2rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(0,0,0,.3);
+}
+.powered-by-wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2rem}
+.powered-by-label{
+  font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:6px;
+  color:rgba(255,255,255,.35);text-transform:uppercase;
+}
+.powered-by-logos{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:2rem;
+}
+.pbl{
+  display:flex;align-items:center;justify-content:center;
+  height:52px;
+  transition:opacity .2s,transform .2s;
+  opacity:.75;
+}
+.pbl:hover{opacity:1;transform:scale(1.06)}
+.pbl img{
+  height:100%;width:auto;
+  max-width:160px;
+  object-fit:contain;border-radius:8px;
+}
+@media(max-width:600px){
+  .powered-by-logos{gap:1.25rem}
+  .pbl{height:40px}
+  .pbl img{max-width:110px}
+}
 </style>
 </head>
 <body>
@@ -2581,6 +2615,36 @@ nav a:hover,nav a.active{color:var(--gold)}
           <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">🌍</div><div class="pack-card-name">World Cup</div><div class="pack-card-sub">Sealed Pack</div></div>
           <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">⭐</div><div class="pack-card-name">Legendary</div><div class="pack-card-sub">Sealed Pack</div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Powered By -->
+  <section class="powered-by-section">
+    <div class="powered-by-wrap">
+      <div class="powered-by-label">Powered By</div>
+      <div class="powered-by-logos">
+        <a href="https://sportmonks.com" target="_blank" rel="noopener" class="pbl" title="Sportmonks">
+          <img src="/logo-sportmonks.png" alt="Sportmonks"/>
+        </a>
+        <a href="https://tensor.trade" target="_blank" rel="noopener" class="pbl" title="Tensor">
+          <img src="/logo-tensor.png" alt="Tensor"/>
+        </a>
+        <a href="https://helius.dev" target="_blank" rel="noopener" class="pbl" title="Helius">
+          <img src="/logo-helius.png" alt="Helius"/>
+        </a>
+        <a href="https://magiceden.io" target="_blank" rel="noopener" class="pbl" title="Magic Eden">
+          <img src="/logo-magiceden.png" alt="Magic Eden"/>
+        </a>
+        <a href="https://mem3.xyz" target="_blank" rel="noopener" class="pbl" title="MEM3">
+          <img src="/logo-mem3.png" alt="MEM3"/>
+        </a>
+        <a href="https://metaplex.com" target="_blank" rel="noopener" class="pbl" title="Metaplex">
+          <img src="/logo-metaplex.png" alt="Metaplex"/>
+        </a>
+        <a href="https://pinata.cloud" target="_blank" rel="noopener" class="pbl" title="Pinata">
+          <img src="/logo-pinata.png" alt="Pinata"/>
+        </a>
       </div>
     </div>
   </section>
