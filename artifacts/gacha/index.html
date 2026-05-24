@@ -733,42 +733,6 @@ nav a:hover,nav a.active{color:var(--gold)}
 #gacha-page{padding:1rem 1.5rem;max-width:1500px;margin:0 auto}
 #gacha-page.active{display:flex;flex-direction:row;align-items:flex-start;gap:1.5rem}
 
-/* preview column */
-.gacha-preview-col{
-  flex:0 0 210px;min-width:0;
-  position:sticky;top:1rem;max-height:calc(100vh - 5rem);
-  display:flex;flex-direction:column;gap:.6rem;
-  overflow:hidden;
-}
-.gacha-preview-title{
-  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;
-  color:var(--gold);text-align:center;padding-bottom:.3rem;
-  border-bottom:1px solid rgba(255,215,0,.15);flex-shrink:0;
-}
-.gacha-preview-sub{
-  font-size:.6rem;color:var(--muted);text-align:center;letter-spacing:1.5px;
-  text-transform:uppercase;margin-top:-.3rem;flex-shrink:0;
-}
-.gacha-preview-scroll{
-  flex:1 1 0;overflow:hidden;position:relative;
-  mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
-}
-.gacha-preview-track{
-  display:flex;flex-direction:column;gap:10px;
-  animation:previewScroll 32s linear infinite;
-}
-.gacha-preview-track:hover{animation-play-state:paused}
-@keyframes previewScroll{
-  0%{transform:translateY(0)}
-  100%{transform:translateY(-50%)}
-}
-.gacha-preview-track img{
-  width:100%;border-radius:10px;
-  box-shadow:0 4px 18px rgba(0,0,0,.6);
-  display:block;flex-shrink:0;
-}
-
 /* machine column */
 .gacha-machine-col{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:1rem;
@@ -777,7 +741,6 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 @media(max-width:900px){
   #gacha-page.active{flex-direction:column}
-  .gacha-preview-col{display:none}
   .gacha-machine-col{width:100%}
 }
 
@@ -2224,37 +2187,6 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
-
-  <!-- LEFT: card image showcase -->
-  <div class="gacha-preview-col">
-    <div class="gacha-preview-title">WHAT'S INSIDE</div>
-    <div class="gacha-preview-sub">Featured Cards</div>
-    <div class="gacha-preview-scroll">
-      <div class="gacha-preview-track">
-        <img src="/preview-cards/437.png" alt="Runaldo"/>
-        <img src="/preview-cards/439.png" alt="Mussi"/>
-        <img src="/preview-cards/438.png" alt="Mbappe"/>
-        <img src="/preview-cards/440.png" alt="Lumine Yamul"/>
-        <img src="/preview-cards/435.png" alt="Haney Kane"/>
-        <img src="/preview-cards/418.png" alt="Jamul Musuala"/>
-        <img src="/preview-cards/425.png" alt="Mikel Oyarzabal"/>
-        <img src="/preview-cards/417.png" alt="Siu Heung-Win"/>
-        <img src="/preview-cards/420.png" alt="Julian Alvarez"/>
-        <img src="/preview-cards/415.png" alt="David Ruya"/>
-        <!-- duplicate set for seamless loop -->
-        <img src="/preview-cards/437.png" alt="Runaldo"/>
-        <img src="/preview-cards/439.png" alt="Mussi"/>
-        <img src="/preview-cards/438.png" alt="Mbappe"/>
-        <img src="/preview-cards/440.png" alt="Lumine Yamul"/>
-        <img src="/preview-cards/435.png" alt="Haney Kane"/>
-        <img src="/preview-cards/418.png" alt="Jamul Musuala"/>
-        <img src="/preview-cards/425.png" alt="Mikel Oyarzabal"/>
-        <img src="/preview-cards/417.png" alt="Siu Heung-Win"/>
-        <img src="/preview-cards/420.png" alt="Julian Alvarez"/>
-        <img src="/preview-cards/415.png" alt="David Ruya"/>
-      </div>
-    </div>
-  </div>
 
   <!-- machine column -->
   <div class="gacha-machine-col">
