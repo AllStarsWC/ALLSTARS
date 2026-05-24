@@ -160,4 +160,48 @@ router.get("/stats/:username", (req, res) => {
   });
 });
 
+// ── Helius DAS ────────────────────────────────────────────────────────────────
+async function heliusDAS(method: string, params: Record<string, unknown>): Promise<unknown> {
+  const key = process.env.HELIUS_API_KEY ?? '';
+  const r = await fetch(`https://mainnet.helius-rpc.com/?api-key=${key}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+  });
+  const d = (await r.json()) as { result?: unknown; error?: { message: string } };
+  if (d.error) throw new Error(d.error.message);
+  return d.result;
+}
+
+// GET /api/gacha/asset/:mintAddress — full DAS asset (attributes, rarity, etc.)
+router.get('/asset/:mintAddress', async (req, res) => {
+  try {
+    const result = await heliusDAS('getAsset', { id: req.params.mintAddress });
+    res.json(result);
+  } catch (e: any) {
+    res.status(500).json({ error: String(e?.message ?? e) });
+  }
+});
+
+// GET /api/gacha/my-players?wallet=<pubkey>  — NFTs owned by wallet from ALL STARS collection
+router.get('/my-players', async (req, res) => {
+  const wallet = (req.query.wallet as string) ?? '';
+  if (!wallet) return void res.status(400).json({ error: 'wallet required' });
+  try {
+    const result = await heliusDAS('getAssetsByOwner', {
+      ownerAddress: wallet,
+      page: 1,
+      limit: 1000,
+    }) as { items?: unknown[] } | null;
+    const items: any[] = (result as any)?.items ?? [];
+    const filtered = items.filter((a: any) => {
+      const sym: string = a?.content?.metadata?.symbol ?? '';
+      return sym === 'ALLSTARS' || sym === 'AS2026' || sym.toLowerCase().includes('allstar');
+    });
+    res.json(filtered);
+  } catch (e: any) {
+    res.status(500).json({ error: String(e?.message ?? e) });
+  }
+});
+
 export default router;

@@ -1,0 +1,97 @@
+The minting system is already working. DO NOT modify:
+
+* Candy Machine mint logic
+* wallet connection
+* UMI setup
+* Candy Guard setup
+* transaction flow
+* environment variables
+
+Only add post-mint gacha/reveal UX enhancements and collection UI.
+
+Add these features:
+
+1. Near Miss Reveal Animation
+   After user clicks PULL and mint succeeds, before showing the final NFT:
+
+* show a fast roulette-style animation of fake rarity stops:
+  Common → Rare → Epic → Legendary → final result
+* make it feel like a “near miss”
+* do NOT affect actual minted NFT result
+* final displayed NFT must always be the actual minted NFT metadata
+
+2. Pack Opening Sound Design
+   Add sound effects:
+
+* pack opening / card flip sound
+* Rare reveal: soft sparkle
+* Epic reveal: stronger impact
+* Legendary reveal: stadium roar + explosion
+  Use browser-safe audio.
+  Add mute/unmute toggle.
+  Do not autoplay before user interaction; only play after PULL click.
+
+3. Player Collection Book
+   Add this under the Claim page as “My Players”.
+   When wallet is connected:
+
+* fetch NFTs owned by connected wallet from ALL STARS collection
+* display grid of owned player cards
+* show card image, name, rarity, nation if available from attributes
+* show scoring claim status placeholder:
+  “Goals: 0”
+  “Claimable: Coming Soon”
+* this page is for future World Cup scoring rewards
+* do not implement real reward payout yet
+
+4. Social Flex Button
+   After reveal success:
+
+* add “Share on X” button
+* auto-generate tweet text:
+  “I just pulled [RARITY] [PLAYER NAME] from ALL STARS World Cup 2026 ⚽🔥”
+* include website URL:
+  https://allstarscollectibles.fun/
+* if possible include Solscan NFT link
+* open X share URL in new tab
+
+5. Visual Rarity Evolution
+   Apply reveal styling based on rarity:
+
+* Common: static clean card
+* Rare: soft gold/blue glow
+* Epic: animated glowing border + particles
+* Legendary: lightning aura, moving particles, stronger glow
+
+Rarity should be detected from NFT metadata attributes. If no rarity attribute exists, infer from name/metadata if possible. If still unknown, default to Common.
+
+6. Legendary Alert Screen Effect
+   If minted NFT rarity is Legendary:
+
+* screen shake
+* gold flash
+* confetti
+* special sound
+* big title: “A LEGEND HAS BEEN PULLED”
+* show player image large
+* show “LEGENDARY ALLSTARS PLAYER”
+* after 3 seconds fade in Solscan buttons
+
+7. Reveal Flow Timing
+   After mint success:
+
+* Step 1: pack opening animation
+* Step 2: near-miss rarity roulette
+* Step 3: show actual NFT artwork only for 3 seconds
+* Step 4: fade in NFT name, rarity, Share on X, View Transaction, View NFT
+
+8. Cleanup Current UI
+   Remove the old default post-mint box:
+
+* remove “NFT minted on-chain”
+* replace with “ALLSTARS PLAYER”
+* remove unused local placeholder pull image
+* do not show duplicated success cards
+
+Keep the existing gacha machine layout and existing PULL button.
+Only improve animations, reveal modal, sounds, social sharing, and My Players collection book.

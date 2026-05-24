@@ -2117,6 +2117,203 @@ nav a:hover,nav a.active{color:var(--gold)}
   .htp-main-title{letter-spacing:3px}
   .htp-examples{flex-direction:column}
 }
+
+/* ══════════════ RARITY ROULETTE OVERLAY ══════════════ */
+#roulette-overlay{
+  position:fixed;inset:0;z-index:10000;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.96);
+  opacity:0;transition:opacity .35s ease;
+}
+#roulette-overlay.show{opacity:1}
+.roulette-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.roulette-bg::before{
+  content:'';position:absolute;width:600px;height:600px;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,215,0,.08) 0%,transparent 70%);
+  animation:nftr-amb 2.2s ease-in-out infinite;
+}
+.roulette-content{
+  display:flex;flex-direction:column;align-items:center;gap:1.4rem;
+  position:relative;z-index:2;
+}
+.roulette-label{
+  font-family:'Bebas Neue',sans-serif;font-size:.7rem;letter-spacing:6px;
+  color:rgba(255,215,0,.55);text-transform:uppercase;
+}
+.roulette-spinner{display:flex;align-items:center;gap:1.2rem}
+.roulette-arrow{
+  font-size:1.6rem;color:rgba(255,215,0,.45);
+  animation:roulette-arrow-pulse .9s ease-in-out infinite;
+}
+.roulette-arrow-right{animation-delay:.45s}
+@keyframes roulette-arrow-pulse{0%,100%{opacity:.3}50%{opacity:.9}}
+#roulette-display{
+  font-family:'Bebas Neue',sans-serif;font-size:3.8rem;letter-spacing:8px;
+  color:#9ca3af;text-shadow:0 0 20px #9ca3af;
+  min-width:300px;text-align:center;
+}
+.roulette-flash{animation:roulette-flash-kf .11s ease forwards}
+@keyframes roulette-flash-kf{
+  0%{transform:scale(1.14);opacity:.45}100%{transform:scale(1);opacity:1}
+}
+.roulette-hint{font-size:.68rem;letter-spacing:3px;color:rgba(255,255,255,.28);text-transform:uppercase}
+
+/* ══ GOLD FLASH ══ */
+#gold-flash{
+  position:fixed;inset:0;z-index:10001;
+  background:rgba(255,215,0,.72);
+  opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+#gold-flash.flash{opacity:1}
+
+/* ══ MUTE TOGGLE ══ */
+.nftr-mute-btn{
+  position:absolute;top:1.2rem;right:1.2rem;z-index:10;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  border-radius:50%;width:38px;height:38px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;transition:background .2s;color:#fff;
+}
+.nftr-mute-btn:hover{background:rgba(255,215,0,.15)}
+
+/* ══ RARITY BADGE ══ */
+.nftr-rarity-badge{
+  font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:5px;
+  padding:.2rem .9rem;border-radius:4px;border:1px solid currentColor;
+}
+.nftr-rarity-badge.r-common{color:#9ca3af;background:rgba(156,163,175,.08)}
+.nftr-rarity-badge.r-rare{color:#38bdf8;background:rgba(56,189,248,.08)}
+.nftr-rarity-badge.r-epic{color:#c084fc;background:rgba(192,132,252,.08)}
+.nftr-rarity-badge.r-legendary{color:var(--gold);background:rgba(255,215,0,.1)}
+
+/* ══ LEGENDARY TITLE ══ */
+.nftr-legend-title{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;
+  color:var(--gold);text-shadow:0 0 28px rgba(255,215,0,.8),0 0 56px rgba(255,150,0,.4);
+  text-align:center;line-height:1.1;display:none;
+}
+
+/* ══ SHARE ON X BUTTON ══ */
+.nftr-share-btn{
+  background:rgba(0,0,0,.45)!important;border-color:rgba(255,255,255,.2)!important;
+  color:#fff!important;display:inline-flex!important;align-items:center;gap:.4rem;
+}
+.nftr-share-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0}
+.nftr-share-btn:hover{background:rgba(255,255,255,.1)!important}
+
+/* ══ RARITY VARIANTS — reveal modal ══ */
+#nft-reveal-modal.rarity-rare .nftr-glow-ring{
+  box-shadow:0 0 40px rgba(56,189,248,.65),0 0 90px rgba(56,189,248,.3),0 0 140px rgba(56,189,248,.12);
+}
+#nft-reveal-modal.rarity-rare .nftr-bg::before{
+  background:radial-gradient(circle,rgba(56,189,248,.14) 0%,rgba(56,189,248,.05) 40%,transparent 70%);
+}
+#nft-reveal-modal.rarity-epic .nftr-bg::before{
+  background:radial-gradient(circle,rgba(192,132,252,.16) 0%,rgba(168,85,247,.06) 40%,transparent 70%);
+}
+#nft-reveal-modal.rarity-epic .nftr-glow-ring{
+  box-shadow:0 0 50px rgba(192,132,252,.75),0 0 100px rgba(168,85,247,.4),0 0 160px rgba(192,132,252,.18);
+  animation:nftr-epic-ring 1.6s ease-in-out infinite .9s;
+}
+@keyframes nftr-epic-ring{
+  0%,100%{box-shadow:0 0 50px rgba(192,132,252,.75),0 0 100px rgba(168,85,247,.4),0 0 160px rgba(192,132,252,.18)}
+  50%{box-shadow:0 0 85px rgba(192,132,252,1),0 0 160px rgba(168,85,247,.7),0 0 240px rgba(192,132,252,.32)}
+}
+#nft-reveal-modal.rarity-legendary .nftr-glow-ring{
+  box-shadow:0 0 65px rgba(255,215,0,.95),0 0 130px rgba(255,150,0,.65),0 0 210px rgba(255,215,0,.3);
+  animation:nftr-leg-ring 1.1s ease-in-out infinite .9s;
+}
+@keyframes nftr-leg-ring{
+  0%,100%{box-shadow:0 0 65px rgba(255,215,0,.95),0 0 130px rgba(255,150,0,.65),0 0 210px rgba(255,215,0,.3)}
+  50%{box-shadow:0 0 95px rgba(255,215,0,1),0 0 190px rgba(255,200,0,.85),0 0 300px rgba(255,215,0,.5)}
+}
+#nft-reveal-modal.rarity-legendary .nftr-bg::before{
+  background:radial-gradient(circle,rgba(255,215,0,.22) 0%,rgba(255,140,0,.09) 40%,transparent 70%);
+}
+@keyframes leg-shake{
+  0%,100%{transform:translate(0,0)}
+  10%{transform:translate(-6px,3px)} 20%{transform:translate(6px,-3px)}
+  30%{transform:translate(-4px,5px)} 40%{transform:translate(4px,-2px)}
+  50%{transform:translate(-5px,4px)} 60%{transform:translate(5px,-5px)}
+  70%{transform:translate(-3px,2px)} 80%{transform:translate(3px,-4px)}
+  90%{transform:translate(-2px,1px)}
+}
+#nft-reveal-modal.leg-shake{animation:leg-shake .65s ease-out}
+
+/* ══ PARTICLES (epic/legendary) ══ */
+.nftr-particles{position:absolute;inset:-40px;pointer-events:none;overflow:visible}
+.nftr-particle{
+  position:absolute;border-radius:50%;
+  animation:nftr-particle-float linear infinite;opacity:0;
+}
+@keyframes nftr-particle-float{
+  0%{transform:translateY(0) scale(0);opacity:0}
+  10%{opacity:1} 90%{opacity:.7}
+  100%{transform:translateY(-180px) scale(1.6);opacity:0}
+}
+/* ══ LIGHTNING (legendary) ══ */
+.nftr-lightning{position:absolute;inset:-30px;pointer-events:none;overflow:visible;display:none}
+#nft-reveal-modal.rarity-legendary .nftr-lightning{display:block}
+.nftr-bolt{
+  position:absolute;width:2px;
+  background:linear-gradient(to bottom,transparent,rgba(255,215,0,.9),transparent);
+  animation:nftr-bolt-flash .85s ease-in-out infinite;border-radius:2px;
+}
+@keyframes nftr-bolt-flash{
+  0%,100%{opacity:0;transform:scaleY(0)} 5%{opacity:1;transform:scaleY(1)}
+  15%{opacity:0} 50%{opacity:0} 55%{opacity:.85;transform:scaleY(1)}
+  65%{opacity:0;transform:scaleY(0)}
+}
+
+/* ══ MY PLAYERS PAGE ══ */
+.myplayers-wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 5rem}
+.myplayers-header{text-align:center;margin-bottom:2rem}
+.myplayers-header h2{
+  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:5px;
+  color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.35);margin-bottom:.4rem;
+}
+.myplayers-header p{color:rgba(255,255,255,.45);font-size:.82rem;letter-spacing:1px}
+.myplayers-connect{
+  text-align:center;padding:3rem 1rem;color:rgba(255,255,255,.38);
+  font-size:.85rem;letter-spacing:1px;
+}
+.myplayers-connect button{
+  margin-top:1rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;
+  letter-spacing:3px;padding:.6rem 2rem;border-radius:8px;
+  background:linear-gradient(180deg,#f8d447,#cf8500);
+  color:#090909;border:none;cursor:pointer;
+  box-shadow:0 0 20px rgba(255,215,0,.3);
+}
+.myplayers-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1.2rem;
+}
+.mp-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;
+}
+.mp-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.mp-card-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.mp-card-img-ph{width:100%;aspect-ratio:3/4;background:rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.18);font-size:2.2rem}
+.mp-card-body{padding:.6rem .75rem}
+.mp-card-name{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:1px;
+  color:#fff;margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-card-rarity{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.3rem}
+.mp-card-rarity.r-common{color:#9ca3af}
+.mp-card-rarity.r-rare{color:#38bdf8}
+.mp-card-rarity.r-epic{color:#c084fc}
+.mp-card-rarity.r-legendary{color:var(--gold)}
+.mp-card-stat{font-size:.62rem;color:rgba(255,255,255,.38);letter-spacing:.4px;line-height:1.6}
+.myplayers-empty,.myplayers-loading{
+  text-align:center;padding:3rem 1rem;color:rgba(255,255,255,.28);
+  font-size:.82rem;letter-spacing:1px;
+}
+.myplayers-loading{color:rgba(255,215,0,.45);font-family:'Bebas Neue',sans-serif;letter-spacing:4px;font-size:1rem}
+@media(max-width:600px){
+  .myplayers-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem}
+  .myplayers-header h2{font-size:2rem}
+}
 </style>
 </head>
 <body>
@@ -2137,18 +2334,44 @@ nav a:hover,nav a.active{color:var(--gold)}
   <button class="overlay-close" onclick="closeOverlay()">✦ CLAIM CARD ✦</button>
 </div>
 
+<!-- ══ RARITY ROULETTE OVERLAY ══ -->
+<div id="roulette-overlay">
+  <div class="roulette-bg"></div>
+  <div class="roulette-content">
+    <div class="roulette-label">Rarity Check</div>
+    <div class="roulette-spinner">
+      <div class="roulette-arrow roulette-arrow-left">▶</div>
+      <div id="roulette-display">COMMON</div>
+      <div class="roulette-arrow roulette-arrow-right">◀</div>
+    </div>
+    <div class="roulette-hint">Determining your pull...</div>
+  </div>
+</div>
+
+<!-- ══ GOLD FLASH ══ -->
+<div id="gold-flash"></div>
+
 <!-- ══ NFT REVEAL MODAL ══ -->
 <div id="nft-reveal-modal">
+  <button class="nftr-mute-btn" id="nftr-mute-btn" onclick="toggleMute()" title="Toggle sound">🔊</button>
   <div class="nftr-bg"></div>
   <div class="nftr-burst"></div>
   <div class="nftr-artwork-wrap">
     <div class="nftr-glow-ring"></div>
     <img class="nftr-img" id="nftr-img" src="" alt="NFT Artwork"/>
+    <div class="nftr-particles" id="nftr-particles"></div>
+    <div class="nftr-lightning" id="nftr-lightning"></div>
   </div>
   <div class="nftr-info" id="nftr-info">
-    <div class="nftr-label">ALLSTARS PLAYER</div>
+    <div class="nftr-legend-title" id="nftr-legend-title">A LEGEND HAS BEEN PULLED</div>
+    <div class="nftr-rarity-badge" id="nftr-rarity-badge">ALLSTARS PLAYER</div>
+    <div class="nftr-label" id="nftr-label">ALLSTARS PLAYER</div>
     <div class="nftr-name" id="nftr-name"></div>
     <div class="nftr-links">
+      <a class="nftr-link nftr-share-btn" id="nftr-share-btn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.042 2.25h6.672l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        Share on X
+      </a>
       <a class="nftr-link" id="nftr-tx-link" href="#" target="_blank" rel="noopener">View Transaction on Solscan</a>
       <a class="nftr-link" id="nftr-nft-link" href="#" target="_blank" rel="noopener">View NFT on Solscan</a>
     </div>
@@ -2185,6 +2408,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     <a onclick="switchTab('gacha',this)">Gacha</a>
     <a onclick="switchTab('vault',this)">Vault</a>
     <a onclick="switchTab('howto',this)">How To Play</a>
+    <a onclick="switchTab('myplayers',this)">My Players</a>
     <a onclick="switchTab('watch',this)" class="nav-watch">🔴 Watch</a>
   </nav>
 
@@ -2216,6 +2440,9 @@ nav a:hover,nav a.active{color:var(--gold)}
     </button>
     <button class="mobile-nav-btn" id="mnav-claim" onclick="switchTab('claim',null)" style="color:rgba(255,215,0,.65)">
       <span class="mnav-icon">💰</span>Claim
+    </button>
+    <button class="mobile-nav-btn" id="mnav-myplayers" onclick="switchTab('myplayers',null)">
+      <span class="mnav-icon">⭐</span>My Players
     </button>
     <button class="mobile-nav-btn mnav-watch" id="mnav-watch" onclick="switchTab('watch',null)">
       <span class="mnav-icon">🔴</span>Watch
@@ -2719,6 +2946,25 @@ nav a:hover,nav a.active{color:var(--gold)}
   </div>
 </div>
 
+<!-- ══ MY PLAYERS PAGE ══ -->
+<div id="myplayers-page" class="page">
+  <div class="myplayers-wrap">
+    <div class="myplayers-header">
+      <h2>MY PLAYERS</h2>
+      <p>Your All Stars NFT Collection — hold your players through the World Cup to earn rewards</p>
+    </div>
+    <div class="myplayers-connect" id="myplayers-connect" style="display:none">
+      <div>Connect your Phantom wallet to view your All Stars players.</div>
+      <button onclick="connectWallet().then(()=>loadMyPlayers())">Connect Wallet</button>
+    </div>
+    <div class="myplayers-loading" id="myplayers-loading" style="display:none">Loading players...</div>
+    <div class="myplayers-grid" id="myplayers-grid"></div>
+    <div class="myplayers-empty" id="myplayers-empty" style="display:none">
+      No All Stars NFTs found in this wallet. Pull from the Gacha machine to start collecting.
+    </div>
+  </div>
+</div>
+
 <!-- ══ HOW TO PLAY PAGE ══ -->
 <div id="howto-page" class="page">
 <div class="htp-wrap">
@@ -3081,6 +3327,7 @@ function switchTab(name, el){
   if(mb) mb.classList.add('active');
   if(name==='vault') renderVault();
   if(name==='claim') renderClaim();
+  if(name==='myplayers') loadMyPlayers();
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3291,11 +3538,23 @@ async function tapPack(){
   if(!data){closePackModal(false);return;}
 
   // 3 — reveal
-  // Mint pull: skip card grid, close pack and launch fullscreen NFT reveal
+  // Mint pull: roulette → fullscreen NFT reveal
   if(data._mintResult){
     await delay(180);
     closePackModal(false);
-    setTimeout(()=>openNftRevealModal(data._mintResult), 60);
+    playPackPop();
+    await delay(80);
+    // Race rarity fetch vs 1.8s (roulette ~2.5s so it completes first)
+    let rarity=inferRarity(data._mintResult.name);
+    try{
+      const fetched=await Promise.race([
+        fetchAssetRarity(data._mintResult.mintAddress),
+        delay(1800).then(()=>null)
+      ]);
+      if(fetched) rarity=fetched;
+    }catch(_){}
+    await showRarityRoulette(rarity);
+    openNftRevealModal(data._mintResult, rarity);
     return;
   }
 
@@ -3319,7 +3578,7 @@ async function tapPack(){
   if(hasEpic) setTimeout(epicCelebrate,400);
 }
 
-function openNftRevealModal(mintResult){
+function openNftRevealModal(mintResult, rarity='common'){
   if(!mintResult) return;
   const modal=document.getElementById('nft-reveal-modal');
   const info=document.getElementById('nftr-info');
@@ -3327,22 +3586,69 @@ function openNftRevealModal(mintResult){
   const nameEl=document.getElementById('nftr-name');
   const txLink=document.getElementById('nftr-tx-link');
   const nftLink=document.getElementById('nftr-nft-link');
+  const shareBtn=document.getElementById('nftr-share-btn');
+  const rarityBadge=document.getElementById('nftr-rarity-badge');
+  const legendTitle=document.getElementById('nftr-legend-title');
+  const labelEl=document.getElementById('nftr-label');
+  const muteBtn=document.getElementById('nftr-mute-btn');
 
-  // Populate data
+  // Reset state
+  info.classList.remove('show');
+  modal.className=''; // clear rarity classes
+  modal.style.display='flex';
+  if(legendTitle) legendTitle.style.display='none';
+  if(muteBtn) muteBtn.textContent=muted?'🔇':'🔊';
+
+  // Populate
   img.src=mintResult.image||'';
-  nameEl.textContent=mintResult.name||'ALLSTARS PLAYER';
+  const displayName=mintResult.name||'ALLSTARS PLAYER';
+  nameEl.textContent=displayName;
   txLink.href='https://solscan.io/tx/'+(mintResult.signature||'');
   nftLink.href='https://solscan.io/token/'+(mintResult.mintAddress||'');
 
-  // Reset info panel so timed reveal works on every open
-  info.classList.remove('show');
+  // Share on X
+  const nftUrl='https://solscan.io/token/'+(mintResult.mintAddress||'');
+  const tweet=encodeURIComponent('I just pulled a '+rarity.toUpperCase()+' '+displayName+' from ALL STARS World Cup 2026 \u26bd\uD83D\uDD25\n'+nftUrl+'\nhttps://allstarscollectibles.fun/');
+  if(shareBtn) shareBtn.href='https://twitter.com/intent/tweet?text='+tweet;
 
-  // Show modal (double rAF ensures transition fires)
-  modal.style.display='flex';
+  // Rarity badge
+  const rarityLabels={common:'COMMON PLAYER',rare:'RARE PLAYER',epic:'EPIC PLAYER',legendary:'LEGENDARY ALLSTARS PLAYER'};
+  if(rarityBadge){rarityBadge.textContent=rarityLabels[rarity]||'ALLSTARS PLAYER';rarityBadge.className='nftr-rarity-badge r-'+rarity;}
+
+  // Legendary title vs standard label
+  if(rarity==='legendary'){
+    if(labelEl) labelEl.style.display='none';
+    if(legendTitle) legendTitle.style.display='block';
+  } else {
+    if(labelEl){labelEl.style.display='block';labelEl.textContent='ALLSTARS PLAYER';}
+    if(legendTitle) legendTitle.style.display='none';
+  }
+
+  // Apply rarity class for styling
+  modal.classList.add('rarity-'+rarity);
+
+  // Build particles and lightning
+  buildParticles(rarity);
+  buildLightning(rarity);
+
+  // Show modal
   requestAnimationFrame(()=>requestAnimationFrame(()=>modal.classList.add('show')));
 
-  // Artwork-only for 3.5s, then fade in info
-  setTimeout(()=>info.classList.add('show'), 3500);
+  // Legendary: screen shake + gold flash + confetti
+  if(rarity==='legendary'){
+    setTimeout(()=>{
+      triggerGoldFlash();
+      modal.classList.add('leg-shake');
+      setTimeout(()=>modal.classList.remove('leg-shake'),700);
+      if(typeof confetti!=='undefined'){
+        confetti({particleCount:160,spread:80,origin:{y:0.4},colors:['#FFD700','#FFA500','#FF6B00','#FFE566']});
+        setTimeout(()=>confetti({particleCount:80,spread:130,origin:{y:0.65}}),450);
+      }
+    },280);
+  }
+
+  // 3s artwork-only then fade in info
+  setTimeout(()=>info.classList.add('show'), 3000);
 }
 
 function closeNftRevealModal(){
@@ -3353,6 +3659,251 @@ function closeNftRevealModal(){
     pulling=false;
     setBtns(true);
   }, 450);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SOUND SYSTEM (Web Audio API — synthesized, no external files)
+// ═══════════════════════════════════════════════════════════════
+let audioCtx=null;
+let muted=false;
+
+function getAudioCtx(){
+  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(_){}}
+  return audioCtx;
+}
+function toggleMute(){
+  muted=!muted;
+  const btn=document.getElementById('nftr-mute-btn');
+  if(btn) btn.textContent=muted?'🔇':'🔊';
+}
+function playPackPop(){
+  if(muted) return; const ctx=getAudioCtx(); if(!ctx) return;
+  const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.18),ctx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length)*.6;
+  const src=ctx.createBufferSource(); src.buffer=buf;
+  const g=ctx.createGain();
+  g.gain.setValueAtTime(.5,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);
+  src.connect(g);g.connect(ctx.destination);src.start();
+  const osc=ctx.createOscillator(); const og=ctx.createGain();
+  osc.frequency.setValueAtTime(260,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(80,ctx.currentTime+.14);
+  og.gain.setValueAtTime(.35,ctx.currentTime);og.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.14);
+  osc.connect(og);og.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.14);
+}
+function playRareSound(){
+  if(muted) return; const ctx=getAudioCtx(); if(!ctx) return;
+  [1047,1319,1568,2093,2637].forEach((f,i)=>{
+    const osc=ctx.createOscillator(); const g=ctx.createGain();
+    osc.type='sine'; osc.frequency.value=f;
+    const t=ctx.currentTime+i*.07;
+    g.gain.setValueAtTime(.13,t);g.gain.exponentialRampToValueAtTime(.001,t+.38);
+    osc.connect(g);g.connect(ctx.destination);osc.start(t);osc.stop(t+.38);
+  });
+}
+function playEpicSound(){
+  if(muted) return; const ctx=getAudioCtx(); if(!ctx) return;
+  const osc=ctx.createOscillator(); const g=ctx.createGain();
+  osc.type='sine';
+  osc.frequency.setValueAtTime(90,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(45,ctx.currentTime+.5);
+  g.gain.setValueAtTime(.55,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.55);
+  osc.connect(g);g.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.55);
+  [440,880,1320].forEach((f,i)=>{
+    const o2=ctx.createOscillator(); const g2=ctx.createGain();
+    o2.type='triangle'; o2.frequency.value=f;
+    const t=ctx.currentTime+.06+i*.04;
+    g2.gain.setValueAtTime(.12,t);g2.gain.exponentialRampToValueAtTime(.001,t+.5);
+    o2.connect(g2);g2.connect(ctx.destination);o2.start(t);o2.stop(t+.5);
+  });
+}
+function playLegendarySound(){
+  if(muted) return; const ctx=getAudioCtx(); if(!ctx) return;
+  [55,110,165,220,277,330,440,554].forEach((f,i)=>{
+    const osc=ctx.createOscillator(); const g=ctx.createGain();
+    osc.type=i%2===0?'sawtooth':'square'; osc.frequency.value=f;
+    g.gain.setValueAtTime(0,ctx.currentTime);
+    g.gain.linearRampToValueAtTime(.065,ctx.currentTime+.3);
+    g.gain.setValueAtTime(.065,ctx.currentTime+1.2);
+    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+2.2);
+    osc.connect(g);g.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+2.2);
+  });
+  const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*1.6),ctx.sampleRate);
+  const nd=buf.getChannelData(0);
+  for(let i=0;i<nd.length;i++) nd[i]=(Math.random()*2-1)*.22;
+  const ns=ctx.createBufferSource(); ns.buffer=buf;
+  const ng=ctx.createGain();
+  ng.gain.setValueAtTime(.18,ctx.currentTime);ng.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1.6);
+  ns.connect(ng);ng.connect(ctx.destination);ns.start();
+}
+function playRouletteTick(){
+  if(muted) return; const ctx=getAudioCtx(); if(!ctx) return;
+  const osc=ctx.createOscillator(); const g=ctx.createGain();
+  osc.type='square'; osc.frequency.value=900;
+  g.gain.setValueAtTime(.04,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.045);
+  osc.connect(g);g.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.045);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RARITY HELPERS
+// ═══════════════════════════════════════════════════════════════
+function inferRarity(name){
+  if(!name) return 'common';
+  const n=name.toLowerCase();
+  if(n.includes('legendary')) return 'legendary';
+  if(n.includes('epic')) return 'epic';
+  if(n.includes('rare')) return 'rare';
+  return 'common';
+}
+async function fetchAssetRarity(mintAddress){
+  try{
+    const r=await fetch('/api/gacha/asset/'+encodeURIComponent(mintAddress));
+    if(!r.ok) return null;
+    const asset=await r.json();
+    const attrs=asset?.content?.metadata?.attributes||asset?.attributes||[];
+    const ra=attrs.find(a=>(a.trait_type||a.key||'').toLowerCase()==='rarity');
+    if(ra){
+      const v=(ra.value||'').toLowerCase();
+      if(v.includes('legendary')) return 'legendary';
+      if(v.includes('epic')) return 'epic';
+      if(v.includes('rare')) return 'rare';
+      if(v.includes('common')) return 'common';
+    }
+  }catch(_){}
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RARITY ROULETTE ANIMATION
+// ═══════════════════════════════════════════════════════════════
+async function showRarityRoulette(finalRarity){
+  const overlay=document.getElementById('roulette-overlay');
+  const display=document.getElementById('roulette-display');
+  if(!overlay||!display) return;
+  const labels={common:'COMMON',rare:'RARE',epic:'EPIC',legendary:'LEGENDARY'};
+  const colors={common:'#9ca3af',rare:'#38bdf8',epic:'#c084fc',legendary:'#ffd700'};
+  const pool=['common','rare','epic','legendary'];
+  overlay.style.display='flex';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('show')));
+  await delay(120);
+  // Build sequence: fast random (14) → slow-down approach (4) → land (1)
+  const seq=[...Array(14)].map(()=>pool[Math.floor(Math.random()*4)]);
+  seq.push('common','rare','epic',finalRarity,finalRarity);
+  const timing=[...Array(14)].map((_,i)=>Math.max(58,54+i*2));
+  timing.push(165,225,310,430,580);
+  for(let i=0;i<seq.length;i++){
+    await delay(timing[i]||80);
+    const r=seq[i];
+    display.style.color=colors[r];
+    display.style.textShadow=`0 0 22px ${colors[r]},0 0 44px ${colors[r]}`;
+    display.textContent=labels[r];
+    display.classList.remove('roulette-flash');
+    void display.offsetWidth;
+    display.classList.add('roulette-flash');
+    playRouletteTick();
+  }
+  // Rarity sound on landing
+  await delay(300);
+  if(finalRarity==='legendary') playLegendarySound();
+  else if(finalRarity==='epic') playEpicSound();
+  else if(finalRarity==='rare') playRareSound();
+  await delay(750);
+  overlay.classList.remove('show');
+  await delay(380);
+  overlay.style.display='none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LEGENDARY / RARITY EFFECTS
+// ═══════════════════════════════════════════════════════════════
+function triggerGoldFlash(){
+  const el=document.getElementById('gold-flash'); if(!el) return;
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'),320);
+}
+function buildParticles(rarity){
+  const c=document.getElementById('nftr-particles'); if(!c) return;
+  c.innerHTML='';
+  if(rarity!=='epic'&&rarity!=='legendary') return;
+  const cols=rarity==='legendary'
+    ?['#FFD700','#FFA500','#FF6B00','#FFE566']
+    :['#c084fc','#a855f7','#7c3aed','#e879f9'];
+  const count=rarity==='legendary'?24:14;
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div'); p.className='nftr-particle';
+    const sz=Math.random()*5+3;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*120-10}%;bottom:0;`+
+      `background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:50%;`+
+      `animation:nftr-particle-float ${1.5+Math.random()*2}s ${Math.random()*2}s linear infinite;`;
+    c.appendChild(p);
+  }
+}
+function buildLightning(rarity){
+  const c=document.getElementById('nftr-lightning'); if(!c) return;
+  c.innerHTML='';
+  if(rarity!=='legendary') return;
+  [{l:'auto',r:'-20px',t:'15%',h:'70px',d:'0s'},{l:'-20px',r:'auto',t:'40%',h:'90px',d:'.4s'},
+   {l:'auto',r:'-25px',t:'62%',h:'60px',d:'.8s'},{l:'-15px',r:'auto',t:'76%',h:'50px',d:'1.2s'}]
+  .forEach(s=>{
+    const b=document.createElement('div'); b.className='nftr-bolt';
+    b.style.cssText=`left:${s.l};right:${s.r};top:${s.t};height:${s.h};animation-delay:${s.d};`;
+    c.appendChild(b);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MY PLAYERS — fetch wallet NFTs via Helius
+// ═══════════════════════════════════════════════════════════════
+async function loadMyPlayers(){
+  const grid=document.getElementById('myplayers-grid');
+  const empty=document.getElementById('myplayers-empty');
+  const conn=document.getElementById('myplayers-connect');
+  const loading=document.getElementById('myplayers-loading');
+  if(!walletPK){
+    if(conn) conn.style.display='block';
+    if(grid) grid.innerHTML='';
+    if(empty) empty.style.display='none';
+    return;
+  }
+  if(conn) conn.style.display='none';
+  if(grid) grid.innerHTML='';
+  if(empty) empty.style.display='none';
+  if(loading) loading.style.display='block';
+  try{
+    const r=await fetch('/api/gacha/my-players?wallet='+encodeURIComponent(walletPK));
+    const assets=await r.json();
+    if(loading) loading.style.display='none';
+    if(!Array.isArray(assets)||!assets.length){if(empty) empty.style.display='block';return;}
+    assets.forEach(a=>{
+      const meta=a?.content?.metadata||{};
+      const attrs=meta.attributes||[];
+      const getRarity=()=>{
+        const ra=attrs.find(x=>(x.trait_type||'').toLowerCase()==='rarity');
+        return (ra?.value||'common').toLowerCase();
+      };
+      const getNation=()=>{
+        const na=attrs.find(x=>['nation','country','team'].includes((x.trait_type||'').toLowerCase()));
+        return na?.value||'';
+      };
+      const rarity=getRarity();
+      const nation=getNation();
+      const imgUrl=a?.content?.links?.image||a?.content?.files?.[0]?.uri||'';
+      const name=meta.name||'ALLSTARS';
+      const card=document.createElement('div'); card.className='mp-card';
+      card.innerHTML=
+        (imgUrl?`<img class="mp-card-img" src="${imgUrl}" alt="${name}" loading="lazy"/>`
+                :`<div class="mp-card-img-ph">⚽</div>`)+
+        `<div class="mp-card-body">`+
+        `<div class="mp-card-name">${name}</div>`+
+        `<div class="mp-card-rarity r-${rarity}">${rarity.toUpperCase()}</div>`+
+        (nation?`<div class="mp-card-stat">${nation}</div>`:'')+
+        `<div class="mp-card-stat">Goals: 0</div>`+
+        `<div class="mp-card-stat">Claimable: Coming Soon</div>`+
+        `</div>`;
+      grid.appendChild(card);
+    });
+  }catch(e){
+    if(loading) loading.style.display='none';
+    if(grid) grid.innerHTML='<div style="color:rgba(255,100,100,.55);font-size:.8rem;padding:2rem;text-align:center">Failed to load — try reconnecting your wallet.</div>';
+  }
 }
 
 function closePackModal(triggerOverlay=true){
