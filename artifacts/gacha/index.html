@@ -2453,7 +2453,6 @@ nav a:hover,nav a.active{color:var(--gold)}
     <a onclick="switchTab('gacha',this)">Gacha</a>
     <a onclick="switchTab('vault',this)">Vault</a>
     <a onclick="switchTab('howto',this)">How To Play</a>
-    <a onclick="switchTab('myplayers',this)">My Players</a>
     <a onclick="switchTab('watch',this)" class="nav-watch">🔴 Watch</a>
   </nav>
 
@@ -2485,9 +2484,6 @@ nav a:hover,nav a.active{color:var(--gold)}
     </button>
     <button class="mobile-nav-btn" id="mnav-claim" onclick="switchTab('claim',null)" style="color:rgba(255,215,0,.65)">
       <span class="mnav-icon">💰</span>Claim
-    </button>
-    <button class="mobile-nav-btn" id="mnav-myplayers" onclick="switchTab('myplayers',null)">
-      <span class="mnav-icon">⭐</span>My Players
     </button>
     <button class="mobile-nav-btn mnav-watch" id="mnav-watch" onclick="switchTab('watch',null)">
       <span class="mnav-icon">🔴</span>Watch
@@ -3018,14 +3014,11 @@ nav a:hover,nav a.active{color:var(--gold)}
     </div>
     <div class="claim-lb" id="claim-lb"></div>
 
-  </div>
-</div>
-
-<!-- ══ MY PLAYERS PAGE ══ -->
-<div id="myplayers-page" class="page">
-  <div class="myplayers-wrap">
-    <div class="myplayers-header">
-      <h2>MY PLAYERS</h2>
+    <!-- My Players NFT Collection -->
+    <div class="claim-section-header" style="margin-top:2.5rem">
+      <div class="claim-section-hd">MY PLAYERS</div>
+    </div>
+    <div class="myplayers-header" style="text-align:left;margin-bottom:1rem">
       <p>Your All Stars NFT Collection — hold your players through the World Cup to earn rewards</p>
     </div>
     <div class="myplayers-connect" id="myplayers-connect" style="display:none">
@@ -3037,6 +3030,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     <div class="myplayers-empty" id="myplayers-empty" style="display:none">
       No All Stars NFTs found in this wallet. Pull from the Gacha machine to start collecting.
     </div>
+
   </div>
 </div>
 
@@ -3401,8 +3395,7 @@ function switchTab(name, el){
   const mb=document.getElementById('mnav-'+name);
   if(mb) mb.classList.add('active');
   if(name==='vault') renderVault();
-  if(name==='claim') renderClaim();
-  if(name==='myplayers') loadMyPlayers();
+  if(name==='claim'){renderClaim();loadMyPlayers();}
 }
 
 // ═══════════════════════════════════════════════════════════════
