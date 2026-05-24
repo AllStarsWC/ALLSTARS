@@ -3004,8 +3004,8 @@ nav a:hover,nav a.active{color:var(--gold)}
           <line x1="7" y1="15" x2="13" y2="15" stroke="rgba(255,215,0,.3)" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="claim-empty-title">No Players Yet</div>
-      <div class="claim-empty-sub">Pull cards in the Gacha tab — players you collect will appear here with their WC 2026 stats.</div>
+      <div class="claim-empty-title" id="claim-empty-title">Wallet Not Connected</div>
+      <div class="claim-empty-sub" id="claim-empty-sub">Connect your Phantom wallet to view your All Stars NFTs and claim SOL rewards when your players score.</div>
     </div>
 
     <!-- Leaderboard -->
@@ -3013,23 +3013,6 @@ nav a:hover,nav a.active{color:var(--gold)}
       <div class="claim-section-hd">TOP EARNERS</div>
     </div>
     <div class="claim-lb" id="claim-lb"></div>
-
-    <!-- My Players NFT Collection -->
-    <div class="claim-section-header" style="margin-top:2.5rem">
-      <div class="claim-section-hd">MY PLAYERS</div>
-    </div>
-    <div class="myplayers-header" style="text-align:left;margin-bottom:1rem">
-      <p>Your All Stars NFT Collection — hold your players through the World Cup to earn rewards</p>
-    </div>
-    <div class="myplayers-connect" id="myplayers-connect" style="display:none">
-      <div>Connect your Phantom wallet to view your All Stars players.</div>
-      <button onclick="connectWallet().then(()=>loadMyPlayers())">Connect Wallet</button>
-    </div>
-    <div class="myplayers-loading" id="myplayers-loading" style="display:none">Loading players...</div>
-    <div class="myplayers-grid" id="myplayers-grid"></div>
-    <div class="myplayers-empty" id="myplayers-empty" style="display:none">
-      No All Stars NFTs found in this wallet. Pull from the Gacha machine to start collecting.
-    </div>
 
   </div>
 </div>
@@ -3918,59 +3901,126 @@ function buildLightning(rarity){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// MY PLAYERS — fetch wallet NFTs via Helius
+// MY PLAYERS — fetch wallet NFTs via Helius → populate claim grid
 // ═══════════════════════════════════════════════════════════════
 async function loadMyPlayers(){
-  const grid=document.getElementById('myplayers-grid');
-  const empty=document.getElementById('myplayers-empty');
-  const conn=document.getElementById('myplayers-connect');
-  const loading=document.getElementById('myplayers-loading');
+  const grid  = document.getElementById('claim-player-grid');
+  const empty = document.getElementById('claim-empty');
+  const emptyTitle = document.getElementById('claim-empty-title');
+  const emptySub   = document.getElementById('claim-empty-sub');
+  const allBtn= document.getElementById('claim-all-btn');
+  const sumEl = document.getElementById('claim-summary');
+  if(!grid) return;
+
+  // No wallet — show connect prompt
   if(!walletPK){
-    if(conn) conn.style.display='block';
-    if(grid) grid.innerHTML='';
-    if(empty) empty.style.display='none';
+    grid.style.display='none';
+    empty.style.display='block';
+    if(emptyTitle) emptyTitle.textContent='Wallet Not Connected';
+    if(emptySub)   emptySub.textContent='Connect your Phantom wallet to view your All Stars NFTs and claim SOL rewards when your players score.';
+    if(allBtn) allBtn.disabled=true;
     return;
   }
-  if(conn) conn.style.display='none';
-  if(grid) grid.innerHTML='';
-  if(empty) empty.style.display='none';
-  if(loading) loading.style.display='block';
+
+  // Loading state
+  grid.innerHTML='<div class="myplayers-loading" style="display:block;padding:2.5rem;text-align:center">Loading your players...</div>';
+  grid.style.display='block';
+  empty.style.display='none';
+
   try{
     const r=await fetch('/api/gacha/my-players?wallet='+encodeURIComponent(walletPK));
     const assets=await r.json();
-    if(loading) loading.style.display='none';
-    if(!Array.isArray(assets)||!assets.length){if(empty) empty.style.display='block';return;}
+    grid.innerHTML='';
+
+    if(!Array.isArray(assets)||!assets.length){
+      grid.style.display='none';
+      empty.style.display='block';
+      if(emptyTitle) emptyTitle.textContent='No Players Yet';
+      if(emptySub)   emptySub.textContent='Mint your first All Stars pack — your NFT players will appear here with live WC 2026 goal stats.';
+      if(allBtn) allBtn.disabled=true;
+      return;
+    }
+
+    grid.style.display='grid';
+    let claimableCount=0, totalGoals=0, totalReward=0;
+
     assets.forEach(a=>{
       const meta=a?.content?.metadata||{};
       const attrs=meta.attributes||[];
+      const name=meta.name||'ALLSTARS';
+      const imgUrl=a?.content?.links?.image||a?.content?.files?.[0]?.uri||'';
+
       const getRarity=()=>{
         const ra=attrs.find(x=>(x.trait_type||'').toLowerCase()==='rarity');
         return (ra?.value||'common').toLowerCase();
       };
-      const getNation=()=>{
-        const na=attrs.find(x=>['nation','country','team'].includes((x.trait_type||'').toLowerCase()));
-        return na?.value||'';
-      };
       const rarity=getRarity();
-      const nation=getNation();
-      const imgUrl=a?.content?.links?.image||a?.content?.files?.[0]?.uri||'';
-      const name=meta.name||'ALLSTARS';
-      const card=document.createElement('div'); card.className='mp-card';
-      card.innerHTML=
-        (imgUrl?`<img class="mp-card-img" src="${imgUrl}" alt="${name}" loading="lazy"/>`
-                :`<div class="mp-card-img-ph">⚽</div>`)+
-        `<div class="mp-card-body">`+
-        `<div class="mp-card-name">${name}</div>`+
-        `<div class="mp-card-rarity r-${rarity}">${rarity.toUpperCase()}</div>`+
-        (nation?`<div class="mp-card-stat">${nation}</div>`:'')+
-        `<div class="mp-card-stat">Goals: 0</div>`+
-        `<div class="mp-card-stat">Claimable: Coming Soon</div>`+
-        `</div>`;
-      grid.appendChild(card);
+
+      // Match to allCards by name to look up live goal data
+      const matched=allCards.find(c=>(c.name||'').toLowerCase()===name.toLowerCase());
+      const g=matched?(wcGoals[matched.id]||{goals:0,assists:0,reward:0,live:false,lastGoal:null})
+                     :{goals:0,assists:0,reward:0,live:false,lastGoal:null};
+      const isClaimed=matched&&claimedRewards.has(matched.id);
+      const canClaim=g.goals>0&&!isClaimed;
+      if(canClaim) claimableCount++;
+      totalGoals+=g.goals;
+      totalReward+=g.reward;
+
+      const ballDots=Array.from({length:Math.min(g.goals,5)}).map(()=>'<span class="cp-ball-dot"></span>').join('')
+        +(g.goals>5?`<span class="cp-ball-extra">+${g.goals-5}</span>`:'');
+
+      const div=document.createElement('div');
+      div.className=`cp-card ${rarity}-card`;
+      if(matched) div.id=`cp-${matched.id}`;
+      div.innerHTML=`
+        ${g.live?'<div class="cp-live-badge">LIVE</div>':''}
+        <div class="cp-img-wrap">
+          ${imgUrl?`<img src="${imgUrl}" alt="${name}" onerror="this.style.display='none'"/>`:
+                   `<div class="cp-img-placeholder">⚽</div>`}
+        </div>
+        <div class="cp-rarity-bar ${rarity}"></div>
+        <div class="cp-body">
+          <div class="cp-name">${name}</div>
+          <div class="cp-meta"><span>${rarity.toUpperCase()}</span></div>
+          <div class="cp-goals-row">
+            <div>
+              <div class="cp-goals-count">${g.goals}</div>
+              <div class="cp-goals-label">Goals · WC 2026</div>
+            </div>
+            ${g.assists?`<div style="margin-left:1rem"><div class="cp-goals-count" style="color:var(--blue)">${g.assists}</div><div class="cp-goals-label">Assists</div></div>`:''}
+          </div>
+          ${g.goals>0?`<div class="cp-balls">${ballDots}</div>`
+                     :'<div class="cp-balls" style="color:var(--muted);font-size:.7rem;letter-spacing:1px;text-transform:uppercase">No goals yet</div>'}
+          ${g.lastGoal?`<div class="cp-last-goal">Last goal: ${g.lastGoal}</div>`
+                      :'<div class="cp-last-goal">Yet to score</div>'}
+          <div class="cp-reward-row">
+            <div class="cp-reward-lbl">Reward</div>
+            <div class="cp-reward-val">${g.reward>0?'+'+g.reward.toFixed(2)+' SOL':'—'}</div>
+          </div>
+          ${canClaim
+            ?`<button class="btn-claim-active" onclick="claimReward('${matched.id}','${name}',${g.reward})">CLAIM ${g.reward.toFixed(2)} SOL</button>`
+            :isClaimed
+              ?`<button class="btn-claim-active claimed" disabled>CLAIMED ✓</button>`
+              :`<button class="btn-claim-inactive" disabled title="Player must score a goal during WC 2026 to unlock">No Goals to Claim</button>`
+          }
+        </div>`;
+      grid.appendChild(div);
     });
+
+    if(allBtn) allBtn.disabled=(claimableCount===0);
+
+    // Update summary strip
+    if(sumEl){
+      sumEl.innerHTML=`<div class="claim-metrics">
+        <div class="cm-block"><div class="cm-val">${assets.length}</div><div class="cm-lbl">My Players</div></div>
+        <div class="cm-block"><div class="cm-val">${totalGoals}</div><div class="cm-lbl">Total Goals</div></div>
+        <div class="cm-block"><div class="cm-val">${totalReward.toFixed(2)}</div><div class="cm-lbl">SOL Earned</div></div>
+        <div class="cm-block"><div class="cm-val claimable">${claimableCount}</div><div class="cm-lbl">Claimable</div></div>
+      </div>`;
+    }
   }catch(e){
-    if(loading) loading.style.display='none';
-    if(grid) grid.innerHTML='<div style="color:rgba(255,100,100,.55);font-size:.8rem;padding:2rem;text-align:center">Failed to load — try reconnecting your wallet.</div>';
+    grid.style.display='block';
+    grid.innerHTML='<div style="color:rgba(255,100,100,.55);font-size:.8rem;padding:2rem;text-align:center">Failed to load players — try reconnecting your wallet.</div>';
   }
 }
 
@@ -4332,90 +4382,13 @@ function renderClaim(){
   // --- ticker ---
   const ticker=document.getElementById('goal-ticker-inner');
   if(ticker && ticker.innerHTML===''){
-    const all=[...goalTickerItems,...goalTickerItems]; // doubled for seamless loop
+    const all=[...goalTickerItems,...goalTickerItems];
     ticker.innerHTML=all.map(g=>`
       <span class="gt-item">
         ${g.live?'<span class="gt-live"></span>':''}
         <strong>${g.flag} ${g.name}</strong> ${g.event}
       </span>`).join('');
   }
-
-  // --- my players ---
-  const grid=document.getElementById('claim-player-grid');
-  const empty=document.getElementById('claim-empty');
-  const sumEl=document.getElementById('claim-summary');
-  const allBtn=document.getElementById('claim-all-btn');
-  if(!grid) return;
-  grid.innerHTML='';
-
-  const myCards=allCards.filter(c=>myCollection.has(c.id));
-  if(myCards.length===0){
-    grid.style.display='none';
-    empty.style.display='block';
-    allBtn.disabled=true;
-  } else {
-    grid.style.display='grid';
-    empty.style.display='none';
-  }
-
-  let totalGoals=0, totalReward=0, claimableCount=0;
-  myCards.forEach(card=>{
-    const g=wcGoals[card.id]||{goals:0,assists:0,lastGoal:null,reward:0,live:false};
-    totalGoals+=g.goals;
-    totalReward+=g.reward;
-    const isClaimed=claimedRewards.has(card.id);
-    const canClaim=g.goals>0&&!isClaimed;
-    if(canClaim) claimableCount++;
-
-    const ballDots=Array.from({length:Math.min(g.goals,5)}).map(()=>'<span class="cp-ball-dot"></span>').join('')+(g.goals>5?`<span class="cp-ball-extra">+${g.goals-5}</span>`:'');
-    const rarityClass=card.rarity+'-card';
-
-    const div=document.createElement('div');
-    div.className=`cp-card ${rarityClass}`;
-    div.id=`cp-${card.id}`;
-    div.innerHTML=`
-      ${g.live?'<div class="cp-live-badge">LIVE</div>':''}
-      <div class="cp-img-wrap">
-        ${card.image?`<img src="${card.image}" alt="${card.name}" onerror="this.style.display='none'"/>`:
-          `<div class="cp-img-placeholder">${card.flag||''}</div>`}
-      </div>
-      <div class="cp-rarity-bar ${card.rarity}"></div>
-      <div class="cp-body">
-        <div class="cp-name">${card.name} ${card.flag||''}</div>
-        <div class="cp-meta"><span>${card.rarity.toUpperCase()}</span><span>${card.position||''}</span><span>${card.country||''}</span></div>
-        <div class="cp-goals-row">
-          <div>
-            <div class="cp-goals-count">${g.goals}</div>
-            <div class="cp-goals-label">Goals · WC 2026</div>
-          </div>
-          ${g.assists?`<div style="margin-left:1rem"><div class="cp-goals-count" style="color:var(--blue)">${g.assists}</div><div class="cp-goals-label">Assists</div></div>`:''}
-        </div>
-        ${g.goals>0?`<div class="cp-balls">${ballDots}</div>`:'<div class="cp-balls" style="color:var(--muted);font-size:.7rem;letter-spacing:1px;text-transform:uppercase">No goals yet</div>'}
-        ${g.lastGoal?`<div class="cp-last-goal">Last goal: ${g.lastGoal}</div>`:'<div class="cp-last-goal">Yet to score</div>'}
-        <div class="cp-reward-row">
-          <div class="cp-reward-lbl">Reward</div>
-          <div class="cp-reward-val">${g.reward>0?'+'+g.reward.toFixed(2)+' SOL':'—'}</div>
-        </div>
-        ${canClaim
-          ? `<button class="btn-claim-active" onclick="claimReward('${card.id}','${card.name}',${g.reward})">CLAIM ${g.reward.toFixed(2)} SOL</button>`
-          : isClaimed
-            ? `<button class="btn-claim-active claimed" disabled>CLAIMED</button>`
-            : `<button class="btn-claim-inactive" disabled>${g.goals===0?'No Goals to Claim':'Already Claimed'}</button>`
-        }
-      </div>`;
-    grid.appendChild(div);
-  });
-
-  // --- summary metrics strip ---
-  if(sumEl){
-    sumEl.innerHTML=`<div class="claim-metrics">
-      <div class="cm-block"><div class="cm-val">${myCards.length}</div><div class="cm-lbl">My Players</div></div>
-      <div class="cm-block"><div class="cm-val">${totalGoals}</div><div class="cm-lbl">Total Goals</div></div>
-      <div class="cm-block"><div class="cm-val">${totalReward.toFixed(2)}</div><div class="cm-lbl">SOL Earned</div></div>
-      <div class="cm-block"><div class="cm-val claimable">${claimableCount}</div><div class="cm-lbl">Claimable</div></div>
-    </div>`;
-  }
-  if(allBtn) allBtn.disabled=(claimableCount===0);
 
   // --- leaderboard ---
   const lb=document.getElementById('claim-lb');
