@@ -731,7 +731,8 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* ══════════════ GACHA MACHINE ══════════════ */
 /* ── two-column gacha layout ── */
 #gacha-page{padding:1rem 2rem;max-width:1600px;margin:0 auto}
-#gacha-page.active{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start;padding-top:.5rem}
+.gacha-page-header{text-align:center;margin-bottom:.75rem;grid-column:1/-1}
+#gacha-page.active{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
 
 /* machine column */
 .gacha-machine-col{
@@ -2232,12 +2233,14 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
 
+  <!-- Page title — outside grid so both columns start at machine level -->
+  <div class="gacha-page-header machine-title-wrap">
+    <h2>ALL STARS <span>GACHA</span></h2>
+    <p>FIFA World Cup 2026 — Pull to Collect</p>
+  </div>
+
   <!-- LEFT: machine -->
   <div class="gacha-machine-col">
-    <div class="machine-title-wrap">
-      <h2>ALL STARS <span>GACHA</span></h2>
-      <p>FIFA World Cup 2026 — Pull to Collect</p>
-    </div>
 
     <div class="globe-wrap" style="width:100%">
       <div class="gm-wrap" id="globe" onclick="doPull1()">
