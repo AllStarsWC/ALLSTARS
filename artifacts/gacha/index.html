@@ -3464,16 +3464,19 @@ function renderVault(){
       el.classList.add('flipped');
       el.onclick=()=>el.classList.toggle('flipped');
     } else {
-      // Locked card — show silhouette on back
-      el.style.filter='grayscale(1)';
-      el.style.opacity='.22';
+      el.classList.add('flipped');
+      el.style.filter='grayscale(.75) brightness(.6)';
+      el.style.opacity='.72';
       el.style.cursor='default';
       el.onclick=null;
-      const back=el.querySelector('.card-back');
-      if(back) back.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.3rem;opacity:.5">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span style="font-size:.55rem;letter-spacing:1px;font-family:'Bebas Neue',sans-serif">LOCKED</span>
-      </div>`;
+      const front=el.querySelector('.card-front');
+      if(front){
+        front.style.position='relative';
+        const overlay=document.createElement('div');
+        overlay.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;background:rgba(0,0,0,.45);border-radius:inherit;z-index:10';
+        overlay.innerHTML=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.45rem;letter-spacing:1.5px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.6)">LOCKED</span>`;
+        front.appendChild(overlay);
+      }
     }
     grid.appendChild(el);
   });
@@ -3740,15 +3743,19 @@ function renderGachaVault(){
       el.classList.add('flipped');
       el.onclick=()=>el.classList.toggle('flipped');
     } else {
-      el.style.filter='grayscale(1) brightness(.55)';
-      el.style.opacity='.55';
+      el.classList.add('flipped');
+      el.style.filter='grayscale(.75) brightness(.6)';
+      el.style.opacity='.72';
       el.style.cursor='default';
       el.onclick=null;
-      const back=el.querySelector('.card-back');
-      if(back) back.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.3rem">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span style="font-size:.45rem;letter-spacing:1.5px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.5)">LOCKED</span>
-      </div>`;
+      const front=el.querySelector('.card-front');
+      if(front){
+        front.style.position='relative';
+        const overlay=document.createElement('div');
+        overlay.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;background:rgba(0,0,0,.45);border-radius:inherit;z-index:10';
+        overlay.innerHTML=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.45rem;letter-spacing:1.5px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.6)">LOCKED</span>`;
+        front.appendChild(overlay);
+      }
     }
     grid.appendChild(el);
   });
