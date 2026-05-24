@@ -1320,9 +1320,22 @@ nav a:hover,nav a.active{color:var(--gold)}
 .pill:hover{border-color:var(--blue);color:var(--blue)}
 .pill.active{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,.06)}
 #vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:12px;margin-top:1rem}
-.vault-card{opacity:.2;filter:grayscale(1);transition:all .3s;cursor:default}
-.vault-card.owned{opacity:1;filter:none;cursor:pointer}
+.vault-card{transition:all .3s;cursor:default}
+.vault-card.owned{cursor:pointer}
 .vault-card.owned:hover{transform:translateY(-5px) scale(1.04)}
+.vault-card .locked-back{
+  position:absolute;inset:0;border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  background:var(--locked-bg,linear-gradient(160deg,#111827,#1f2937));
+  border:2px solid var(--locked-border,rgba(156,163,175,.3));
+  box-shadow:0 0 10px 2px var(--locked-glow,rgba(156,163,175,.1));
+  transform:translateZ(2px);
+  backface-visibility:hidden;
+}
+.vault-card.legendary .locked-back{--locked-bg:linear-gradient(160deg,#1a1200,#2a1c00);--locked-border:rgba(255,215,0,.5);--locked-glow:rgba(255,215,0,.3)}
+.vault-card.epic .locked-back{--locked-bg:linear-gradient(160deg,#0e0520,#180a2e);--locked-border:rgba(155,89,255,.5);--locked-glow:rgba(155,89,255,.3)}
+.vault-card.rare .locked-back{--locked-bg:linear-gradient(160deg,#030c1e,#071828);--locked-border:rgba(30,144,255,.5);--locked-glow:rgba(30,144,255,.3)}
+.vault-card.common .locked-back{--locked-bg:linear-gradient(160deg,#111827,#1f2937);--locked-border:rgba(156,163,175,.35);--locked-glow:rgba(156,163,175,.1)}
 
 /* ══════════════ RANKINGS ══════════════ */
 #rankings-page{padding:2rem;max-width:700px;margin:0 auto}
@@ -3464,18 +3477,14 @@ function renderVault(){
       el.classList.add('flipped');
       el.onclick=()=>el.classList.toggle('flipped');
     } else {
-      el.classList.add('flipped');
-      el.style.filter='grayscale(.75) brightness(.6)';
-      el.style.opacity='.72';
       el.style.cursor='default';
       el.onclick=null;
-      const front=el.querySelector('.card-front');
-      if(front){
-        front.style.position='relative';
-        const overlay=document.createElement('div');
-        overlay.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;background:rgba(0,0,0,.45);border-radius:inherit;z-index:10';
-        overlay.innerHTML=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.45rem;letter-spacing:1.5px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.6)">LOCKED</span>`;
-        front.appendChild(overlay);
+      const inner=el.querySelector('.card-inner');
+      if(inner){
+        const lb=document.createElement('div');
+        lb.className='locked-back';
+        lb.innerHTML=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.5rem;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.4)">LOCKED</span>`;
+        inner.appendChild(lb);
       }
     }
     grid.appendChild(el);
@@ -3743,18 +3752,14 @@ function renderGachaVault(){
       el.classList.add('flipped');
       el.onclick=()=>el.classList.toggle('flipped');
     } else {
-      el.classList.add('flipped');
-      el.style.filter='grayscale(.75) brightness(.6)';
-      el.style.opacity='.72';
       el.style.cursor='default';
       el.onclick=null;
-      const front=el.querySelector('.card-front');
-      if(front){
-        front.style.position='relative';
-        const overlay=document.createElement('div');
-        overlay.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;background:rgba(0,0,0,.45);border-radius:inherit;z-index:10';
-        overlay.innerHTML=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.45rem;letter-spacing:1.5px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.6)">LOCKED</span>`;
-        front.appendChild(overlay);
+      const inner=el.querySelector('.card-inner');
+      if(inner){
+        const lb=document.createElement('div');
+        lb.className='locked-back';
+        lb.innerHTML=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.5rem;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.4)">LOCKED</span>`;
+        inner.appendChild(lb);
       }
     }
     grid.appendChild(el);
