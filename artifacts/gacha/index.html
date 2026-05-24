@@ -735,7 +735,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* preview column */
 .gacha-preview-col{
-  flex:0 0 220px;min-width:0;
+  flex:0 0 210px;min-width:0;
   position:sticky;top:1rem;max-height:calc(100vh - 5rem);
   display:flex;flex-direction:column;gap:.6rem;
   overflow:hidden;
@@ -743,29 +743,30 @@ nav a:hover,nav a.active{color:var(--gold)}
 .gacha-preview-title{
   font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;
   color:var(--gold);text-align:center;padding-bottom:.3rem;
-  border-bottom:1px solid rgba(255,215,0,.15);
+  border-bottom:1px solid rgba(255,215,0,.15);flex-shrink:0;
 }
 .gacha-preview-sub{
   font-size:.6rem;color:var(--muted);text-align:center;letter-spacing:1.5px;
-  text-transform:uppercase;margin-top:-.3rem;
+  text-transform:uppercase;margin-top:-.3rem;flex-shrink:0;
 }
-.gacha-preview-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;
-  overflow-y:auto;flex:1 1 0;padding-bottom:.5rem;
-  scrollbar-width:thin;scrollbar-color:rgba(255,200,0,.2) transparent;
+.gacha-preview-scroll{
+  flex:1 1 0;overflow:hidden;position:relative;
+  mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
 }
-.gacha-preview-grid .card-wrap{
-  width:100%;height:0;padding-bottom:146%;position:relative;cursor:default;
+.gacha-preview-track{
+  display:flex;flex-direction:column;gap:10px;
+  animation:previewScroll 32s linear infinite;
 }
-.gacha-preview-grid .card-wrap .card-inner{
-  position:absolute;inset:0;width:100%;height:100%;
+.gacha-preview-track:hover{animation-play-state:paused}
+@keyframes previewScroll{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
 }
-.gacha-preview-rarity-tag{
-  position:absolute;bottom:0;left:0;right:0;
-  font-family:'Bebas Neue',sans-serif;font-size:.55rem;letter-spacing:2px;
-  text-align:center;padding:.15rem 0;
-  background:rgba(0,0,0,.55);color:rgba(255,255,255,.6);
-  border-radius:0 0 14px 14px;z-index:5;pointer-events:none;
+.gacha-preview-track img{
+  width:100%;border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,.6);
+  display:block;flex-shrink:0;
 }
 
 /* machine column */
@@ -2224,11 +2225,35 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
 
-  <!-- LEFT: card preview -->
+  <!-- LEFT: card image showcase -->
   <div class="gacha-preview-col">
     <div class="gacha-preview-title">WHAT'S INSIDE</div>
     <div class="gacha-preview-sub">Featured Cards</div>
-    <div class="gacha-preview-grid" id="gacha-preview-grid"></div>
+    <div class="gacha-preview-scroll">
+      <div class="gacha-preview-track">
+        <img src="/preview-cards/437.png" alt="Runaldo"/>
+        <img src="/preview-cards/439.png" alt="Mussi"/>
+        <img src="/preview-cards/438.png" alt="Mbappe"/>
+        <img src="/preview-cards/440.png" alt="Lumine Yamul"/>
+        <img src="/preview-cards/435.png" alt="Haney Kane"/>
+        <img src="/preview-cards/418.png" alt="Jamul Musuala"/>
+        <img src="/preview-cards/425.png" alt="Mikel Oyarzabal"/>
+        <img src="/preview-cards/417.png" alt="Siu Heung-Win"/>
+        <img src="/preview-cards/420.png" alt="Julian Alvarez"/>
+        <img src="/preview-cards/415.png" alt="David Ruya"/>
+        <!-- duplicate set for seamless loop -->
+        <img src="/preview-cards/437.png" alt="Runaldo"/>
+        <img src="/preview-cards/439.png" alt="Mussi"/>
+        <img src="/preview-cards/438.png" alt="Mbappe"/>
+        <img src="/preview-cards/440.png" alt="Lumine Yamul"/>
+        <img src="/preview-cards/435.png" alt="Haney Kane"/>
+        <img src="/preview-cards/418.png" alt="Jamul Musuala"/>
+        <img src="/preview-cards/425.png" alt="Mikel Oyarzabal"/>
+        <img src="/preview-cards/417.png" alt="Siu Heung-Win"/>
+        <img src="/preview-cards/420.png" alt="Julian Alvarez"/>
+        <img src="/preview-cards/415.png" alt="David Ruya"/>
+      </div>
+    </div>
   </div>
 
   <!-- machine column -->
@@ -2840,7 +2865,7 @@ async function init(){
   }catch(e){serverConfig={freeMode:true,pull1Cost:0,pull10Cost:0,pull1CostUI:0,pull10CostUI:0}}
 
   const r2=await fetch('/api/gacha/cards'); allCards=await r2.json();
-  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim(); renderGachaPreview();
+  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim();
 
   // Win banner confetti dots
   (function(){
@@ -3724,38 +3749,6 @@ function epicCelebrate(){
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════════
-function renderGachaPreview(){
-  const grid=document.getElementById('gacha-preview-grid');
-  if(!grid||!allCards.length) return;
-  grid.innerHTML='';
-  // Pick one card per rarity: legendary, epic, rare x2, common x2
-  const pick=(rarity,n=1)=>{
-    const pool=allCards.filter(c=>c.rarity===rarity);
-    const out=[];
-    for(let i=0;i<n&&i<pool.length;i++) out.push(pool[Math.floor(Math.random()*pool.length)]);
-    return out;
-  };
-  const featured=[
-    ...pick('legendary',1),
-    ...pick('epic',1),
-    ...pick('rare',2),
-    ...pick('common',2),
-  ];
-  featured.forEach((card,i)=>{
-    const el=makeCard(card,i);
-    el.classList.add('flipped');
-    el.style.animation='none';
-    el.onclick=null;
-    el.style.cursor='default';
-    // rarity label
-    const tag=document.createElement('div');
-    tag.className='gacha-preview-rarity-tag';
-    tag.textContent=card.rarity.toUpperCase();
-    el.style.position='relative';
-    el.appendChild(tag);
-    grid.appendChild(el);
-  });
-}
 function setBtns(on){
   document.getElementById('btn1').disabled=!on;
   document.getElementById('btn10').disabled=!on;
