@@ -2,9 +2,11 @@
  * Candy Machine v3 minting module (Sugar / classic Candy Machine v3).
  * Exposed globally as window.mintV3() for the vanilla-JS page.
  *
- * Uses mintV2 from @metaplex-foundation/mpl-candy-machine.
- * Routes through the Candy Guard program (Guard1Jw...) which CPIs into Sugar's CM.
- * Candy Guard address is read from VITE_CANDY_GUARD_ID env var.
+ * Guarded mint only — routes through the Candy Guard at VITE_CANDY_GUARD_ID.
+ * mintV2 sends to the Candy Guard which CPIs into the Candy Machine.
+ *
+ * Package : @metaplex-foundation/mpl-candy-machine (classic, not Core)
+ * Network : mainnet-beta
  */
 
 // ── Buffer polyfill ───────────────────────────────────────────────────────────
@@ -18,15 +20,12 @@ import {
   mplCandyMachine,
   fetchCandyMachine,
   mintV2,
-  getMplCandyGuardProgram,
-  getGuardSetSerializer,
 } from '@metaplex-foundation/mpl-candy-machine';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import {
   generateSigner,
   transactionBuilder,
   publicKey,
-  isSome,
   some,
   none,
 } from '@metaplex-foundation/umi';
@@ -36,6 +35,9 @@ import { setComputeUnitLimit } from '@metaplex-foundation/mpl-toolbox';
 const CANDY_MACHINE_ID = import.meta.env.VITE_CANDY_MACHINE_ID as string;
 const CANDY_GUARD_ID   = import.meta.env.VITE_CANDY_GUARD_ID   as string;
 const RPC_URL          = import.meta.env.VITE_RPC_URL          as string;
+
+// Treasury wallet — receives SOL payment from the guard
+const TREASURY = '5zxQnDjbw12Tb7fr3eFy888SFGQACvNfgvymvaAvMB8b';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 export interface MintResult {
@@ -97,7 +99,7 @@ function classifyError(e: any): never {
   if (combined.includes('0x1') || combined.includes('insufficient lamports') ||
       combined.includes('insufficientfunds') || combined.includes('insufficient funds')) {
     throw Object.assign(
-      new Error('Insufficient SOL — you need enough SOL for the mint price + transaction fees'),
+      new Error('Insufficient SOL — you need enough SOL for the mint price + fees'),
       { code: 'insufficient_sol' },
     );
   }
@@ -114,53 +116,19 @@ function classifyError(e: any): never {
   throw e;
 }
 
-// ── Auto-detect mintArgs from the guard's on-chain data ───────────────────────
-async function buildMintArgs(umi: any, candyGuardAddress: any): Promise<Record<string, any>> {
-  const mintArgs: Record<string, any> = {};
-  try {
-    const rawAccount = await umi.rpc.getAccount(candyGuardAddress);
-    if (!rawAccount.exists) {
-      console.log('[mint] Guard account not found on-chain at', candyGuardAddress.toString());
-      return mintArgs;
-    }
-    const GUARD_HEADER    = 73; // 8 discriminator + 32 base + 1 bump + 32 authority
-    const guardProgram    = getMplCandyGuardProgram(umi) as any;
-    const guardSerializer = getGuardSetSerializer(umi as any, guardProgram);
-    const [guardSet]      = guardSerializer.deserialize(rawAccount.data, GUARD_HEADER);
-
-    const active = Object.entries(guardSet)
-      .filter(([, v]) => isSome(v as any))
-      .map(([k]) => k);
-    console.log('[mint] Active guards:', active.join(', ') || 'none');
-
-    if (isSome((guardSet as any).solPayment)) {
-      const sp = (guardSet as any).solPayment.value;
-      console.log('[mint] solPayment lamports:', sp.lamports?.basisPoints?.toString(), '→ destination:', sp.destination.toString());
-      mintArgs.solPayment = some({ destination: sp.destination });
-    }
-    if (isSome((guardSet as any).freezeSolPayment)) {
-      const fsp = (guardSet as any).freezeSolPayment.value;
-      console.log('[mint] freezeSolPayment destination:', fsp.destination.toString());
-      mintArgs.freezeSolPayment = some({ destination: fsp.destination });
-    }
-  } catch (err: any) {
-    console.warn('[mint] Guard parse warning (using empty mintArgs):', err?.message);
-  }
-  return mintArgs;
-}
-
 // ── Main mint function ────────────────────────────────────────────────────────
 export async function mintFromCandyMachine(): Promise<MintResult> {
   console.log('[mint] === Candy Machine v3 mint start ===');
-  console.log('[mint] Plugin  : mplCandyMachine (Sugar / classic Candy Machine v3)');
-  console.log('[mint] Function: mintV2 via @metaplex-foundation/mpl-candy-machine');
-  console.log('[mint] VITE_CANDY_MACHINE_ID:', CANDY_MACHINE_ID || 'NOT SET');
-  console.log('[mint] VITE_CANDY_GUARD_ID  :', CANDY_GUARD_ID   || 'NOT SET');
-  console.log('[mint] VITE_RPC_URL         :', RPC_URL ? 'loaded' : 'NOT SET');
+  console.log('[mint] Package     : @metaplex-foundation/mpl-candy-machine (classic)');
+  console.log('[mint] Network     : mainnet-beta');
+  console.log('[mint] CM          :', CANDY_MACHINE_ID || 'NOT SET');
+  console.log('[mint] Guard       :', CANDY_GUARD_ID   || 'NOT SET');
+  console.log('[mint] Treasury    :', TREASURY);
+  console.log('[mint] RPC         :', RPC_URL ? 'loaded' : 'NOT SET');
 
   if (!CANDY_MACHINE_ID) throw Object.assign(new Error('VITE_CANDY_MACHINE_ID is not configured'), { code: 'config_error' });
   if (!CANDY_GUARD_ID)   throw Object.assign(new Error('VITE_CANDY_GUARD_ID is not configured'),   { code: 'config_error' });
-  if (!RPC_URL)          throw Object.assign(new Error('VITE_RPC_URL is not configured'),          { code: 'config_error' });
+  if (!RPC_URL)          throw Object.assign(new Error('VITE_RPC_URL is not configured'),           { code: 'config_error' });
 
   const phantom = getPhantom();
   if (!phantom?.publicKey) {
@@ -168,16 +136,16 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
   }
   console.log('[mint] Wallet:', phantom.publicKey.toString());
 
-  // ── UMI setup ──────────────────────────────────────────────────────────────
+  // ── UMI ───────────────────────────────────────────────────────────────────
   const umi = createUmi(RPC_URL, { commitment: 'confirmed' })
     .use(mplCandyMachine())
     .use(walletAdapterIdentity(phantom as any));
 
   console.log('[mint] UMI identity:', umi.identity.publicKey.toString());
 
-  // ── Fetch candy machine ────────────────────────────────────────────────────
-  const cmPK     = publicKey(CANDY_MACHINE_ID);
-  const guardPK  = publicKey(CANDY_GUARD_ID);
+  // ── Fetch candy machine ───────────────────────────────────────────────────
+  const cmPK    = publicKey(CANDY_MACHINE_ID);
+  const guardPK = publicKey(CANDY_GUARD_ID);
 
   let cm: Awaited<ReturnType<typeof fetchCandyMachine>>;
   try {
@@ -190,7 +158,7 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
     );
   }
 
-  console.log('[mint] Candy Machine:');
+  console.log('[mint] Candy Machine fetched:');
   console.log('  publicKey         :', cm.publicKey.toString());
   console.log('  mintAuthority     :', cm.mintAuthority.toString());
   console.log('  authority         :', cm.authority.toString());
@@ -198,7 +166,6 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
   console.log('  itemsAvailable    :', cm.data.itemsAvailable.toString());
   console.log('  itemsRedeemed     :', cm.itemsRedeemed.toString());
   console.log('  tokenStandard     :', cm.tokenStandard);
-  console.log('[mint] Candy Guard  :', guardPK.toString());
 
   if (Number(cm.itemsRedeemed) >= Number(cm.data.itemsAvailable)) {
     throw Object.assign(new Error('Sold out — all NFTs have been minted!'), { code: 'sold_out' });
@@ -206,12 +173,9 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
 
   // ── Generate new NFT mint keypair ─────────────────────────────────────────
   const nftMint = generateSigner(umi);
-  console.log('[mint] New NFT mint keypair:', nftMint.publicKey.toString());
+  console.log('[mint] New NFT mint:', nftMint.publicKey.toString());
 
-  // ── Build mintArgs by reading the guard's active guards on-chain ──────────
-  const mintArgs = await buildMintArgs(umi, guardPK);
-
-  // ── Build mintV2 params ────────────────────────────────────────────────────
+  // ── Build mintV2 params (guarded, always) ─────────────────────────────────
   const mintParams = {
     candyMachine:              cm.publicKey,
     candyGuard:                guardPK,
@@ -219,8 +183,10 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
     collectionMint:            cm.collectionMint,
     collectionUpdateAuthority: cm.authority,
     tokenStandard:             cm.tokenStandard,
-    mintArgs,
-    group:                     none<string>(),
+    mintArgs: {
+      solPayment: some({ destination: publicKey(TREASURY) }),
+    },
+    group: none<string>(),
   };
 
   console.log('[mint] mint params', {
@@ -230,7 +196,7 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
     collectionMint:            mintParams.collectionMint.toString(),
     collectionUpdateAuthority: mintParams.collectionUpdateAuthority.toString(),
     tokenStandard:             mintParams.tokenStandard,
-    mintArgsKeys:              Object.keys(mintArgs).join(', ') || '(none)',
+    'mintArgs.solPayment.destination': TREASURY,
   });
 
   console.log('[mint] Sending mintV2 transaction...');
