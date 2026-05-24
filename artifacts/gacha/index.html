@@ -735,15 +735,26 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* Left: inline vault */
 .gacha-vault-col{
-  flex:1 1 260px;min-width:0;
-  overflow:visible;
+  flex:1 1 280px;min-width:0;
+  position:sticky;top:1rem;max-height:calc(100vh - 5rem);
+  display:flex;flex-direction:column;
+  overflow:hidden;
 }
 .gacha-vault-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
 .gacha-vault-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--gold)}
 .gacha-vault-prog{font-size:.72rem;color:var(--muted)}
 .gacha-vault-pills{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.65rem}
 .gacha-vault-pills .pill{padding:.22rem .5rem;font-size:.65rem}
-#gacha-vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:5px}
+#gacha-vault-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(125px,1fr));
+  gap:8px;
+  overflow-y:auto;
+  flex:1 1 0;
+  padding-bottom:.5rem;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,200,0,.3) transparent;
+}
 
 /* Right: machine column */
 .gacha-machine-col{
@@ -3445,32 +3456,26 @@ function renderVault(){
   grid.innerHTML='';
   filtered.forEach((card,i)=>{
     const isOwned=myCollection.has(card.id);
-    const wrap=document.createElement('div');
-    wrap.className='card-wrap vault-card'+(isOwned?' owned':'');
-    wrap.style.animationDelay=(i*10)+'ms';
-    wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
-    wrap.innerHTML=`
-      <div class="card-inner">
-        <div class="card-face card-back" style="${isOwned?'':'padding:0;overflow:hidden'}">
-          ${isOwned?'':`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`}
-        </div>
-        <div class="card-face card-front ${card.rarity}">
-          <div class="card-banner">
-            <span class="rarity-badge">${card.rarity.toUpperCase()}</span>
-            <span class="card-num">#${card.id}</span>
-          </div>
-          <div class="card-img-area">
-            <img src="${card.image}" alt="${card.name}" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')"/>
-            <div class="card-flag" style="display:none">${card.flag}</div>
-          </div>
-          <div class="card-holo"></div>
-          <div class="card-footer">
-            <div class="card-name">${card.name}</div>
-            <div class="card-meta"><span>${card.position||''}</span><span>${card.country||''}</span></div>
-          </div>
-        </div>
+    const el=makeCard(card,i);
+    el.classList.add('vault-card');
+    if(isOwned){
+      el.classList.add('owned');
+      // auto-flip to show front; tap to toggle
+      el.classList.add('flipped');
+      el.onclick=()=>el.classList.toggle('flipped');
+    } else {
+      // Locked card — show silhouette on back
+      el.style.filter='grayscale(1)';
+      el.style.opacity='.22';
+      el.style.cursor='default';
+      el.onclick=null;
+      const back=el.querySelector('.card-back');
+      if(back) back.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.3rem;opacity:.5">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span style="font-size:.55rem;letter-spacing:1px;font-family:'Bebas Neue',sans-serif">LOCKED</span>
       </div>`;
-    grid.appendChild(wrap);
+    }
+    grid.appendChild(el);
   });
 }
 
@@ -3724,34 +3729,28 @@ function renderGachaVault(){
   const prog=document.getElementById('gacha-vault-prog');
   if(!grid) return;
   const filtered=(gachaVaultFilter==='all'?allCards:allCards.filter(c=>c.rarity===gachaVaultFilter)).slice(0,50);
-  if(prog) prog.textContent=`${myCollection.size} / 100`;
+  if(prog) prog.textContent=`${myCollection.size} / ${allCards.length}`;
   grid.innerHTML='';
   filtered.forEach((card,i)=>{
     const isOwned=myCollection.has(card.id);
-    const wrap=document.createElement('div');
-    wrap.className='card-wrap vault-card'+(isOwned?' owned':'');
-    wrap.style.animationDelay=(i*8)+'ms';
-    wrap.onclick=isOwned?()=>wrap.classList.toggle('flipped'):null;
-    wrap.innerHTML=`
-      <div class="card-inner">
-        <div class="card-face card-back" style="${isOwned?'':'padding:0;overflow:hidden'}">
-          ${isOwned?'':`<img src="/pack.png" alt="Pack" style="width:100%;height:100%;object-fit:cover;border-radius:6px"/>`}
-        </div>
-        <div class="card-face card-front ${card.rarity}">
-          <div class="card-banner">
-            <span class="rarity-badge">${card.rarity.substring(0,1).toUpperCase()}</span>
-          </div>
-          <div class="card-img-area">
-            <img src="${card.image}" alt="${card.name}" onerror="this.style.display='none'"/>
-            <div class="card-flag" style="display:none">${card.flag}</div>
-          </div>
-          <div class="card-holo"></div>
-          <div class="card-footer">
-            <div class="card-name" style="font-size:.5rem">${card.name}</div>
-          </div>
-        </div>
+    const el=makeCard(card,i);
+    el.classList.add('vault-card');
+    if(isOwned){
+      el.classList.add('owned');
+      el.classList.add('flipped');
+      el.onclick=()=>el.classList.toggle('flipped');
+    } else {
+      el.style.filter='grayscale(1)';
+      el.style.opacity='.2';
+      el.style.cursor='default';
+      el.onclick=null;
+      const back=el.querySelector('.card-back');
+      if(back) back.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.25rem;opacity:.4">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span style="font-size:.45rem;letter-spacing:1px;font-family:'Bebas Neue',sans-serif">LOCKED</span>
       </div>`;
-    grid.appendChild(wrap);
+    }
+    grid.appendChild(el);
   });
 }
 function filterGachaVault(r,btn){
