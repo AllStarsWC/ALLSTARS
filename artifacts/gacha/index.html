@@ -731,7 +731,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* ══════════════ GACHA MACHINE ══════════════ */
 /* ── two-column gacha layout ── */
 #gacha-page{padding:1rem 2rem;max-width:1600px;margin:0 auto}
-#gacha-page.active{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
+#gacha-page.active{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start;padding-top:.5rem}
 
 /* machine column */
 .gacha-machine-col{
@@ -741,7 +741,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* controls column */
 .gacha-controls-col{
   display:flex;flex-direction:column;gap:1.25rem;
-  position:sticky;top:1rem;
+  position:sticky;top:5rem;align-self:start;
 }
 
 /* Gacha selector */
@@ -2309,11 +2309,11 @@ nav a:hover,nav a.active{color:var(--gold)}
       <div class="rarity-guide">
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:rgba(255,255,255,.3)"></span><span class="rg-name">Common</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:65%;background:rgba(255,255,255,.3)"></div></div><span class="rg-pct">65%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:70%;background:rgba(255,255,255,.3)"></div></div><span class="rg-pct">70%</span></div>
         </div>
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:#93c5fd;box-shadow:0 0 6px rgba(147,197,253,.5)"></span><span class="rg-name" style="color:#93c5fd">Rare</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:30%;background:#93c5fd"></div></div><span class="rg-pct">30%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:25%;background:#93c5fd"></div></div><span class="rg-pct">25%</span></div>
         </div>
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:#c4b5fd;box-shadow:0 0 6px rgba(196,181,253,.5)"></span><span class="rg-name" style="color:#c4b5fd">Epic</span></div>
