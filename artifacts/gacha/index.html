@@ -733,30 +733,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 #gacha-page{padding:1rem 1.5rem;max-width:1500px;margin:0 auto}
 #gacha-page.active{display:flex;flex-direction:row;align-items:flex-start;gap:1.5rem}
 
-/* Left: inline vault */
-.gacha-vault-col{
-  flex:1 1 280px;min-width:0;
-  position:sticky;top:1rem;max-height:calc(100vh - 5rem);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-}
-.gacha-vault-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
-.gacha-vault-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--gold)}
-.gacha-vault-prog{font-size:.72rem;color:var(--muted)}
-.gacha-vault-pills{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.65rem}
-.gacha-vault-pills .pill{padding:.22rem .5rem;font-size:.65rem}
-#gacha-vault-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(125px,1fr));
-  gap:8px;
-  overflow-y:auto;
-  flex:1 1 0;
-  padding-bottom:.5rem;
-  scrollbar-width:thin;
-  scrollbar-color:rgba(255,200,0,.3) transparent;
-}
-
-/* Right: machine column */
+/* machine column */
 .gacha-machine-col{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:1rem;
   width:min(640px,100%);
@@ -764,8 +741,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 @media(max-width:900px){
   #gacha-page.active{flex-direction:column}
-  .gacha-vault-col{max-height:280px;position:static;width:100%;order:2}
-  .gacha-machine-col{width:100%;order:1}
+  .gacha-machine-col{width:100%}
 }
 
 .machine-title-wrap{text-align:center}
@@ -2212,23 +2188,7 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
 
-  <!-- LEFT: inline vault -->
-  <div class="gacha-vault-col">
-    <div class="gacha-vault-header">
-      <span class="gacha-vault-title">Gacha Collection</span>
-      <span id="gacha-vault-prog" class="gacha-vault-prog">0 / 100</span>
-    </div>
-    <div class="gacha-vault-pills">
-      <button class="pill active" onclick="filterGachaVault('all',this)">All</button>
-      <button class="pill" onclick="filterGachaVault('legendary',this)">⭐</button>
-      <button class="pill" onclick="filterGachaVault('epic',this)">💜</button>
-      <button class="pill" onclick="filterGachaVault('rare',this)">💙</button>
-      <button class="pill" onclick="filterGachaVault('common',this)">⬜</button>
-    </div>
-    <div id="gacha-vault-grid"></div>
-  </div>
-
-  <!-- RIGHT: machine column -->
+  <!-- machine column -->
   <div class="gacha-machine-col">
     <div class="machine-title-wrap">
       <h2>ALL STARS <span>GACHA</span></h2>
@@ -2837,7 +2797,7 @@ async function init(){
   }catch(e){serverConfig={freeMode:true,pull1Cost:0,pull10Cost:0,pull1CostUI:0,pull10CostUI:0}}
 
   const r2=await fetch('/api/gacha/cards'); allCards=await r2.json();
-  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim(); renderGachaVault();
+  renderMarket(); renderFeaturedCard(); renderVault(); renderClaim();
 
   // Win banner confetti dots
   (function(){
@@ -3725,50 +3685,10 @@ function setBtns(on){
   document.getElementById('btn1').disabled=!on;
   document.getElementById('btn10').disabled=!on;
 }
-// ═══════════════════════════════════════════════════════════════
-// GACHA PAGE INLINE VAULT
-// ═══════════════════════════════════════════════════════════════
-let gachaVaultFilter='all';
-function renderGachaVault(){
-  const grid=document.getElementById('gacha-vault-grid');
-  const prog=document.getElementById('gacha-vault-prog');
-  if(!grid) return;
-  const filtered=(gachaVaultFilter==='all'?allCards:allCards.filter(c=>c.rarity===gachaVaultFilter)).slice(0,50);
-  if(prog) prog.textContent=`${myCollection.size} / ${allCards.length}`;
-  grid.innerHTML='';
-  filtered.forEach((card,i)=>{
-    const isOwned=myCollection.has(card.id);
-    const el=makeCard(card,i);
-    el.classList.add('vault-card');
-    if(isOwned){
-      el.classList.add('owned');
-      el.classList.add('flipped');
-      el.onclick=()=>el.classList.toggle('flipped');
-    } else {
-      el.style.cursor='default';
-      el.onclick=null;
-      const inner=el.querySelector('.card-inner');
-      if(inner){
-        const lb=document.createElement('div');
-        lb.className='locked-back';
-        inner.appendChild(lb);
-      }
-    }
-    grid.appendChild(el);
-  });
-}
-function filterGachaVault(r,btn){
-  gachaVaultFilter=r;
-  document.querySelectorAll('.gacha-vault-pills .pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGachaVault();
-}
-
 function updateStats(){
   const ep=document.getElementById('stat-pulls'); if(ep) ep.textContent=totalPulls;
   const eo=document.getElementById('stat-owned'); if(eo) eo.textContent=myCollection.size;
   const el=document.getElementById('stat-leg');  if(el) el.textContent=totalLeg;
-  renderGachaVault();
 }
 function getUN(){ return document.getElementById('username-input').value.trim()||'Player'; }
 function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
