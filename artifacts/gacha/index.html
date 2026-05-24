@@ -744,6 +744,45 @@ nav a:hover,nav a.active{color:var(--gold)}
   position:sticky;top:1rem;
 }
 
+/* Gacha selector */
+.gacha-selector{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.gacha-selector-title{
+  font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:3px;
+  color:var(--muted);padding:.6rem 1rem .3rem;text-transform:uppercase;
+}
+.gacha-selector-list{display:flex;flex-direction:column}
+.gacha-sel-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem 1rem;border-top:1px solid rgba(255,255,255,.05);
+  cursor:default;transition:background .15s;
+}
+.gacha-sel-item.active{
+  background:rgba(255,215,0,.07);cursor:default;
+}
+.gacha-sel-item.active .gsi-name{
+  color:var(--gold);font-weight:700;
+}
+.gacha-sel-item.locked{opacity:.45;cursor:not-allowed}
+.gsi-name{
+  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:1.5px;
+  color:rgba(255,255,255,.75);
+}
+.gsi-badge{
+  font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:.2rem .5rem;border-radius:4px;
+}
+.gsi-badge.now{
+  background:rgba(255,215,0,.15);color:var(--gold);
+  border:1px solid rgba(255,215,0,.3);
+}
+.gsi-badge.soon{
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);
+  border:1px solid rgba(255,255,255,.1);
+}
+
 @media(max-width:960px){
   #gacha-page.active{grid-template-columns:1fr}
   .gacha-controls-col{position:static}
@@ -2226,20 +2265,27 @@ nav a:hover,nav a.active{color:var(--gold)}
 
     <div class="wallet-warn" id="wallet-warn">⚠️ Connect your Phantom wallet to pull cards</div>
 
-    <!-- ⚽ PULL CONSOLE -->
-    <div class="pull-console" id="stadium-terminal">
-      <button class="pull-img-btn pull1-btn" id="btn1" onclick="doPull1()" title="Pull × 1">
-        <img src="/pull1-btn.png" alt="Pull x1"/>
-        <div class="pull-cost-tag" id="cost1-lbl">0.5 SOL</div>
-      </button>
-      <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10 — Coming Soon" style="position:relative">
-        <img src="/pull10-btn.png" alt="Pull x10" style="opacity:.45;filter:grayscale(.5)"/>
-        <div class="pull-cost-tag" id="cost10-lbl" style="opacity:.45">4 SOL</div>
-        <div class="pull-discount-tag" style="opacity:.45">20% discount*</div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:3px;color:#FFD700;background:rgba(0,0,0,.72);padding:.3rem .7rem;border-radius:6px;border:1px solid rgba(255,215,0,.4)">COMING SOON</span>
+    <!-- Gacha selector -->
+    <div class="gacha-selector">
+      <div class="gacha-selector-title">Select Gacha</div>
+      <div class="gacha-selector-list">
+        <div class="gacha-sel-item active">
+          <span class="gsi-name">World Cup 26</span>
+          <span class="gsi-badge now">Now</span>
         </div>
-      </button>
+        <div class="gacha-sel-item locked">
+          <span class="gsi-name">UCL All Stars 26/27</span>
+          <span class="gsi-badge soon">Coming Soon</span>
+        </div>
+        <div class="gacha-sel-item locked">
+          <span class="gsi-name">Ballon d'Or Edition</span>
+          <span class="gsi-badge soon">Coming Soon</span>
+        </div>
+        <div class="gacha-sel-item locked">
+          <span class="gsi-name">UFC Champions</span>
+          <span class="gsi-badge soon">Coming Soon</span>
+        </div>
+      </div>
     </div>
 
     <!-- Statistics panel -->
@@ -2263,21 +2309,37 @@ nav a:hover,nav a.active{color:var(--gold)}
       <div class="rarity-guide">
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:rgba(255,255,255,.3)"></span><span class="rg-name">Common</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:74%;background:rgba(255,255,255,.3)"></div></div><span class="rg-pct">74%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:65%;background:rgba(255,255,255,.3)"></div></div><span class="rg-pct">65%</span></div>
         </div>
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:#93c5fd;box-shadow:0 0 6px rgba(147,197,253,.5)"></span><span class="rg-name" style="color:#93c5fd">Rare</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:19%;background:#93c5fd"></div></div><span class="rg-pct">19%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:30%;background:#93c5fd"></div></div><span class="rg-pct">30%</span></div>
         </div>
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:#c4b5fd;box-shadow:0 0 6px rgba(196,181,253,.5)"></span><span class="rg-name" style="color:#c4b5fd">Epic</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:6%;background:#c4b5fd"></div></div><span class="rg-pct">6%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:3%;background:#c4b5fd"></div></div><span class="rg-pct">3%</span></div>
         </div>
         <div class="rg-row">
           <div class="rg-left"><span class="rg-dot" style="background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.6)"></span><span class="rg-name" style="color:var(--gold)">Legendary</span></div>
-          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:1%;background:var(--gold)"></div></div><span class="rg-pct">1%</span></div>
+          <div class="rg-right"><div class="rg-bar-track"><div class="rg-bar-fill" style="width:2%;background:var(--gold)"></div></div><span class="rg-pct">2%</span></div>
         </div>
       </div>
+    </div>
+
+    <!-- ⚽ PULL CONSOLE -->
+    <div class="pull-console" id="stadium-terminal">
+      <button class="pull-img-btn pull1-btn" id="btn1" onclick="doPull1()" title="Pull × 1">
+        <img src="/pull1-btn.png" alt="Pull x1"/>
+        <div class="pull-cost-tag" id="cost1-lbl">0.5 SOL</div>
+      </button>
+      <button class="pull-img-btn pull10-btn" id="btn10" onclick="doPull10()" title="Pull × 10 — Coming Soon" style="position:relative">
+        <img src="/pull10-btn.png" alt="Pull x10" style="opacity:.45;filter:grayscale(.5)"/>
+        <div class="pull-cost-tag" id="cost10-lbl" style="opacity:.45">4 SOL</div>
+        <div class="pull-discount-tag" style="opacity:.45">20% discount*</div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:3px;color:#FFD700;background:rgba(0,0,0,.72);padding:.3rem .7rem;border-radius:6px;border:1px solid rgba(255,215,0,.4)">COMING SOON</span>
+        </div>
+      </button>
     </div>
 
   </div>
