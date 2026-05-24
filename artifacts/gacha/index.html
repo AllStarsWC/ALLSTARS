@@ -2317,36 +2317,47 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* ══ POWERED BY ══ */
 .powered-by-section{
-  padding:3.5rem 2rem;
-  border-top:1px solid rgba(255,255,255,.07);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  background:rgba(0,0,0,.3);
+  padding:4rem 2rem;
+  border-top:1px solid rgba(255,255,255,.09);
+  border-bottom:1px solid rgba(255,255,255,.09);
+  background:rgba(0,0,0,.45);
 }
-.powered-by-wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2rem}
+.powered-by-wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2.5rem}
 .powered-by-label{
-  font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:6px;
-  color:rgba(255,255,255,.35);text-transform:uppercase;
+  font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:8px;
+  color:rgba(255,255,255,.5);text-transform:uppercase;
 }
 .powered-by-logos{
   display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  gap:2rem;
+  gap:2.5rem 3rem;
 }
 .pbl{
   display:flex;align-items:center;justify-content:center;
-  height:52px;
-  transition:opacity .2s,transform .2s;
-  opacity:.75;
+  height:100px;
+  padding:1rem 1.6rem;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  transition:opacity .2s,transform .2s,background .2s,box-shadow .2s;
+  opacity:.95;
 }
-.pbl:hover{opacity:1;transform:scale(1.06)}
+.pbl:hover{opacity:1;transform:scale(1.07);background:rgba(255,255,255,.12);border-color:rgba(255,215,0,.3);box-shadow:0 0 20px rgba(255,215,0,.12)}
 .pbl img{
   height:100%;width:auto;
-  max-width:160px;
-  object-fit:contain;border-radius:8px;
+  max-width:210px;
+  object-fit:contain;
+}
+.pbl-light{background:rgba(255,255,255,.92);border-color:rgba(255,255,255,.3)}
+.pbl-light:hover{background:#fff;border-color:rgba(255,215,0,.5)}
+@media(max-width:900px){
+  .powered-by-logos{gap:1.5rem 2rem}
+  .pbl{height:80px;padding:.75rem 1.25rem}
+  .pbl img{max-width:170px}
 }
 @media(max-width:600px){
-  .powered-by-logos{gap:1.25rem}
-  .pbl{height:40px}
-  .pbl img{max-width:110px}
+  .powered-by-logos{gap:1rem 1.25rem}
+  .pbl{height:64px;padding:.6rem 1rem}
+  .pbl img{max-width:130px}
 }
 </style>
 </head>
@@ -2624,7 +2635,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     <div class="powered-by-wrap">
       <div class="powered-by-label">Powered By</div>
       <div class="powered-by-logos">
-        <a href="https://sportmonks.com" target="_blank" rel="noopener" class="pbl" title="Sportmonks">
+        <a href="https://sportmonks.com" target="_blank" rel="noopener" class="pbl pbl-light" title="Sportmonks">
           <img src="/logo-sportmonks.png" alt="Sportmonks"/>
         </a>
         <a href="https://tensor.trade" target="_blank" rel="noopener" class="pbl" title="Tensor">
