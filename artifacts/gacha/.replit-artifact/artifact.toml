@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "WC 2026 Gacha Machine"
+title = "ALLSTARS COLLECTIBLES"
 version = "1.0.0"
 id = "artifacts/gacha"
 router = "path"
