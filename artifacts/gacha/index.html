@@ -1325,17 +1325,16 @@ nav a:hover,nav a.active{color:var(--gold)}
 .vault-card.owned:hover{transform:translateY(-5px) scale(1.04)}
 .vault-card .locked-back{
   position:absolute;inset:0;border-radius:14px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  background:var(--locked-bg,linear-gradient(160deg,#111827,#1f2937));
+  background:url('/pack.png') center/cover no-repeat,#0a0a0a;
   border:2px solid var(--locked-border,rgba(156,163,175,.3));
   box-shadow:0 0 10px 2px var(--locked-glow,rgba(156,163,175,.1));
   transform:translateZ(2px);
   backface-visibility:hidden;
 }
-.vault-card.legendary .locked-back{--locked-bg:linear-gradient(160deg,#1a1200,#2a1c00);--locked-border:rgba(255,215,0,.5);--locked-glow:rgba(255,215,0,.3)}
-.vault-card.epic .locked-back{--locked-bg:linear-gradient(160deg,#0e0520,#180a2e);--locked-border:rgba(155,89,255,.5);--locked-glow:rgba(155,89,255,.3)}
-.vault-card.rare .locked-back{--locked-bg:linear-gradient(160deg,#030c1e,#071828);--locked-border:rgba(30,144,255,.5);--locked-glow:rgba(30,144,255,.3)}
-.vault-card.common .locked-back{--locked-bg:linear-gradient(160deg,#111827,#1f2937);--locked-border:rgba(156,163,175,.35);--locked-glow:rgba(156,163,175,.1)}
+.vault-card.legendary .locked-back{--locked-border:rgba(255,215,0,.6);--locked-glow:rgba(255,215,0,.4)}
+.vault-card.epic .locked-back{--locked-border:rgba(155,89,255,.6);--locked-glow:rgba(155,89,255,.4)}
+.vault-card.rare .locked-back{--locked-border:rgba(30,144,255,.6);--locked-glow:rgba(30,144,255,.4)}
+.vault-card.common .locked-back{--locked-border:rgba(156,163,175,.35);--locked-glow:rgba(156,163,175,.15)}
 
 /* ══════════════ RANKINGS ══════════════ */
 #rankings-page{padding:2rem;max-width:700px;margin:0 auto}
@@ -3483,7 +3482,6 @@ function renderVault(){
       if(inner){
         const lb=document.createElement('div');
         lb.className='locked-back';
-        lb.innerHTML=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.5rem;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.4)">LOCKED</span>`;
         inner.appendChild(lb);
       }
     }
@@ -3758,7 +3756,6 @@ function renderGachaVault(){
       if(inner){
         const lb=document.createElement('div');
         lb.className='locked-back';
-        lb.innerHTML=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="font-size:.5rem;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,.4)">LOCKED</span>`;
         inner.appendChild(lb);
       }
     }
