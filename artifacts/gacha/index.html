@@ -730,18 +730,23 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 /* ══════════════ GACHA MACHINE ══════════════ */
 /* ── two-column gacha layout ── */
-#gacha-page{padding:1rem 1.5rem;max-width:1500px;margin:0 auto}
-#gacha-page.active{display:flex;flex-direction:row;align-items:flex-start;gap:1.5rem}
+#gacha-page{padding:1rem 2rem;max-width:1600px;margin:0 auto}
+#gacha-page.active{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
 
 /* machine column */
 .gacha-machine-col{
-  flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:1rem;
-  width:min(640px,100%);
+  display:flex;flex-direction:column;align-items:center;gap:.75rem;min-width:0;
 }
 
-@media(max-width:900px){
-  #gacha-page.active{flex-direction:column}
-  .gacha-machine-col{width:100%}
+/* controls column */
+.gacha-controls-col{
+  display:flex;flex-direction:column;gap:1.25rem;
+  position:sticky;top:1rem;
+}
+
+@media(max-width:960px){
+  #gacha-page.active{grid-template-columns:1fr}
+  .gacha-controls-col{position:static}
 }
 
 .machine-title-wrap{text-align:center}
@@ -775,8 +780,8 @@ nav a:hover,nav a.active{color:var(--gold)}
 /* Gacha Machine Image */
 .globe-wrap{position:relative;display:flex;align-items:center;justify-content:center}
 .gm-wrap{
-  position:relative;width:min(620px,92vw);cursor:pointer;
-  filter:drop-shadow(0 0 24px rgba(255,210,74,.45));
+  position:relative;width:min(820px,100%);cursor:pointer;
+  filter:drop-shadow(0 0 32px rgba(255,210,74,.5));
   transition:filter .3s;flex-shrink:0;
 }
 .gm-wrap:hover .gm-btn{opacity:1}
@@ -2188,14 +2193,14 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ GACHA PAGE ══ -->
 <div id="gacha-page" class="page">
 
-  <!-- machine column -->
+  <!-- LEFT: machine -->
   <div class="gacha-machine-col">
     <div class="machine-title-wrap">
       <h2>ALL STARS <span>GACHA</span></h2>
       <p>FIFA World Cup 2026 — Pull to Collect</p>
     </div>
 
-    <div class="globe-wrap">
+    <div class="globe-wrap" style="width:100%">
       <div class="gm-wrap" id="globe" onclick="doPull1()">
         <img src="/gacha-machine.png?v=2" class="gm-img" alt="Gacha Machine"/>
         <div class="gm-shelf gm-shelf-1"></div>
@@ -2205,6 +2210,19 @@ nav a:hover,nav a.active{color:var(--gold)}
         <div class="gm-slot"></div>
       </div>
     </div>
+
+    <!-- Keep live feed + chat hidden so socket events still work -->
+    <div style="display:none">
+      <div id="live-feed"></div>
+      <div id="chat-msgs"></div>
+      <input id="chat-in"/>
+    </div>
+
+    <div id="card-stage"></div>
+  </div>
+
+  <!-- RIGHT: controls -->
+  <div class="gacha-controls-col">
 
     <div class="wallet-warn" id="wallet-warn">⚠️ Connect your Phantom wallet to pull cards</div>
 
@@ -2225,7 +2243,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     </div>
 
     <!-- Statistics panel -->
-    <div class="panel stat-panel" style="max-width:380px;width:100%;margin-top:.5rem">
+    <div class="panel stat-panel" style="width:100%">
       <div class="panel-title">Session Statistics</div>
       <div class="stat-strip">
         <div class="stat-block">
@@ -2262,14 +2280,6 @@ nav a:hover,nav a.active{color:var(--gold)}
       </div>
     </div>
 
-    <!-- Keep live feed + chat hidden so socket events still work -->
-    <div style="display:none">
-      <div id="live-feed"></div>
-      <div id="chat-msgs"></div>
-      <input id="chat-in"/>
-    </div>
-
-    <div id="card-stage"></div>
   </div>
 
 </div><!-- /gacha-page -->
