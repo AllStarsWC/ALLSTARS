@@ -240,17 +240,26 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
     );
   }
 
-  // ── The Candy Guard PDA = cm.mintAuthority ────────────────────────────────
-  const candyGuardAddress = cm.mintAuthority;
-  console.log('[mint] Candy Guard address:', candyGuardAddress.toString());
+  // ── Candy Guard detection ─────────────────────────────────────────────────
+  // mintAuthority === authority  →  no guard attached (bare CM)
+  // mintAuthority !== authority  →  a Candy Guard PDA is attached
+  const hasGuard = cm.mintAuthority.toString() !== cm.authority.toString();
+  console.log('[mint] Candy Guard attached:', hasGuard);
 
-  // ── Auto-detect guard mint args ───────────────────────────────────────────
-  const mintArgs = await buildMintArgs(umi, candyGuardAddress);
+  let mintArgs: Record<string, any> = {};
+  if (hasGuard) {
+    console.log('[mint] Candy Guard address:', cm.mintAuthority.toString());
+    mintArgs = await buildMintArgs(umi, cm.mintAuthority);
+  } else {
+    console.log('[mint] No Candy Guard — minting directly against the candy machine');
+  }
   console.log('[mint] mintArgs keys:', Object.keys(mintArgs).join(', ') || '(none)');
 
   // ── Mint ──────────────────────────────────────────────────────────────────
+  // Use cm.collectionMint from the on-chain account — avoids env var typo issues
   const nftMint = generateSigner(umi);
   console.log('[mint] New NFT mint keypair:', nftMint.publicKey.toString());
+  console.log('[mint] collectionMint (on-chain):', cm.collectionMint.toString());
   console.log('[mint] Sending mintV2 transaction...');
 
   let sig: Uint8Array;
@@ -259,12 +268,12 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
       .add(setComputeUnitLimit(umi, { units: 800_000 }))
       .add(
         mintV2(umi, {
-          candyMachine:            cmPK,
-          candyGuard:              candyGuardAddress,
+          candyMachine:              cmPK,
+          ...(hasGuard ? { candyGuard: cm.mintAuthority } : {}),
           nftMint,
-          collectionMint:          publicKey(COLLECTION_MINT),
+          collectionMint:            cm.collectionMint,
           collectionUpdateAuthority: cm.authority,
-          tokenStandard:           cm.tokenStandard,
+          tokenStandard:             cm.tokenStandard,
           mintArgs,
         }),
       )
