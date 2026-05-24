@@ -1,6 +1,12 @@
 /**
  * Candy Machine v3 on-chain minting module.
  * Exposed globally as window.mintV3() for the vanilla-JS page.
+ *
+ * Unguarded CM  (mintAuthority === authority):  uses mintFromCandyMachineV2
+ *   → calls CndyV3LdqHUfDLmE5naZjVN8rBZz4tqhdefbAnjHG3JR directly, NO guard accounts
+ *
+ * Guarded CM    (mintAuthority !== authority):  uses mintV2 through the guard
+ *   → calls Guard1JwRhJkVH6XZhzoYxeBVQe872VH6QggF4BWmS9g with auto-detected mintArgs
  */
 
 // ── Buffer polyfill (required by @solana/web3.js in browser) ─────────────────
@@ -14,6 +20,7 @@ import {
   mplCandyMachine,
   fetchCandyMachine,
   mintV2,
+  mintFromCandyMachineV2,
   getGuardSetSerializer,
   getMplCandyGuardProgram,
 } from '@metaplex-foundation/mpl-candy-machine';
@@ -29,7 +36,6 @@ import { setComputeUnitLimit } from '@metaplex-foundation/mpl-toolbox';
 
 // ── Env ──────────────────────────────────────────────────────────────────────
 const CANDY_MACHINE_ID = import.meta.env.VITE_CANDY_MACHINE_ID as string;
-const COLLECTION_MINT  = import.meta.env.VITE_COLLECTION_MINT  as string;
 const RPC_URL          = import.meta.env.VITE_RPC_URL          as string;
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -79,27 +85,18 @@ function getPhantom(): PhantomLike | null {
   return window.phantom?.solana ?? window.solana ?? null;
 }
 
-// ── Classify send/confirm errors ─────────────────────────────────────────────
+// ── Error classifier ──────────────────────────────────────────────────────────
 function classifyError(e: any): never {
-  const msg: string = String(e?.message ?? e ?? '').toLowerCase();
-  const logs: string = (e?.logs ?? []).join(' ').toLowerCase();
+  const msg     = String(e?.message ?? e ?? '').toLowerCase();
+  const logs    = (e?.logs ?? []).join(' ').toLowerCase();
   const combined = msg + ' ' + logs;
 
-  if (
-    msg.includes('user rejected') ||
-    msg.includes('transaction rejected') ||
-    msg.includes('cancelled') ||
-    msg.includes('denied') ||
-    e?.code === 4001
-  ) {
+  if (msg.includes('user rejected') || msg.includes('transaction rejected') ||
+      msg.includes('cancelled') || msg.includes('denied') || e?.code === 4001) {
     throw Object.assign(new Error('Transaction rejected by user'), { code: 'user_rejected' });
   }
-  if (
-    combined.includes('0x1') ||
-    combined.includes('insufficient lamports') ||
-    combined.includes('insufficientfunds') ||
-    combined.includes('insufficient funds')
-  ) {
+  if (combined.includes('0x1') || combined.includes('insufficient lamports') ||
+      combined.includes('insufficientfunds') || combined.includes('insufficient funds')) {
     throw Object.assign(
       new Error('Insufficient SOL — you need enough SOL for the mint price + transaction fees'),
       { code: 'insufficient_sol' },
@@ -108,110 +105,71 @@ function classifyError(e: any): never {
   if (combined.includes('sold out') || combined.includes('0x1578')) {
     throw Object.assign(new Error('Sold out — all NFTs have been minted!'), { code: 'sold_out' });
   }
-  if (combined.includes('not live') || combined.includes('mint not started') || combined.includes('before start date')) {
+  if (combined.includes('not live') || combined.includes('before start date')) {
     throw Object.assign(new Error('Mint has not started yet'), { code: 'not_live' });
   }
-  if (combined.includes('allowlist') || combined.includes('address gate') || combined.includes('not eligible')) {
+  if (combined.includes('allowlist') || combined.includes('address gate') ||
+      combined.includes('not eligible')) {
     throw Object.assign(new Error('Your wallet is not on the allowlist for this mint'), { code: 'not_eligible' });
   }
   throw e;
 }
 
-// ── Candy Guard auto-detection ────────────────────────────────────────────────
+// ── Guard auto-detection (guarded CM only) ────────────────────────────────────
 async function buildMintArgs(umi: any, candyGuardAddress: any) {
   const mintArgs: Record<string, any> = {};
   try {
     const rawAccount = await umi.rpc.getAccount(candyGuardAddress);
     if (!rawAccount.exists) {
-      console.log('[mint] Candy Guard account not found at', candyGuardAddress.toString());
+      console.log('[mint] Guard account not found at', candyGuardAddress.toString());
       return mintArgs;
     }
-
-    // Header: 8 discriminator + 32 base + 1 bump + 32 authority = 73 bytes
-    const GUARD_HEADER = 73;
+    const GUARD_HEADER = 73; // 8 discriminator + 32 base + 1 bump + 32 authority
     const guardProgram = getMplCandyGuardProgram(umi) as any;
     const guardSetSerializer = getGuardSetSerializer(umi as any, guardProgram);
     const [guardSet] = guardSetSerializer.deserialize(rawAccount.data, GUARD_HEADER);
 
-    console.log('[mint] Candy Guard deserialized. Active guards:',
+    console.log('[mint] Active guards:',
       Object.entries(guardSet)
         .filter(([, v]) => isSome(v as any))
-        .map(([k]) => k)
-        .join(', ') || 'none'
+        .map(([k]) => k).join(', ') || 'none'
     );
 
-    // solPayment — destination is required as a mint arg
     if (isSome((guardSet as any).solPayment)) {
       const sp = (guardSet as any).solPayment.value;
-      console.log('[mint] solPayment guard detected — lamports:', sp.lamports.basisPoints?.toString(), 'destination:', sp.destination.toString());
+      console.log('[mint] solPayment destination:', sp.destination.toString());
       mintArgs.solPayment = some({ destination: sp.destination });
     }
-
-    // freezeSolPayment
     if (isSome((guardSet as any).freezeSolPayment)) {
       const fsp = (guardSet as any).freezeSolPayment.value;
-      console.log('[mint] freezeSolPayment guard detected — destination:', fsp.destination.toString());
+      console.log('[mint] freezeSolPayment destination:', fsp.destination.toString());
       mintArgs.freezeSolPayment = some({ destination: fsp.destination });
     }
-
-    // mintLimit — no extra arg needed but log it
-    if (isSome((guardSet as any).mintLimit)) {
-      const ml = (guardSet as any).mintLimit.value;
-      console.log('[mint] mintLimit guard detected — id:', ml.id, 'limit:', ml.limit);
-    }
-
-    // startDate / endDate — log for info
-    if (isSome((guardSet as any).startDate)) {
-      const sd = (guardSet as any).startDate.value;
-      console.log('[mint] startDate guard — date:', new Date(Number(sd.date) * 1000).toISOString());
-    }
-    if (isSome((guardSet as any).endDate)) {
-      const ed = (guardSet as any).endDate.value;
-      console.log('[mint] endDate guard — date:', new Date(Number(ed.date) * 1000).toISOString());
-    }
-
-  } catch (guardErr: any) {
-    console.warn('[mint] Could not fully parse Candy Guard (mint will still proceed without guard args):', guardErr?.message);
+  } catch (err: any) {
+    console.warn('[mint] Guard parse warning (proceeding anyway):', err?.message);
   }
   return mintArgs;
 }
 
 // ── Main mint function ────────────────────────────────────────────────────────
 export async function mintFromCandyMachine(): Promise<MintResult> {
-  // ── Env validation ────────────────────────────────────────────────────────
   console.log('[mint] === Candy Machine v3 mint start ===');
   console.log('[mint] VITE_CANDY_MACHINE_ID:', CANDY_MACHINE_ID || 'NOT SET');
-  console.log('[mint] VITE_COLLECTION_MINT :', COLLECTION_MINT  || 'NOT SET');
-  console.log('[mint] VITE_RPC_URL         :', RPC_URL ? 'loaded (helius endpoint)' : 'NOT SET');
+  console.log('[mint] VITE_RPC_URL         :', RPC_URL ? 'loaded' : 'NOT SET');
 
-  if (!CANDY_MACHINE_ID) {
-    throw Object.assign(new Error('VITE_CANDY_MACHINE_ID is not configured'), { code: 'config_error' });
-  }
-  if (!COLLECTION_MINT) {
-    throw Object.assign(new Error('VITE_COLLECTION_MINT is not configured'), { code: 'config_error' });
-  }
-  if (!RPC_URL) {
-    throw Object.assign(new Error('VITE_RPC_URL is not configured'), { code: 'config_error' });
-  }
+  if (!CANDY_MACHINE_ID) throw Object.assign(new Error('VITE_CANDY_MACHINE_ID is not configured'), { code: 'config_error' });
+  if (!RPC_URL)          throw Object.assign(new Error('VITE_RPC_URL is not configured'), { code: 'config_error' });
 
-  // ── Wallet check ──────────────────────────────────────────────────────────
   const phantom = getPhantom();
   if (!phantom?.publicKey) {
-    throw Object.assign(
-      new Error('Connect your Phantom wallet first'),
-      { code: 'wallet_not_connected' },
-    );
+    throw Object.assign(new Error('Connect your Phantom wallet first'), { code: 'wallet_not_connected' });
   }
   console.log('[mint] Wallet public key:', phantom.publicKey.toString());
 
-  // ── Build UMI context ─────────────────────────────────────────────────────
   const umi = createUmi(RPC_URL, { commitment: 'confirmed' })
     .use(mplCandyMachine())
     .use(walletAdapterIdentity(phantom as any));
 
-  console.log('[mint] UMI identity:', (umi.identity as any).publicKey?.toString());
-
-  // ── Fetch Candy Machine ───────────────────────────────────────────────────
   const cmPK = publicKey(CANDY_MACHINE_ID);
   let cm: Awaited<ReturnType<typeof fetchCandyMachine>>;
   try {
@@ -226,7 +184,7 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
 
   console.log('[mint] Candy Machine fetched:');
   console.log('  publicKey         :', cm.publicKey.toString());
-  console.log('  mintAuthority     :', cm.mintAuthority.toString(), '← this is the Candy Guard address');
+  console.log('  mintAuthority     :', cm.mintAuthority.toString());
   console.log('  authority         :', cm.authority.toString());
   console.log('  collectionMint    :', cm.collectionMint.toString());
   console.log('  itemsAvailable    :', cm.data.itemsAvailable.toString());
@@ -234,55 +192,85 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
   console.log('  tokenStandard     :', cm.tokenStandard);
 
   if (Number(cm.itemsRedeemed) >= Number(cm.data.itemsAvailable)) {
-    throw Object.assign(
-      new Error('Sold out — all NFTs have been minted!'),
-      { code: 'sold_out' },
-    );
+    throw Object.assign(new Error('Sold out — all NFTs have been minted!'), { code: 'sold_out' });
   }
 
-  // ── Candy Guard detection ─────────────────────────────────────────────────
-  // mintAuthority === authority  →  no guard attached (bare CM)
-  // mintAuthority !== authority  →  a Candy Guard PDA is attached
+  // mintAuthority === authority  →  no Candy Guard, use mintFromCandyMachineV2
+  // mintAuthority !== authority  →  Candy Guard attached, use mintV2 through guard
   const hasGuard = cm.mintAuthority.toString() !== cm.authority.toString();
   console.log('[mint] Candy Guard attached:', hasGuard);
 
-  let mintArgs: Record<string, any> = {};
-  if (hasGuard) {
-    console.log('[mint] Candy Guard address:', cm.mintAuthority.toString());
-    mintArgs = await buildMintArgs(umi, cm.mintAuthority);
-  } else {
-    console.log('[mint] No Candy Guard — minting directly against the candy machine');
-  }
-  console.log('[mint] mintArgs keys:', Object.keys(mintArgs).join(', ') || '(none)');
-
-  // ── Mint ──────────────────────────────────────────────────────────────────
-  // Use cm.collectionMint from the on-chain account — avoids env var typo issues
   const nftMint = generateSigner(umi);
   console.log('[mint] New NFT mint keypair:', nftMint.publicKey.toString());
-  console.log('[mint] collectionMint (on-chain):', cm.collectionMint.toString());
-  console.log('[mint] Sending mintV2 transaction...');
 
   let sig: Uint8Array;
-  try {
-    const result = await transactionBuilder()
-      .add(setComputeUnitLimit(umi, { units: 800_000 }))
-      .add(
-        mintV2(umi, {
-          candyMachine:              cmPK,
-          ...(hasGuard ? { candyGuard: cm.mintAuthority } : {}),
-          nftMint,
-          collectionMint:            cm.collectionMint,
-          collectionUpdateAuthority: cm.authority,
-          tokenStandard:             cm.tokenStandard,
-          mintArgs,
-        }),
-      )
-      .sendAndConfirm(umi, { confirm: { commitment: 'confirmed' } });
-    sig = result.signature;
-  } catch (e: any) {
-    console.error('[mint] mintV2 failed:', e);
-    if (e?.logs) console.error('[mint] Transaction logs:', e.logs);
-    classifyError(e);
+
+  if (!hasGuard) {
+    // ── Unguarded path: call CM Core directly, NO guard accounts ─────────────
+    const params = {
+      candyMachine:              cm.publicKey,
+      mintAuthority:             umi.identity,   // wallet IS the mint authority
+      nftOwner:                  umi.identity.publicKey,
+      nftMint,
+      collectionMint:            cm.collectionMint,
+      collectionUpdateAuthority: cm.authority,
+    };
+    console.log('[mint] mint params (unguarded)', {
+      candyMachine:              params.candyMachine.toString(),
+      mintAuthority:             params.mintAuthority.publicKey.toString(),
+      nftOwner:                  params.nftOwner.toString(),
+      nftMint:                   nftMint.publicKey.toString(),
+      collectionMint:            params.collectionMint.toString(),
+      collectionUpdateAuthority: params.collectionUpdateAuthority.toString(),
+      // confirm: NO candyGuard field
+      candyGuardPresent:         false,
+    });
+
+    try {
+      const result = await transactionBuilder()
+        .add(setComputeUnitLimit(umi, { units: 800_000 }))
+        .add(mintFromCandyMachineV2(umi, params))
+        .sendAndConfirm(umi, { confirm: { commitment: 'confirmed' } });
+      sig = result.signature;
+    } catch (e: any) {
+      console.error('[mint] mintFromCandyMachineV2 failed:', e?.message ?? e);
+      if (e?.logs) console.error('[mint] TX logs:', e.logs);
+      classifyError(e);
+    }
+
+  } else {
+    // ── Guarded path: route through Candy Guard ───────────────────────────────
+    console.log('[mint] Candy Guard address:', cm.mintAuthority.toString());
+    const mintArgs = await buildMintArgs(umi, cm.mintAuthority);
+
+    const params = {
+      candyMachine:              cm.publicKey,
+      candyGuard:                cm.mintAuthority,
+      nftMint,
+      collectionMint:            cm.collectionMint,
+      collectionUpdateAuthority: cm.authority,
+      tokenStandard:             cm.tokenStandard,
+      mintArgs,
+    };
+    console.log('[mint] mint params (guarded)', {
+      candyMachine:              params.candyMachine.toString(),
+      candyGuard:                params.candyGuard.toString(),
+      nftMint:                   nftMint.publicKey.toString(),
+      collectionMint:            params.collectionMint.toString(),
+      mintArgsKeys:              Object.keys(mintArgs).join(', ') || '(none)',
+    });
+
+    try {
+      const result = await transactionBuilder()
+        .add(setComputeUnitLimit(umi, { units: 800_000 }))
+        .add(mintV2(umi, params))
+        .sendAndConfirm(umi, { confirm: { commitment: 'confirmed' } });
+      sig = result.signature;
+    } catch (e: any) {
+      console.error('[mint] mintV2 (guarded) failed:', e?.message ?? e);
+      if (e?.logs) console.error('[mint] TX logs:', e.logs);
+      classifyError(e);
+    }
   }
 
   const signature   = toBase58(sig!);
@@ -306,7 +294,7 @@ export async function mintFromCandyMachine(): Promise<MintResult> {
       const json = await fetch(meta.uri).then(r => r.json()).catch(() => null);
       if (json) { name = json.name; image = json.image; }
     }
-  } catch (_) { /* optional metadata fetch — no crash if it fails */ }
+  } catch (_) { /* optional */ }
 
   return { signature, mintAddress, name, image };
 }
