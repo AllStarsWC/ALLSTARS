@@ -724,7 +724,8 @@ nav a:hover,nav a.active{color:var(--gold)}
 .wc-cd-strip{
   display:flex;align-items:center;justify-content:space-between;
   gap:2rem;
-  margin:2rem 0 0;
+  grid-column:1 / -1;
+  margin:0 0 .5rem;
   padding:1.25rem 1.75rem;
   background:rgba(0,0,0,.45);
   border:1px solid rgba(255,215,0,.18);
@@ -2574,6 +2575,32 @@ nav a:hover,nav a.active{color:var(--gold)}
 
   <!-- Hero -->
   <section class="hero">
+
+    <!-- Countdown strip spans both columns -->
+    <div class="wc-cd-strip">
+      <div class="wc-cd-strip-logo">
+        <img src="/fifa-wc2026-logo.webp" alt="FIFA World Cup 2026" class="wc-cd-logo-img"/>
+        <div class="wc-cd-title-block">
+          <div class="wc-cd-pre">FIFA</div>
+          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
+          <div class="wc-cd-hosts">USA · CANADA · MEXICO</div>
+        </div>
+      </div>
+      <div class="wc-cd-strip-right">
+        <div class="wc-cd-label">KICK-OFF IN</div>
+        <div class="wc-cd-units">
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-days">--</div><div class="wc-cd-unit-lbl">DAYS</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-hours">--</div><div class="wc-cd-unit-lbl">HRS</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-mins">--</div><div class="wc-cd-unit-lbl">MIN</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-secs">--</div><div class="wc-cd-unit-lbl">SEC</div></div>
+        </div>
+        <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
+      </div>
+    </div>
+
     <div>
       <div class="hero-badge">✦ NFT Trading Card Marketplace</div>
       <h1>COLLECT THE <span class="gradient">WORLD CUP</span> MEME LEGENDS.</h1>
@@ -2633,30 +2660,6 @@ nav a:hover,nav a.active{color:var(--gold)}
       </div>
     </div>
 
-    <!-- Countdown strip inside hero -->
-    <div class="wc-cd-strip">
-      <div class="wc-cd-strip-logo">
-        <img src="/fifa-wc2026-logo.webp" alt="FIFA World Cup 2026" class="wc-cd-logo-img"/>
-        <div class="wc-cd-title-block">
-          <div class="wc-cd-pre">FIFA</div>
-          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
-          <div class="wc-cd-hosts">USA · CANADA · MEXICO</div>
-        </div>
-      </div>
-      <div class="wc-cd-strip-right">
-        <div class="wc-cd-label">KICK-OFF IN</div>
-        <div class="wc-cd-units">
-          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-days">--</div><div class="wc-cd-unit-lbl">DAYS</div></div>
-          <div class="wc-cd-sep">:</div>
-          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-hours">--</div><div class="wc-cd-unit-lbl">HRS</div></div>
-          <div class="wc-cd-sep">:</div>
-          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-mins">--</div><div class="wc-cd-unit-lbl">MIN</div></div>
-          <div class="wc-cd-sep">:</div>
-          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-secs">--</div><div class="wc-cd-unit-lbl">SEC</div></div>
-        </div>
-        <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
-      </div>
-    </div>
   </section>
   <script>
   (function(){
