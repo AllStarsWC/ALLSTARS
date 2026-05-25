@@ -736,11 +736,15 @@ nav a:hover,nav a.active{color:var(--gold)}
   max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1;
 }
 .wc-cd-logo-row{
-  display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:1.25rem;
+  display:flex;align-items:center;justify-content:center;gap:2rem;margin-bottom:1.5rem;
 }
-.wc-cd-trophy{font-size:2.6rem;line-height:1;filter:drop-shadow(0 0 12px rgba(255,215,0,.6));animation:trophy-pulse 2.4s ease-in-out infinite}
-@keyframes trophy-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.wc-cd-title-block{display:flex;flex-direction:column;align-items:center;gap:.15rem}
+.wc-cd-logo-img{
+  height:140px;width:auto;object-fit:contain;
+  filter:drop-shadow(0 0 18px rgba(255,215,0,.45));
+  animation:trophy-pulse 2.8s ease-in-out infinite;
+}
+@keyframes trophy-pulse{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.05) translateY(-4px)}}
+.wc-cd-title-block{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem}
 .wc-cd-pre{
   font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:10px;
   color:rgba(255,255,255,.55);
@@ -2569,6 +2573,67 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ HOME PAGE ══ -->
 <div id="home-page" class="page active">
 
+  <!-- WC 2026 Countdown -->
+  <section class="wc-countdown-section">
+    <div class="wc-cd-inner">
+      <div class="wc-cd-logo-row">
+        <img src="/fifa-wc2026-logo.webp" alt="FIFA World Cup 2026" class="wc-cd-logo-img"/>
+        <div class="wc-cd-title-block">
+          <div class="wc-cd-pre">FIFA</div>
+          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
+          <div class="wc-cd-hosts">USA &nbsp;·&nbsp; CANADA &nbsp;·&nbsp; MEXICO</div>
+        </div>
+      </div>
+      <div class="wc-cd-label">KICK-OFF IN</div>
+      <div class="wc-cd-units" id="wc-cd-units">
+        <div class="wc-cd-unit">
+          <div class="wc-cd-num" id="wcd-days">--</div>
+          <div class="wc-cd-unit-lbl">DAYS</div>
+        </div>
+        <div class="wc-cd-sep">:</div>
+        <div class="wc-cd-unit">
+          <div class="wc-cd-num" id="wcd-hours">--</div>
+          <div class="wc-cd-unit-lbl">HRS</div>
+        </div>
+        <div class="wc-cd-sep">:</div>
+        <div class="wc-cd-unit">
+          <div class="wc-cd-num" id="wcd-mins">--</div>
+          <div class="wc-cd-unit-lbl">MIN</div>
+        </div>
+        <div class="wc-cd-sep">:</div>
+        <div class="wc-cd-unit">
+          <div class="wc-cd-num" id="wcd-secs">--</div>
+          <div class="wc-cd-unit-lbl">SEC</div>
+        </div>
+      </div>
+      <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
+    </div>
+  </section>
+  <script>
+  (function(){
+    var target=new Date('2026-06-12T00:00:00Z').getTime();
+    function tick(){
+      var now=Date.now(),diff=target-now;
+      if(diff<=0){
+        ['wcd-days','wcd-hours','wcd-mins','wcd-secs'].forEach(function(id){document.getElementById(id).textContent='00';});
+        var lbl=document.querySelector('.wc-cd-label');
+        if(lbl) lbl.textContent='THE TOURNAMENT IS LIVE!';
+        return;
+      }
+      var d=Math.floor(diff/86400000);
+      var h=Math.floor((diff%86400000)/3600000);
+      var m=Math.floor((diff%3600000)/60000);
+      var s=Math.floor((diff%60000)/1000);
+      var pad=function(n){return n<10?'0'+n:String(n);};
+      document.getElementById('wcd-days').textContent=d;
+      document.getElementById('wcd-hours').textContent=pad(h);
+      document.getElementById('wcd-mins').textContent=pad(m);
+      document.getElementById('wcd-secs').textContent=pad(s);
+    }
+    tick(); setInterval(tick,1000);
+  })();
+  </script>
+
   <!-- Hero -->
   <section class="hero">
     <div>
@@ -2662,70 +2727,6 @@ nav a:hover,nav a.active{color:var(--gold)}
       html+='<div class="nation-chip"><span class="nflag">'+n.flag+'</span>'+n.name+'</div>';
     });
     track.innerHTML=html;
-  })();
-  </script>
-
-  <!-- WC 2026 Countdown -->
-  <section class="wc-countdown-section">
-    <div class="wc-cd-inner">
-      <div class="wc-cd-logo-row">
-        <div class="wc-cd-trophy">🏆</div>
-        <div class="wc-cd-title-block">
-          <div class="wc-cd-pre">FIFA</div>
-          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
-          <div class="wc-cd-hosts">🇺🇸 USA &nbsp;·&nbsp; 🇨🇦 CANADA &nbsp;·&nbsp; 🇲🇽 MEXICO</div>
-        </div>
-        <div class="wc-cd-trophy">🏆</div>
-      </div>
-      <div class="wc-cd-label">KICK-OFF IN</div>
-      <div class="wc-cd-units" id="wc-cd-units">
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-days">--</div>
-          <div class="wc-cd-unit-lbl">DAYS</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-hours">--</div>
-          <div class="wc-cd-unit-lbl">HRS</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-mins">--</div>
-          <div class="wc-cd-unit-lbl">MIN</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-secs">--</div>
-          <div class="wc-cd-unit-lbl">SEC</div>
-        </div>
-      </div>
-      <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
-    </div>
-  </section>
-  <script>
-  (function(){
-    var target=new Date('2026-06-12T00:00:00Z').getTime();
-    function tick(){
-      var now=Date.now(), diff=target-now;
-      if(diff<=0){
-        document.getElementById('wcd-days').textContent='00';
-        document.getElementById('wcd-hours').textContent='00';
-        document.getElementById('wcd-mins').textContent='00';
-        document.getElementById('wcd-secs').textContent='00';
-        document.querySelector('.wc-cd-label').textContent='THE TOURNAMENT IS LIVE!';
-        return;
-      }
-      var d=Math.floor(diff/86400000);
-      var h=Math.floor((diff%86400000)/3600000);
-      var m=Math.floor((diff%3600000)/60000);
-      var s=Math.floor((diff%60000)/1000);
-      var pad=function(n){return n<10?'0'+n:String(n);};
-      document.getElementById('wcd-days').textContent=d;
-      document.getElementById('wcd-hours').textContent=pad(h);
-      document.getElementById('wcd-mins').textContent=pad(m);
-      document.getElementById('wcd-secs').textContent=pad(s);
-    }
-    tick(); setInterval(tick,1000);
   })();
   </script>
 
