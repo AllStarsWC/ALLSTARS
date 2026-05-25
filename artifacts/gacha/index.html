@@ -720,83 +720,82 @@ nav a:hover,nav a.active{color:var(--gold)}
   0%{transform:translateX(0)}
   100%{transform:translateX(-50%)}
 }
-/* ── WC 2026 Countdown ── */
-.wc-countdown-section{
+/* ── WC 2026 Countdown strip (inside hero) ── */
+.wc-cd-strip{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;
+  margin:2rem 0 0;
+  padding:1.25rem 1.75rem;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,215,0,.18);
+  border-radius:16px;
+  backdrop-filter:blur(8px);
   position:relative;overflow:hidden;
-  padding:3.5rem 1.5rem 3rem;
-  background:linear-gradient(135deg,rgba(0,0,0,.6) 0%,rgba(10,20,40,.8) 50%,rgba(0,0,0,.6) 100%);
-  border-top:1px solid rgba(255,215,0,.2);border-bottom:1px solid rgba(255,215,0,.2);
 }
-.wc-countdown-section::before{
+.wc-cd-strip::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(255,215,0,.07) 0%,transparent 70%);
+  background:radial-gradient(ellipse 120% 80% at 0% 50%,rgba(255,215,0,.05) 0%,transparent 60%);
   pointer-events:none;
 }
-.wc-cd-inner{
-  max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1;
-}
-.wc-cd-logo-row{
-  display:flex;align-items:center;justify-content:center;gap:2rem;margin-bottom:1.5rem;
-}
+.wc-cd-strip-logo{display:flex;align-items:center;gap:1rem;flex-shrink:0}
 .wc-cd-logo-img{
-  height:140px;width:auto;object-fit:contain;
-  filter:drop-shadow(0 0 18px rgba(255,215,0,.45));
+  height:72px;width:auto;object-fit:contain;
+  filter:drop-shadow(0 0 10px rgba(255,215,0,.4));
   animation:trophy-pulse 2.8s ease-in-out infinite;
 }
-@keyframes trophy-pulse{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.05) translateY(-4px)}}
-.wc-cd-title-block{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem}
+@keyframes trophy-pulse{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.06) translateY(-3px)}}
+.wc-cd-title-block{display:flex;flex-direction:column;align-items:flex-start;gap:.05rem}
 .wc-cd-pre{
-  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:10px;
-  color:rgba(255,255,255,.55);
+  font-family:'Bebas Neue',sans-serif;font-size:.7rem;letter-spacing:8px;
+  color:rgba(255,255,255,.45);line-height:1;
 }
 .wc-cd-main{
-  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1;letter-spacing:4px;
-  color:#fff;text-shadow:0 0 30px rgba(255,215,0,.4);
-}
-.wc-cd-main span{
-  color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,.8);
-}
-.wc-cd-hosts{
-  font-size:.72rem;letter-spacing:3px;font-weight:700;
-  color:rgba(255,255,255,.5);margin-top:.25rem;
-}
-.wc-cd-label{
-  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:8px;
-  color:rgba(255,215,0,.65);margin-bottom:1.25rem;
-}
-.wc-cd-units{
-  display:flex;align-items:center;justify-content:center;gap:.75rem;
-  margin-bottom:1.25rem;
-}
-.wc-cd-unit{display:flex;flex-direction:column;align-items:center;gap:.35rem}
-.wc-cd-num{
-  font-family:'Bebas Neue',sans-serif;font-size:4.5rem;line-height:1;
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;line-height:1.05;letter-spacing:2px;
   color:#fff;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,215,0,.25);
-  border-radius:12px;
-  min-width:100px;padding:.35rem .5rem;
-  text-shadow:0 0 20px rgba(255,215,0,.5);
-  box-shadow:0 4px 24px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.wc-cd-main span{color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.6)}
+.wc-cd-hosts{
+  font-size:.6rem;letter-spacing:2px;font-weight:700;
+  color:rgba(255,255,255,.38);margin-top:.2rem;
+}
+.wc-cd-strip-right{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem}
+.wc-cd-label{
+  font-family:'Bebas Neue',sans-serif;font-size:.7rem;letter-spacing:6px;
+  color:rgba(255,215,0,.6);
+}
+.wc-cd-units{display:flex;align-items:center;gap:.4rem}
+.wc-cd-unit{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.wc-cd-num{
+  font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;
+  color:#fff;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,215,0,.2);
+  border-radius:8px;
+  min-width:56px;padding:.2rem .3rem;
+  text-align:center;
+  text-shadow:0 0 12px rgba(255,215,0,.45);
 }
 .wc-cd-unit-lbl{
-  font-size:.62rem;letter-spacing:4px;font-weight:700;
-  color:rgba(255,215,0,.55);
+  font-size:.5rem;letter-spacing:3px;font-weight:700;
+  color:rgba(255,215,0,.5);
 }
 .wc-cd-sep{
-  font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(255,215,0,.45);
-  margin-bottom:1.4rem;line-height:1;
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;
+  color:rgba(255,215,0,.4);margin-bottom:.9rem;line-height:1;
 }
 .wc-cd-date{
-  font-size:.75rem;letter-spacing:2px;font-weight:600;
-  color:rgba(255,255,255,.35);text-transform:uppercase;
+  font-size:.58rem;letter-spacing:1.5px;font-weight:600;
+  color:rgba(255,255,255,.28);text-transform:uppercase;
 }
-@media(max-width:600px){
-  .wc-cd-num{font-size:3rem;min-width:68px;padding:.25rem .35rem;border-radius:8px}
-  .wc-cd-sep{font-size:2.4rem}
-  .wc-cd-main{font-size:2rem}
-  .wc-cd-trophy{font-size:1.8rem}
-  .wc-cd-units{gap:.45rem}
+@media(max-width:900px){
+  .wc-cd-strip{flex-direction:column;align-items:center;text-align:center;gap:1rem;padding:1rem}
+  .wc-cd-title-block{align-items:center}
+  .wc-cd-strip-right{align-items:center}
+}
+@media(max-width:480px){
+  .wc-cd-num{font-size:1.7rem;min-width:44px}
+  .wc-cd-sep{font-size:1.4rem}
+  .wc-cd-logo-img{height:52px}
 }
 
 .nation-chip{
@@ -2573,67 +2572,6 @@ nav a:hover,nav a.active{color:var(--gold)}
 <!-- ══ HOME PAGE ══ -->
 <div id="home-page" class="page active">
 
-  <!-- WC 2026 Countdown -->
-  <section class="wc-countdown-section">
-    <div class="wc-cd-inner">
-      <div class="wc-cd-logo-row">
-        <img src="/fifa-wc2026-logo.webp" alt="FIFA World Cup 2026" class="wc-cd-logo-img"/>
-        <div class="wc-cd-title-block">
-          <div class="wc-cd-pre">FIFA</div>
-          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
-          <div class="wc-cd-hosts">USA &nbsp;·&nbsp; CANADA &nbsp;·&nbsp; MEXICO</div>
-        </div>
-      </div>
-      <div class="wc-cd-label">KICK-OFF IN</div>
-      <div class="wc-cd-units" id="wc-cd-units">
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-days">--</div>
-          <div class="wc-cd-unit-lbl">DAYS</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-hours">--</div>
-          <div class="wc-cd-unit-lbl">HRS</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-mins">--</div>
-          <div class="wc-cd-unit-lbl">MIN</div>
-        </div>
-        <div class="wc-cd-sep">:</div>
-        <div class="wc-cd-unit">
-          <div class="wc-cd-num" id="wcd-secs">--</div>
-          <div class="wc-cd-unit-lbl">SEC</div>
-        </div>
-      </div>
-      <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
-    </div>
-  </section>
-  <script>
-  (function(){
-    var target=new Date('2026-06-12T00:00:00Z').getTime();
-    function tick(){
-      var now=Date.now(),diff=target-now;
-      if(diff<=0){
-        ['wcd-days','wcd-hours','wcd-mins','wcd-secs'].forEach(function(id){document.getElementById(id).textContent='00';});
-        var lbl=document.querySelector('.wc-cd-label');
-        if(lbl) lbl.textContent='THE TOURNAMENT IS LIVE!';
-        return;
-      }
-      var d=Math.floor(diff/86400000);
-      var h=Math.floor((diff%86400000)/3600000);
-      var m=Math.floor((diff%3600000)/60000);
-      var s=Math.floor((diff%60000)/1000);
-      var pad=function(n){return n<10?'0'+n:String(n);};
-      document.getElementById('wcd-days').textContent=d;
-      document.getElementById('wcd-hours').textContent=pad(h);
-      document.getElementById('wcd-mins').textContent=pad(m);
-      document.getElementById('wcd-secs').textContent=pad(s);
-    }
-    tick(); setInterval(tick,1000);
-  })();
-  </script>
-
   <!-- Hero -->
   <section class="hero">
     <div>
@@ -2694,7 +2632,56 @@ nav a:hover,nav a.active{color:var(--gold)}
         </div>
       </div>
     </div>
+
+    <!-- Countdown strip inside hero -->
+    <div class="wc-cd-strip">
+      <div class="wc-cd-strip-logo">
+        <img src="/fifa-wc2026-logo.webp" alt="FIFA World Cup 2026" class="wc-cd-logo-img"/>
+        <div class="wc-cd-title-block">
+          <div class="wc-cd-pre">FIFA</div>
+          <div class="wc-cd-main">WORLD CUP <span>2026</span></div>
+          <div class="wc-cd-hosts">USA · CANADA · MEXICO</div>
+        </div>
+      </div>
+      <div class="wc-cd-strip-right">
+        <div class="wc-cd-label">KICK-OFF IN</div>
+        <div class="wc-cd-units">
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-days">--</div><div class="wc-cd-unit-lbl">DAYS</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-hours">--</div><div class="wc-cd-unit-lbl">HRS</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-mins">--</div><div class="wc-cd-unit-lbl">MIN</div></div>
+          <div class="wc-cd-sep">:</div>
+          <div class="wc-cd-unit"><div class="wc-cd-num" id="wcd-secs">--</div><div class="wc-cd-unit-lbl">SEC</div></div>
+        </div>
+        <div class="wc-cd-date">Opening Match: June 11, 2026 · Mexico City</div>
+      </div>
+    </div>
   </section>
+  <script>
+  (function(){
+    var target=new Date('2026-06-12T00:00:00Z').getTime();
+    function tick(){
+      var now=Date.now(),diff=target-now;
+      if(diff<=0){
+        ['wcd-days','wcd-hours','wcd-mins','wcd-secs'].forEach(function(id){document.getElementById(id).textContent='00';});
+        var lbl=document.querySelector('.wc-cd-label');
+        if(lbl) lbl.textContent='LIVE!';
+        return;
+      }
+      var d=Math.floor(diff/86400000);
+      var h=Math.floor((diff%86400000)/3600000);
+      var m=Math.floor((diff%3600000)/60000);
+      var s=Math.floor((diff%60000)/1000);
+      var pad=function(n){return n<10?'0'+n:String(n);};
+      document.getElementById('wcd-days').textContent=d;
+      document.getElementById('wcd-hours').textContent=pad(h);
+      document.getElementById('wcd-mins').textContent=pad(m);
+      document.getElementById('wcd-secs').textContent=pad(s);
+    }
+    tick(); setInterval(tick,1000);
+  })();
+  </script>
 
   <!-- Nations ticker -->
   <div class="nations-ticker">
