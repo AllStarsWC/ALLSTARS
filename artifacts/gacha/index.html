@@ -1608,11 +1608,11 @@ nav a:hover,nav a.active{color:var(--gold)}
 .join-card{
   display:flex;flex-direction:column;align-items:center;gap:.65rem;
   width:200px;padding:2rem 1.5rem;
-  border-radius:24px;border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
   background:rgba(255,255,255,.04);
   backdrop-filter:blur(10px);
   text-decoration:none;color:#fff;
-  transition:transform .2s,border-color .2s,background .2s;
+  transition:transform .2s,background .2s;
   position:relative;overflow:hidden;
 }
 .join-card::before{
@@ -1620,16 +1620,13 @@ nav a:hover,nav a.active{color:var(--gold)}
   transition:opacity .2s;
 }
 .join-card:hover{transform:translateY(-4px)}
-.join-card-x{border-color:rgba(255,255,255,.15)}
-.join-card-x:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.08)}
+.join-card-x:hover{background:rgba(255,255,255,.08)}
 .join-card-x::before{background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08) 0%,transparent 70%)}
 .join-card-x:hover::before{opacity:1}
-.join-card-discord{border-color:rgba(88,101,242,.3)}
-.join-card-discord:hover{border-color:rgba(88,101,242,.7);background:rgba(88,101,242,.1)}
+.join-card-discord:hover{background:rgba(88,101,242,.1)}
 .join-card-discord::before{background:radial-gradient(ellipse at 50% 0%,rgba(88,101,242,.15) 0%,transparent 70%)}
 .join-card-discord:hover::before{opacity:1}
-.join-card-github{border-color:rgba(255,255,255,.1)}
-.join-card-github:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+.join-card-github:hover{background:rgba(255,255,255,.06)}
 .join-card-github::before{background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.06) 0%,transparent 70%)}
 .join-card-github:hover::before{opacity:1}
 .join-card-icon{
@@ -2464,19 +2461,18 @@ nav a:hover,nav a.active{color:var(--gold)}
   height:100px;
   padding:1rem 1.6rem;
   background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12);
   border-radius:16px;
   transition:opacity .2s,transform .2s,background .2s,box-shadow .2s;
   opacity:.95;
 }
-.pbl:hover{opacity:1;transform:scale(1.07);background:rgba(255,255,255,.12);border-color:rgba(255,215,0,.3);box-shadow:0 0 20px rgba(255,215,0,.12)}
+.pbl:hover{opacity:1;transform:scale(1.07);background:rgba(255,255,255,.12);box-shadow:0 0 20px rgba(255,215,0,.12)}
 .pbl img{
   height:100%;width:auto;
   max-width:210px;
   object-fit:contain;
 }
-.pbl-light{background:rgba(255,255,255,.92);border-color:rgba(255,255,255,.3)}
-.pbl-light:hover{background:#fff;border-color:rgba(255,215,0,.5)}
+.pbl-light{background:rgba(255,255,255,.92)}
+.pbl-light:hover{background:#fff}
 @media(max-width:900px){
   .powered-by-logos{gap:1.5rem 2rem}
   .pbl{height:80px;padding:.75rem 1.25rem}
