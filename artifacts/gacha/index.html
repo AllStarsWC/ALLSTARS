@@ -1585,30 +1585,79 @@ nav a:hover,nav a.active{color:var(--gold)}
 .lb-info{font-size:.78rem;color:rgba(255,255,255,.45);text-align:right}
 .lb-info strong{color:var(--gold)}
 
-/* ══════════════ PACK DROP SECTION ══════════════ */
-.pack-section{
-  max-width:1280px;margin:0 auto;padding:3rem 2rem;
+/* ── Join Community Section ── */
+.join-section{
+  max-width:1280px;margin:0 auto;padding:4rem 2rem;
 }
-.pack-banner{
-  border-radius:40px;border:1px solid rgba(255,215,0,.2);
-  background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(37,99,235,.4),rgba(0,0,0,.8));
-  padding:3rem;box-shadow:0 0 60px rgba(255,215,0,.08)
+.join-inner{text-align:center}
+.join-label{
+  font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:5px;
+  color:var(--gold);margin-bottom:.6rem;
 }
-.pack-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:2.5rem;align-items:center}
-@media(max-width:700px){.pack-inner{grid-template-columns:1fr}}
-.pack-label{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:4px;color:var(--gold);margin-bottom:.5rem}
-.pack-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:2px;line-height:1}
-.pack-desc{margin-top:1rem;color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.7}
-.pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.pack-card{
-  border-radius:24px;border:1px solid rgba(255,215,0,.18);
-  background:rgba(0,0,0,.5);padding:1.25rem;text-align:center;
-  backdrop-filter:blur(8px);cursor:pointer;transition:transform .2s
+.join-title{
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:2px;line-height:1;
+  margin-bottom:1rem;
 }
-.pack-card:hover{transform:scale(1.04)}
-.pack-card-icon{font-size:1.8rem;margin-bottom:.5rem}
-.pack-card-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem}
-.pack-card-sub{font-size:.68rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px}
+.join-desc{
+  color:rgba(255,255,255,.55);font-size:.95rem;line-height:1.75;
+  max-width:540px;margin:0 auto 2.5rem;
+}
+.join-cards{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+}
+.join-card{
+  display:flex;flex-direction:column;align-items:center;gap:.65rem;
+  width:200px;padding:2rem 1.5rem;
+  border-radius:24px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+  text-decoration:none;color:#fff;
+  transition:transform .2s,border-color .2s,background .2s;
+  position:relative;overflow:hidden;
+}
+.join-card::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity .2s;
+}
+.join-card:hover{transform:translateY(-4px)}
+.join-card-x{border-color:rgba(255,255,255,.15)}
+.join-card-x:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.08)}
+.join-card-x::before{background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08) 0%,transparent 70%)}
+.join-card-x:hover::before{opacity:1}
+.join-card-discord{border-color:rgba(88,101,242,.3)}
+.join-card-discord:hover{border-color:rgba(88,101,242,.7);background:rgba(88,101,242,.1)}
+.join-card-discord::before{background:radial-gradient(ellipse at 50% 0%,rgba(88,101,242,.15) 0%,transparent 70%)}
+.join-card-discord:hover::before{opacity:1}
+.join-card-github{border-color:rgba(255,255,255,.1)}
+.join-card-github:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+.join-card-github::before{background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.06) 0%,transparent 70%)}
+.join-card-github:hover::before{opacity:1}
+.join-card-icon{
+  width:64px;height:64px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.07);
+  position:relative;z-index:1;
+}
+.join-card-x .join-card-icon{background:rgba(255,255,255,.09)}
+.join-card-discord .join-card-icon{background:rgba(88,101,242,.18);color:#7289da}
+.join-card-github .join-card-icon{background:rgba(255,255,255,.08)}
+.join-card-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;
+  position:relative;z-index:1;
+}
+.join-card-handle{
+  font-size:.72rem;color:rgba(255,255,255,.4);letter-spacing:.5px;
+  position:relative;z-index:1;
+}
+.join-card-cta{
+  font-size:.75rem;font-weight:700;letter-spacing:1px;
+  color:var(--gold);margin-top:.25rem;
+  position:relative;z-index:1;
+}
+@media(max-width:600px){
+  .join-title{font-size:2.2rem}
+  .join-card{width:calc(50% - .75rem);padding:1.5rem 1rem}
+}
 
 /* ══════════════ TOAST ══════════════ */
 #toast{
@@ -2607,7 +2656,7 @@ nav a:hover,nav a.active{color:var(--gold)}
       <p>The World Cup, Reimagined.<br>Your Dream Squad Starts Here.</p>
       <div class="hero-btns">
         <button class="btn-gold" onclick="switchTab('gacha',null)"><span>💎 Open Pack</span></button>
-        <button class="btn-dark" onclick="switchTab('home',null)"><span>Explore Market</span></button>
+        <a class="btn-dark" href="https://magiceden.io" target="_blank" rel="noopener"><span>Explore Market</span></a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat"><div class="hero-stat-val">1300</div><div class="hero-stat-label">Cards</div></div>
@@ -2736,22 +2785,37 @@ nav a:hover,nav a.active{color:var(--gold)}
     <div id="market-grid"></div>
   </section>
 
-  <!-- Pack drop -->
-  <section class="pack-section">
-    <div class="pack-banner">
-      <div class="pack-inner">
-        <div>
-          <div class="pack-label">Pack Drop</div>
-          <div class="pack-title">WORLD CUP GENESIS PACK</div>
-          <p class="pack-desc">Mint a sealed pack and reveal one player card. Chase Legendary variants, nation sets and meme-trait combinations.</p>
-          <button class="btn-primary" style="margin-top:1.5rem" onclick="switchTab('gacha',null)">🎰 Open Pack</button>
-        </div>
-        <div class="pack-grid">
-          <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">🥉</div><div class="pack-card-name">Bronze</div><div class="pack-card-sub">Sealed Pack</div></div>
-          <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">🥇</div><div class="pack-card-name">Gold</div><div class="pack-card-sub">Sealed Pack</div></div>
-          <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">🌍</div><div class="pack-card-name">World Cup</div><div class="pack-card-sub">Sealed Pack</div></div>
-          <div class="pack-card" onclick="switchTab('gacha',null)"><div class="pack-card-icon">⭐</div><div class="pack-card-name">Legendary</div><div class="pack-card-sub">Sealed Pack</div></div>
-        </div>
+  <!-- Join Community -->
+  <section class="join-section">
+    <div class="join-inner">
+      <div class="join-label">COMMUNITY</div>
+      <div class="join-title">JOIN ALLSTARS COLLECTIBLES</div>
+      <p class="join-desc">Be part of the World Cup's biggest NFT trading card community. Follow updates, join the conversation, and help shape the future of the collection.</p>
+      <div class="join-cards">
+        <a class="join-card join-card-x" href="https://x.com/ALLSTARS_TCG" target="_blank" rel="noopener">
+          <div class="join-card-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+          </div>
+          <div class="join-card-name">X (Twitter)</div>
+          <div class="join-card-handle">@ALLSTARS_TCG</div>
+          <div class="join-card-cta">Follow →</div>
+        </a>
+        <a class="join-card join-card-discord" href="https://discord.gg/kGtCaHbMjt" target="_blank" rel="noopener">
+          <div class="join-card-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/></svg>
+          </div>
+          <div class="join-card-name">Discord</div>
+          <div class="join-card-handle">Join the Server</div>
+          <div class="join-card-cta">Join →</div>
+        </a>
+        <a class="join-card join-card-github" href="https://github.com/AllStarsWC/ALLSTARS" target="_blank" rel="noopener">
+          <div class="join-card-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </div>
+          <div class="join-card-name">GitHub</div>
+          <div class="join-card-handle">AllStarsWC / ALLSTARS</div>
+          <div class="join-card-cta">Star →</div>
+        </a>
       </div>
     </div>
   </section>
