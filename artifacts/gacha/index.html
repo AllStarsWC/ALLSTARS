@@ -1369,6 +1369,15 @@ nav a:hover,nav a.active{color:var(--gold)}
   position:relative;z-index:1;
   box-shadow:0 10px 50px rgba(0,0,0,.85);
 }
+.nftr-img-loading{
+  background:rgba(255,255,255,.06);
+  min-height:340px;
+  animation:nftr-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes nftr-shimmer{
+  0%,100%{opacity:.5}
+  50%{opacity:1}
+}
 
 /* Info panel — fades up after 3.5s */
 .nftr-info{
@@ -3840,8 +3849,29 @@ function openNftRevealModal(mintResult, rarity='common'){
   if(legendTitle) legendTitle.style.display='none';
   if(muteBtn) muteBtn.textContent=muted?'🔇':'🔊';
 
-  // Populate
+  // Populate — image may be missing if indexer hasn't caught up yet; poll DAS for it
   img.src=mintResult.image||'';
+  img.classList.toggle('nftr-img-loading',!mintResult.image);
+  if(!mintResult.image){
+    (async()=>{
+      for(let attempt=0;attempt<6;attempt++){
+        await delay(attempt===0?1500:2500);
+        try{
+          const r=await fetch('/api/gacha/asset/'+encodeURIComponent(mintResult.mintAddress));
+          if(!r.ok) continue;
+          const asset=await r.json();
+          // DAS returns image in content.links.image, content.files[0].uri, or via json_uri
+          const direct=asset?.content?.links?.image||asset?.content?.files?.[0]?.cdn_uri||asset?.content?.files?.[0]?.uri;
+          if(direct){img.src=direct;img.classList.remove('nftr-img-loading');break;}
+          const jsonUri=asset?.content?.json_uri;
+          if(jsonUri){
+            const meta=await fetch(jsonUri).then(r2=>r2.json()).catch(()=>null);
+            if(meta?.image){img.src=meta.image;img.classList.remove('nftr-img-loading');break;}
+          }
+        }catch(_){}
+      }
+    })();
+  }
   const displayName=mintResult.name||'ALLSTARS PLAYER';
   nameEl.textContent=displayName;
   txLink.href='https://solscan.io/tx/'+(mintResult.signature||'');
