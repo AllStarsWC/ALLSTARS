@@ -3849,10 +3849,14 @@ function openNftRevealModal(mintResult, rarity='common'){
   if(legendTitle) legendTitle.style.display='none';
   if(muteBtn) muteBtn.textContent=muted?'🔇':'🔊';
 
-  // Populate — image may be missing if indexer hasn't caught up yet; poll DAS for it
-  img.src=mintResult.image||'';
-  img.classList.toggle('nftr-img-loading',!mintResult.image);
-  if(!mintResult.image){
+  // Populate — convert any ipfs:// URIs and poll DAS for a CDN URL when needed
+  const rawImage=mintResult.image||'';
+  const httpImage=ipfsToHttp(rawImage);
+  const isIpfs=rawImage.startsWith('ipfs://');
+  img.src=httpImage;
+  img.classList.toggle('nftr-img-loading',!httpImage);
+  // Poll DAS when image is missing OR still an ipfs:// URL (Helius often has CDN-backed copies)
+  if(!rawImage||isIpfs){
     (async()=>{
       for(let attempt=0;attempt<6;attempt++){
         await delay(attempt===0?1500:2500);
@@ -3860,13 +3864,19 @@ function openNftRevealModal(mintResult, rarity='common'){
           const r=await fetch('/api/gacha/asset/'+encodeURIComponent(mintResult.mintAddress));
           if(!r.ok) continue;
           const asset=await r.json();
-          // DAS returns image in content.links.image, content.files[0].uri, or via json_uri
+          // DAS returns image in content.links.image (often CDN), files[].cdn_uri, or files[].uri
           const direct=asset?.content?.links?.image||asset?.content?.files?.[0]?.cdn_uri||asset?.content?.files?.[0]?.uri;
-          if(direct){img.src=direct;img.classList.remove('nftr-img-loading');break;}
+          if(direct&&!direct.startsWith('ipfs://')){
+            img.src=direct;img.classList.remove('nftr-img-loading');break;
+          }
+          if(direct&&direct.startsWith('ipfs://')){
+            img.src=ipfsToHttp(direct);img.classList.remove('nftr-img-loading');
+            // keep polling to try to get CDN version
+          }
           const jsonUri=asset?.content?.json_uri;
-          if(jsonUri){
+          if(jsonUri&&!jsonUri.startsWith('ipfs://')){
             const meta=await fetch(jsonUri).then(r2=>r2.json()).catch(()=>null);
-            if(meta?.image){img.src=meta.image;img.classList.remove('nftr-img-loading');break;}
+            if(meta?.image){img.src=ipfsToHttp(meta.image);img.classList.remove('nftr-img-loading');break;}
           }
         }catch(_){}
       }
@@ -4759,6 +4769,14 @@ function updateStats(){
 }
 function getUN(){ return document.getElementById('username-input').value.trim()||'Player'; }
 function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+// Convert ipfs:// URIs to a public HTTP gateway URL browsers can load
+function ipfsToHttp(url){
+  if(!url) return '';
+  if(url.startsWith('ipfs://')) return 'https://ipfs.io/ipfs/'+url.slice(7);
+  if(url.startsWith('https://ipfs.io/')||url.startsWith('https://cloudflare-ipfs.com/')||url.startsWith('https://nftstorage.link/')) return url;
+  return url;
+}
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function showToast(msg,err=false){
   const t=document.getElementById('toast');
