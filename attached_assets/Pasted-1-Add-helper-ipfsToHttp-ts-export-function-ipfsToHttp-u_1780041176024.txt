@@ -1,0 +1,115 @@
+1. Add helper: ipfsToHttp.ts
+export function ipfsToHttp(uri?: string | null): string {
+  if (!uri) return "";
+
+  if (uri.startsWith("ipfs://")) {
+    const path = uri.replace("ipfs://", "");
+    return `https://ipfs.io/ipfs/${path}`;
+  }
+
+  return uri;
+}
+2. Use this after mint success
+import { ipfsToHttp } from "./ipfsToHttp";
+
+async function fetchJson(uri: string) {
+  const url = ipfsToHttp(uri);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch NFT metadata");
+  return res.json();
+}
+
+async function fetchMintedNftMetadata(metadataUri: string) {
+  const json = await fetchJson(metadataUri);
+
+  return {
+    name: json.name || "ALLSTARS PLAYER",
+    image: ipfsToHttp(json.image),
+    attributes: json.attributes || [],
+  };
+}
+3. Helius DAS fallback image polling
+async function pollHeliusNftImage(mintAddress: string, rpcUrl: string) {
+  for (let i = 0; i < 12; i++) {
+    try {
+      const res = await fetch(rpcUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: "get-asset",
+          method: "getAsset",
+          params: {
+            id: mintAddress,
+          },
+        }),
+      });
+
+      const data = await res.json();
+
+      const image =
+        data?.result?.content?.links?.image ||
+        data?.result?.content?.files?.[0]?.uri ||
+        data?.result?.content?.json_uri;
+
+      if (image) {
+        return ipfsToHttp(image);
+      }
+    } catch (err) {
+      console.warn("Helius image polling failed", err);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  }
+
+  return "";
+}
+4. Reveal state example
+const [revealedNft, setRevealedNft] = useState<{
+  name: string;
+  image: string;
+  mint: string;
+  tx: string;
+} | null>(null);
+
+After successful mint:
+
+const metadata = await fetchMintedNftMetadata(metadataUri);
+
+setRevealedNft({
+  name: metadata.name,
+  image: metadata.image,
+  mint: nftMintAddress,
+  tx: signature,
+});
+
+// Helius fallback update
+pollHeliusNftImage(nftMintAddress, import.meta.env.VITE_RPC_URL).then((heliusImage) => {
+  if (heliusImage) {
+    setRevealedNft((prev) =>
+      prev
+        ? {
+            ...prev,
+            image: heliusImage,
+          }
+        : prev
+    );
+  }
+});
+5. Reveal modal image
+{revealedNft?.image ? (
+  <img
+    src={revealedNft.image}
+    alt={revealedNft.name}
+    className="reveal-nft-image"
+    onError={(e) => {
+      console.error("NFT image failed to load:", revealedNft.image);
+    }}
+  />
+) : (
+  <div className="reveal-loading">
+    Loading player artwork...
+  </div>
+)}
