@@ -85,16 +85,15 @@ Pull one random card.
 
 ---
 
-### Mega 10 Pull
+### Premium Pull
 
-4 SOL
+1 SOL
 
 Save 20%
 
 Includes:
 
-- 10 cards
-- Guaranteed Rare or above
+- Guaranteed 1 EPIC or above
 - Best value for collectors
 
 ---
