@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +8,7 @@ import { Collection } from "@/components/Collection";
 import { Leaderboard } from "@/components/Leaderboard";
 import { LiveFeed } from "@/components/LiveFeed";
 import { Chat } from "@/components/Chat";
+import AllStarsBountyPage from "./AllStarsBounty";
 import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,13 @@ function MainApp() {
                <p className="text-[10px] text-muted-foreground font-mono tracking-widest uppercase mt-1">WC 2026 Edition</p>
              </div>
           </div>
+          <Link
+            href="/bounties"
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-mono font-semibold text-[#4ade80] hover:bg-white/5 hover:border-[#4ade8040] transition-all"
+          >
+            <span style={{ fontSize: "10px" }}>★</span>
+            BOUNTIES
+          </Link>
           {username && (
              <div className="hidden md:flex items-center gap-2 bg-secondary px-3 py-1.5 rounded-full border border-white/5">
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -102,6 +110,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={MainApp} />
+      <Route path="/bounties" component={AllStarsBountyPage} />
       <Route path="*" component={() => <div className="p-8">404 - Not Found</div>} />
     </Switch>
   );

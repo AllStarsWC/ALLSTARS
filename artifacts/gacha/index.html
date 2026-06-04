@@ -2588,6 +2588,7 @@ nav a:hover,nav a.active{color:var(--gold)}
     <a onclick="switchTab('vault',this)">Vault</a>
     <a onclick="switchTab('howto',this)">How To Play</a>
     <a onclick="switchTab('watch',this)" class="nav-watch">🔴 Watch</a>
+    <a onclick="switchTab('bounties',this)" style="color:#4ade80">★ Bounties</a>
   </nav>
 
   <div class="header-right">
@@ -2621,6 +2622,9 @@ nav a:hover,nav a.active{color:var(--gold)}
     </button>
     <button class="mobile-nav-btn mnav-watch" id="mnav-watch" onclick="switchTab('watch',null)">
       <span class="mnav-icon">🔴</span>Watch
+    </button>
+    <button class="mobile-nav-btn" id="mnav-bounties" onclick="switchTab('bounties',null)" style="color:rgba(74,222,128,.7)">
+      <span class="mnav-icon">★</span>Bounties
     </button>
   </div>
 </nav>
@@ -3451,6 +3455,40 @@ nav a:hover,nav a.active{color:var(--gold)}
 
 </div><!-- /howto-page -->
 
+<!-- ══ BOUNTIES PAGE ══ -->
+<div id="bounties-page" class="page">
+  <div style="min-height:100vh;background:#0f1012;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px">
+    <div style="max-width:1280px;margin:0 auto;padding:32px 24px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.3px;color:#fff">Bounties</h1>
+            <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;font-family:monospace">8 open</span>
+          </div>
+          <p style="margin:0;color:#6b7280;font-size:13px">Complete tasks, earn SOL rewards, grow the ALLSTARS community.</p>
+        </div>
+        <div style="display:flex;gap:20px">
+          <div style="text-align:right">
+            <div style="color:#4ade80;font-size:18px;font-weight:700;font-family:monospace">$7,806</div>
+            <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">TOTAL REWARDS</div>
+          </div>
+          <div style="width:1px;background:#1f2128"></div>
+          <div style="text-align:right">
+            <div style="color:#fff;font-size:18px;font-weight:700;font-family:monospace">26</div>
+            <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">SUBMISSIONS</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:300px">
+          <div id="bounties-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px"></div>
+        </div>
+        <div id="bounties-sidebar" style="width:280px;flex-shrink:0;display:flex;flex-direction:column;gap:16px"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /bounties-page -->
+
 </div><!-- #app -->
 <div id="toast"></div>
 
@@ -3579,6 +3617,7 @@ function switchTab(name, el){
   if(mb) mb.classList.add('active');
   if(name==='vault') renderVault();
   if(name==='claim'){renderClaim();loadMyPlayers();}
+  if(name==='bounties') renderBounties();
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -4800,6 +4839,108 @@ function showToast(msg,err=false){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='show'+(err?' err':'');
   clearTimeout(t._t); t._t=setTimeout(()=>t.className='',err?4000:2500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BOUNTIES PAGE
+// ═══════════════════════════════════════════════════════════════
+const BOUNTY_DATA=[
+  {id:1,tag:'Creative',tc:'#a78bfa',tb:'rgba(167,139,250,.08)',title:'Create the Official ALLSTARS Anthem',desc:'Produce an original track (min. 60 sec) that captures the ALLSTARS spirit. No AI-generated audio.',reward:1240,sol:18.5,progress:72,subs:3,likes:24,end:'2026-06-19'},
+  {id:2,tag:'Design',tc:'#38bdf8',tb:'rgba(56,189,248,.08)',title:'Design ALLSTARS Merch Collection',desc:'Create a 5-piece streetwear merch line using the ALLSTARS brand. Figma or Photoshop source files required.',reward:860,sol:12.8,progress:45,subs:7,likes:41,end:'2026-06-22'},
+  {id:3,tag:'IRL',tc:'#fb923c',tb:'rgba(251,146,60,.08)',title:"Raid McDonald's Screaming ALLSTARS",desc:"Walk into any McDonald's, shout ALLSTARS as loud as you can, record it, and post with #ALLSTARS on X or TikTok.",reward:207,sol:3.0,progress:20,subs:1,likes:88,end:'2026-06-12'},
+  {id:4,tag:'Dev',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'Build the ALLSTARS Community Dashboard',desc:'Ship a live holder-stats page — top wallets, price feed, and volume chart. A working URL is required.',reward:3200,sol:47.6,progress:60,subs:2,likes:37,end:'2026-07-01'},
+  {id:5,tag:'Writing',tc:'#fbbf24',tb:'rgba(251,191,36,.08)',title:'Write the ALLSTARS Whitepaper',desc:'Draft a 2,000-word whitepaper: vision, tokenomics, community governance, and roadmap.',reward:540,sol:8.0,progress:33,subs:4,likes:19,end:'2026-06-28'},
+  {id:6,tag:'IRL',tc:'#fb923c',tb:'rgba(251,146,60,.08)',title:'Feed Someone & Hold the ALLSTARS Sign',desc:'Buy a meal for someone in need, hold up an ALLSTARS sign, snap a photo, and post with #ALLSTARSGivesBack.',reward:189,sol:2.8,progress:80,subs:6,likes:112,end:'2026-06-10'},
+  {id:7,tag:'Video',tc:'#f472b6',tb:'rgba(244,114,182,.08)',title:'Create a Viral ALLSTARS Hype Reel',desc:'Produce a 30–60 second edited hype video for ALLSTARS. Must hit 10k views to claim the bonus reward.',reward:650,sol:9.7,progress:15,subs:0,likes:55,end:'2026-07-05'},
+  {id:8,tag:'Dev',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'ALLSTARS Telegram Bot',desc:'Build a Telegram bot that posts price alerts, holder milestones, and bounty updates to the community channel.',reward:920,sol:13.7,progress:50,subs:3,likes:29,end:'2026-06-30'},
+];
+function bCountdown(end){
+  const diff=new Date(end)-Date.now();
+  if(diff<=0)return'Expired';
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+  return`${d}d ${h}h ${m}m`;
+}
+function bProgressColor(p){return p>70?'#4ade80':p>40?'#a8e063':'#6b7280';}
+function bountyLike(btn){
+  const liked=btn.dataset.liked==='1',cnt=parseInt(btn.dataset.count),n=liked?cnt-1:cnt+1;
+  btn.dataset.liked=liked?'0':'1';btn.dataset.count=n;
+  btn.style.background=liked?'none':'rgba(248,113,113,.08)';
+  btn.style.borderColor=liked?'#1f2128':'rgba(248,113,113,.25)';
+  btn.style.color=liked?'#6b7280':'#f87171';
+  btn.innerHTML=`<span style="font-size:13px;line-height:1">${liked?'♡':'♥'}</span><span>${n}</span>`;
+}
+function updateBountyCountdowns(){
+  document.querySelectorAll('.bounty-cd').forEach(el=>{
+    const cd=bCountdown(el.dataset.end);
+    el.querySelector('.bcd-text').textContent=cd;
+    el.querySelector('.bcd-dot').style.color=cd==='Expired'?'#f87171':'#4ade80';
+  });
+}
+setInterval(updateBountyCountdowns,30000);
+function renderBounties(){
+  const grid=document.getElementById('bounties-grid');
+  const sidebar=document.getElementById('bounties-sidebar');
+  if(!grid||grid.dataset.rendered)return;
+  grid.dataset.rendered='1';
+  const starSvg=`<svg width="12" height="12" viewBox="0 0 18 18" fill="none"><polygon points="9,1.5 10.9,6.6 16.4,6.6 12,9.9 13.6,15 9,11.8 4.4,15 6,9.9 1.6,6.6 7.1,6.6" fill="#4ade80"/></svg>`;
+  grid.innerHTML=BOUNTY_DATA.map(b=>{
+    const cd=bCountdown(b.end),pc=bProgressColor(b.progress),ps=b.progress>70?'0 0 6px rgba(74,222,128,.5)':'none';
+    return`<div class="bounty-card" onmouseenter="this.style.background='#1a1d23';this.style.borderColor='#2b2f3a'" onmouseleave="this.style.background='#16181d';this.style.borderColor='#1f2128'" style="background:#16181d;border:1px solid #1f2128;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;cursor:pointer;transition:all .18s ease;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:6px">
+          <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.8px;font-family:monospace">OPEN</span>
+          <span style="background:${b.tb};color:${b.tc};border-radius:5px;font-size:10px;font-weight:600;padding:2px 8px;letter-spacing:.5px;font-family:monospace">${b.tag}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;opacity:.5">${starSvg}<span style="color:#6b7280;font-size:10px;font-family:monospace;letter-spacing:.5px">ALLSTARS</span></div>
+      </div>
+      <div>
+        <h3 style="color:#fff;font-size:14px;font-weight:600;margin:0 0 6px;line-height:1.45">${esc(b.title)}</h3>
+        <p style="color:#6b7280;font-size:12px;margin:0;line-height:1.6">${esc(b.desc)}</p>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span style="color:#4ade80;font-size:24px;font-weight:700;font-family:monospace;letter-spacing:-.5px;line-height:1">$${b.reward.toLocaleString()}</span>
+        <span style="color:#374151;font-size:12px;font-family:monospace">&#8801; ${b.sol} SOL</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="height:3px;background:#1f2128;border-radius:99px;overflow:hidden"><div style="width:${b.progress}%;height:100%;background:${pc};border-radius:99px;box-shadow:${ps};transition:width .8s ease"></div></div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:#374151;font-size:10px;font-family:monospace">${b.progress}% funded</span>
+          <span style="color:#374151;font-size:10px;font-family:monospace">${b.subs} submission${b.subs!==1?'s':''}</span>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1f2128;padding-top:12px">
+        <span class="bounty-cd" data-end="${b.end}" style="color:#6b7280;font-size:11px;font-family:monospace;display:flex;align-items:center;gap:5px">
+          <span class="bcd-dot" style="color:#4ade80;font-size:9px">&#9679;</span>
+          <span class="bcd-text">${cd}</span> left
+        </span>
+        <button onclick="bountyLike(this)" data-liked="0" data-count="${b.likes}" style="background:none;border:1px solid #1f2128;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:5px;color:#6b7280;font-size:12px;padding:4px 10px;transition:all .15s;font-family:monospace" onmouseenter="if(this.dataset.liked==='0')this.style.borderColor='rgba(248,113,113,.25)'" onmouseleave="if(this.dataset.liked==='0')this.style.borderColor='#1f2128'">
+          <span style="font-size:13px;line-height:1">&#9825;</span><span>${b.likes}</span>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+  const sorted=[...BOUNTY_DATA].sort((a,b)=>b.reward-a.reward);
+  const total=BOUNTY_DATA.reduce((s,b)=>s+b.reward,0);
+  sidebar.innerHTML=`
+    <div style="background:#16181d;border:1px solid #1f2128;border-radius:12px;overflow:hidden">
+      <div style="padding:14px 16px;border-bottom:1px solid #1f2128;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;font-weight:600;color:#6b7280;letter-spacing:.8px;font-family:monospace">TOP OPEN BOUNTIES</span>
+        <span style="color:#4ade80;font-size:11px;font-family:monospace">All &#8594;</span>
+      </div>
+      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">
+        ${sorted.slice(0,3).map((b,i)=>{const ac=i===0?'#4ade80':i===1?'#a8e063':'#6b7280';return`<div style="display:flex;align-items:flex-start;gap:12px"><span style="background:${ac}28;color:${ac};border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:monospace;flex-shrink:0">${i+1}</span><div style="flex:1;min-width:0"><div style="color:#fff;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(b.title)}</div><div style="color:#6b7280;font-size:10px;font-family:monospace;margin-top:2px">${b.end.slice(5)} &middot; ${b.subs} subs</div></div><span style="color:#4ade80;font-size:13px;font-weight:700;font-family:monospace;flex-shrink:0">$${b.reward.toLocaleString()}</span></div>`;}).join('')}
+      </div>
+    </div>
+    <div style="background:#16181d;border:1px solid #1f2128;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:11px;font-weight:600;color:#6b7280;letter-spacing:.8px;font-family:monospace">COMMUNITY STATS</span>
+      ${[['Total Rewards Pool','$'+total.toLocaleString()],['Active Hunters','&#8212;'],['Completed Bounties','0'],['Avg. Reward','$'+Math.round(total/BOUNTY_DATA.length).toLocaleString()]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;align-items:center"><span style="color:#6b7280;font-size:12px">${l}</span><span style="color:#fff;font-size:12px;font-weight:600;font-family:monospace">${v}</span></div>`).join('')}
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;opacity:.3">
+      <svg width="11" height="11" viewBox="0 0 18 18" fill="none"><polygon points="9,1.5 10.9,6.6 16.4,6.6 12,9.9 13.6,15 9,11.8 4.4,15 6,9.9 1.6,6.6 7.1,6.6" fill="#4ade80"/></svg>
+      <span style="font-size:10px;font-family:monospace;letter-spacing:.5px;color:#6b7280">ALLSTARS &middot; SOLANA</span>
+    </div>`;
+  updateBountyCountdowns();
 }
 
 // ═══════════════════════════════════════════════════════════════
