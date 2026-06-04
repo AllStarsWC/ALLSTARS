@@ -22,10 +22,6 @@ build = [ "pnpm", "--filter", "@workspace/gacha", "run", "build" ]
 publicDir = "artifacts/gacha/dist/public"
 serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
-
 [services.env]
 PORT = "24287"
 BASE_PATH = "/"

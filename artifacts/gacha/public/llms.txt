@@ -1,0 +1,30 @@
+# ALLSTARS COLLECTIBLES
+
+> A World Cup 2026 trading card gacha machine — pull packs, build your collection, and compete on the leaderboard.
+
+## About
+
+ALLSTARS COLLECTIBLES is an animated collectibles experience built around the 2026 FIFA World Cup. Users pull virtual trading card packs featuring 100 real players across four rarity tiers: Common, Rare, Epic, and Legendary. Pulls are animated, legendary cards trigger confetti, and a live leaderboard ranks collectors globally.
+
+## Key URL
+
+- Homepage (full app): https://1fc4166e-6057-4eee-8b23-b73cdfb681c7-00-1pazzd3q9zv8c-033n9pad.pike.replit.dev/
+
+## Content Sections
+
+- **Pull** — Single and 10-card pack pulls with animated card flip reveals
+- **Vault** — Browse all 100 player cards; locked cards shown as silhouettes until unlocked
+- **Rankings** — Live leaderboard ranked by legendary count then total cards collected
+- **Live Feed** — Real-time stream of notable pulls (Rare and above) from all users
+- **Chat** — Shared live chat room for all collectors
+
+## Rarity System
+
+| Rarity    | Count | Approx Pull Rate |
+|-----------|-------|-----------------|
+| Legendary | 10    | ~1%             |
+| Epic      | 20    | ~6%             |
+| Rare      | 30    | ~19%            |
+| Common    | 40    | ~74%            |
+
+The 10-card pack guarantees at least one Rare-or-above per pull.
