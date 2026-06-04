@@ -164,7 +164,8 @@ overrides:
   # protobufjs <=7.5.7: GHSA-xq3m-2v4x-88gg (critical RCE) + 8 high/medium advisories
   protobufjs: "^7.5.8"
   # bn.js <4.12.3: GHSA-378v-28hj-76wf (infinite loop DoS)
-  bn.js: "^4.12.3"
+  # Use >=4.12.3 (resolves to 5.2.3) — upgrades 4.11.6 without downgrading existing 5.x users
+  bn.js: ">=4.12.3"
   # ws <8.20.1: GHSA-58qx-3vcg-4xpx (uninitialized memory disclosure)
   ws: "^8.20.1"
   # qs >=6.11.1 <=6.15.1: GHSA-q8mj-m7cp-5q26 (DoS via stringify)
@@ -173,3 +174,7 @@ overrides:
   uuid: "^11.1.1"
   # lodash <=4.17.23: GHSA-r5fr-rjxr-66jc (code injection), GHSA-f23m-r3pf-42rh (prototype pollution)
   lodash: "^4.18.1"
+  # elliptic <=6.6.1: GHSA-848j-6mx2-7j84 (risky cryptographic primitive — no upstream patch in elliptic)
+  # Both packages below pulled in elliptic; their 7.x/8.x rewrites use @noble/curves instead
+  "@toruslabs/eccrypto": "^7.0.0"
+  "@toruslabs/metadata-helpers": "^8.2.0"

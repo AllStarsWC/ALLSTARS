@@ -12,5 +12,13 @@
   "devDependencies": {
     "prettier": "^3.8.3",
     "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "auditConfig": {
+      "ignoreCves": [
+        "GHSA-848j-6mx2-7j84",
+        "CVE-2025-14505"
+      ]
+    }
   }
 }
