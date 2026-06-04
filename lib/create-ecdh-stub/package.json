@@ -1,0 +1,7 @@
+{
+  "name": "create-ecdh",
+  "version": "4.0.4",
+  "description": "Browser stub for create-ecdh — stubs out ECDH (unused in browser Solana builds) to eliminate the elliptic dependency chain",
+  "main": "index.js",
+  "license": "MIT"
+}

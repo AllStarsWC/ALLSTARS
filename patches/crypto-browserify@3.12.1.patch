@@ -1,0 +1,220 @@
+diff --git a/index.js b/index.js
+index 44a2edf627df2a3242143f7e55d121d1c14ff389..b0e798ff32ab0ea5eb9577f4dd7e854b61a804c1 100644
+--- a/index.js
++++ b/index.js
+@@ -9,20 +9,18 @@ exports.createHash = exports.Hash = require('create-hash');
+ // eslint-disable-next-line no-multi-assign
+ exports.createHmac = exports.Hmac = require('create-hmac');
+ 
+-var algos = require('browserify-sign/algos');
+-var algoKeys = Object.keys(algos);
+ var hashes = [
+-	'sha1',
+-	'sha224',
+-	'sha256',
+-	'sha384',
+-	'sha512',
+-	'md5',
+-	'rmd160'
+-].concat(algoKeys);
++        'sha1',
++        'sha224',
++        'sha256',
++        'sha384',
++        'sha512',
++        'md5',
++        'rmd160'
++];
+ 
+ exports.getHashes = function () {
+-	return hashes;
++        return hashes;
+ };
+ 
+ var p = require('pbkdf2');
+@@ -50,12 +48,14 @@ exports.getDiffieHellman = dh.getDiffieHellman;
+ exports.createDiffieHellman = dh.createDiffieHellman;
+ exports.DiffieHellman = dh.DiffieHellman;
+ 
+-var sign = require('browserify-sign');
+-
+-exports.createSign = sign.createSign;
+-exports.Sign = sign.Sign;
+-exports.createVerify = sign.createVerify;
+-exports.Verify = sign.Verify;
++exports.createSign = function () {
++        throw new Error('sorry, createSign is not supported in browser builds');
++};
++exports.Sign = exports.createSign;
++exports.createVerify = function () {
++        throw new Error('sorry, createVerify is not supported in browser builds');
++};
++exports.Verify = exports.createVerify;
+ 
+ exports.createECDH = require('create-ecdh');
+ 
+@@ -66,38 +66,29 @@ exports.privateEncrypt = publicEncrypt.privateEncrypt;
+ exports.publicDecrypt = publicEncrypt.publicDecrypt;
+ exports.privateDecrypt = publicEncrypt.privateDecrypt;
+ 
+-// the least I can do is make error messages for the rest of the node.js/crypto api.
+-// [
+-//   'createCredentials'
+-// ].forEach(function (name) {
+-//   exports[name] = function () {
+-//     throw new Error('sorry, ' + name + ' is not implemented yet\nwe accept pull requests\nhttps://github.com/browserify/crypto-browserify');
+-//   };
+-// });
+-
+ var rf = require('randomfill');
+ 
+ exports.randomFill = rf.randomFill;
+ exports.randomFillSync = rf.randomFillSync;
+ 
+ exports.createCredentials = function () {
+-	throw new Error('sorry, createCredentials is not implemented yet\nwe accept pull requests\nhttps://github.com/browserify/crypto-browserify');
++        throw new Error('sorry, createCredentials is not implemented yet\nwe accept pull requests\nhttps://github.com/browserify/crypto-browserify');
+ };
+ 
+ exports.constants = {
+-	DH_CHECK_P_NOT_SAFE_PRIME: 2,
+-	DH_CHECK_P_NOT_PRIME: 1,
+-	DH_UNABLE_TO_CHECK_GENERATOR: 4,
+-	DH_NOT_SUITABLE_GENERATOR: 8,
+-	NPN_ENABLED: 1,
+-	ALPN_ENABLED: 1,
+-	RSA_PKCS1_PADDING: 1,
+-	RSA_SSLV23_PADDING: 2,
+-	RSA_NO_PADDING: 3,
+-	RSA_PKCS1_OAEP_PADDING: 4,
+-	RSA_X931_PADDING: 5,
+-	RSA_PKCS1_PSS_PADDING: 6,
+-	POINT_CONVERSION_COMPRESSED: 2,
+-	POINT_CONVERSION_UNCOMPRESSED: 4,
+-	POINT_CONVERSION_HYBRID: 6
++        DH_CHECK_P_NOT_SAFE_PRIME: 2,
++        DH_CHECK_P_NOT_PRIME: 1,
++        DH_UNABLE_TO_CHECK_GENERATOR: 4,
++        DH_NOT_SUITABLE_GENERATOR: 8,
++        NPN_ENABLED: 1,
++        ALPN_ENABLED: 1,
++        RSA_PKCS1_PADDING: 1,
++        RSA_SSLV23_PADDING: 2,
++        RSA_NO_PADDING: 3,
++        RSA_PKCS1_OAEP_PADDING: 4,
++        RSA_X931_PADDING: 5,
++        RSA_PKCS1_PSS_PADDING: 6,
++        POINT_CONVERSION_COMPRESSED: 2,
++        POINT_CONVERSION_UNCOMPRESSED: 4,
++        POINT_CONVERSION_HYBRID: 6
+ };
+diff --git a/package.json b/package.json
+index be44bd45b9335ea400ee843d16e0faecd49d883a..df7276315dd201219f0db04db6f733f50894c7b3 100644
+--- a/package.json
++++ b/package.json
+@@ -1,54 +1,53 @@
+ {
+-	"author": "Dominic Tarr <dominic.tarr@gmail.com> (dominictarr.com)",
+-	"name": "crypto-browserify",
+-	"description": "implementation of crypto for the browser",
+-	"version": "3.12.1",
+-	"homepage": "https://github.com/browserify/crypto-browserify",
+-	"sideEffects": false,
+-	"repository": {
+-		"type": "git",
+-		"url": "git://github.com/browserify/crypto-browserify.git"
+-	},
+-	"scripts": {
+-		"lint": "eslint --ext=js,mjs .",
+-		"pretest": "npm run lint",
+-		"tests-only": "nyc tape 'test/**/*.js'",
+-		"test": "npm run tests-only",
+-		"posttest": "npx npm@'>=10.2' audit --production"
+-	},
+-	"funding": {
+-		"url": "https://github.com/sponsors/ljharb"
+-	},
+-	"engines": {
+-		"node": ">= 0.10"
+-	},
+-	"dependencies": {
+-		"browserify-cipher": "^1.0.1",
+-		"browserify-sign": "^4.2.3",
+-		"create-ecdh": "^4.0.4",
+-		"create-hash": "^1.2.0",
+-		"create-hmac": "^1.1.7",
+-		"diffie-hellman": "^5.0.3",
+-		"hash-base": "~3.0.4",
+-		"inherits": "^2.0.4",
+-		"pbkdf2": "^3.1.2",
+-		"public-encrypt": "^4.0.3",
+-		"randombytes": "^2.1.0",
+-		"randomfill": "^1.0.4"
+-	},
+-	"devDependencies": {
+-		"@ljharb/eslint-config": "^21.1.1",
+-		"eslint": "=8.8.0",
+-		"hash-test-vectors": "^1.3.2",
+-		"nyc": "^10.3.2",
+-		"object.entries": "^1.1.8",
+-		"pseudorandombytes": "^2.0.0",
+-		"safe-buffer": "^5.2.1",
+-		"semver": "^6.3.1",
+-		"tape": "^5.9.0"
+-	},
+-	"browser": {
+-		"crypto": false
+-	},
+-	"license": "MIT"
++        "author": "Dominic Tarr <dominic.tarr@gmail.com> (dominictarr.com)",
++        "name": "crypto-browserify",
++        "description": "implementation of crypto for the browser",
++        "version": "3.12.1",
++        "homepage": "https://github.com/browserify/crypto-browserify",
++        "sideEffects": false,
++        "repository": {
++                "type": "git",
++                "url": "git://github.com/browserify/crypto-browserify.git"
++        },
++        "scripts": {
++                "lint": "eslint --ext=js,mjs .",
++                "pretest": "npm run lint",
++                "tests-only": "nyc tape 'test/**/*.js'",
++                "test": "npm run tests-only",
++                "posttest": "npx npm@'>=10.2' audit --production"
++        },
++        "funding": {
++                "url": "https://github.com/sponsors/ljharb"
++        },
++        "engines": {
++                "node": ">= 0.10"
++        },
++        "dependencies": {
++                "browserify-cipher": "^1.0.1",
++                "create-ecdh": "^4.0.4",
++                "create-hash": "^1.2.0",
++                "create-hmac": "^1.1.7",
++                "diffie-hellman": "^5.0.3",
++                "hash-base": "~3.0.4",
++                "inherits": "^2.0.4",
++                "pbkdf2": "^3.1.2",
++                "public-encrypt": "^4.0.3",
++                "randombytes": "^2.1.0",
++                "randomfill": "^1.0.4"
++        },
++        "devDependencies": {
++                "@ljharb/eslint-config": "^21.1.1",
++                "eslint": "=8.8.0",
++                "hash-test-vectors": "^1.3.2",
++                "nyc": "^10.3.2",
++                "object.entries": "^1.1.8",
++                "pseudorandombytes": "^2.0.0",
++                "safe-buffer": "^5.2.1",
++                "semver": "^6.3.1",
++                "tape": "^5.9.0"
++        },
++        "browser": {
++                "crypto": false
++        },
++        "license": "MIT"
+ }

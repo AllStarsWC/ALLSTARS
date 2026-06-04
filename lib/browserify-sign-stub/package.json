@@ -1,0 +1,7 @@
+{
+  "name": "browserify-sign",
+  "version": "4.2.5",
+  "description": "Browser stub for browserify-sign — stubs out Sign/Verify (unused in browser builds) to eliminate the elliptic dependency chain",
+  "main": "index.js",
+  "license": "ISC"
+}
