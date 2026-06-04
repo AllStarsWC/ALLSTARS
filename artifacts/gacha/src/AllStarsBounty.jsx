@@ -69,56 +69,7 @@ function useCountdown(endDate) {
 }
 
 // ── Data ─────────────────────────────────────────────────
-const BOUNTIES = [
-  {
-    id: 1, tag: "Creative",
-    title: "Create the Official ALLSTARS Anthem",
-    desc: "Produce an original track (min. 60 sec) that captures the ALLSTARS spirit. No AI-generated audio.",
-    reward: 1240, sol: 18.5, progress: 72, subs: 3, likes: 24, end: "2026-06-19",
-  },
-  {
-    id: 2, tag: "Design",
-    title: "Design ALLSTARS Merch Collection",
-    desc: "Create a 5-piece streetwear merch line using the ALLSTARS brand. Figma or Photoshop source files required.",
-    reward: 860, sol: 12.8, progress: 45, subs: 7, likes: 41, end: "2026-06-22",
-  },
-  {
-    id: 3, tag: "IRL",
-    title: "Raid McDonald's Screaming ALLSTARS",
-    desc: "Walk into any McDonald's, shout ALLSTARS as loud as you can, record it, and post with #ALLSTARS on X or TikTok.",
-    reward: 207, sol: 3.0, progress: 20, subs: 1, likes: 88, end: "2026-06-12",
-  },
-  {
-    id: 4, tag: "Dev",
-    title: "Build the ALLSTARS Community Dashboard",
-    desc: "Ship a live holder-stats page — top wallets, price feed, and volume chart. A working URL is required.",
-    reward: 3200, sol: 47.6, progress: 60, subs: 2, likes: 37, end: "2026-07-01",
-  },
-  {
-    id: 5, tag: "Writing",
-    title: "Write the ALLSTARS Whitepaper",
-    desc: "Draft a 2,000-word whitepaper: vision, tokenomics, community governance, and roadmap.",
-    reward: 540, sol: 8.0, progress: 33, subs: 4, likes: 19, end: "2026-06-28",
-  },
-  {
-    id: 6, tag: "IRL",
-    title: "Feed Someone & Hold the ALLSTARS Sign",
-    desc: "Buy a meal for someone in need, hold up an ALLSTARS sign, snap a photo, and post with #ALLSTARSGivesBack.",
-    reward: 189, sol: 2.8, progress: 80, subs: 6, likes: 112, end: "2026-06-10",
-  },
-  {
-    id: 7, tag: "Video",
-    title: "Create a Viral ALLSTARS Hype Reel",
-    desc: "Produce a 30–60 second edited hype video for ALLSTARS. Must hit 10k views to claim the bonus reward.",
-    reward: 650, sol: 9.7, progress: 15, subs: 0, likes: 55, end: "2026-07-05",
-  },
-  {
-    id: 8, tag: "Dev",
-    title: "ALLSTARS Telegram Bot",
-    desc: "Build a Telegram bot that posts price alerts, holder milestones, and bounty updates to the community channel.",
-    reward: 920, sol: 13.7, progress: 50, subs: 3, likes: 29, end: "2026-06-30",
-  },
-];
+const BOUNTIES = [];
 
 // ── Bounty Card ──────────────────────────────────────────
 function Card({ b }) {
