@@ -3469,13 +3469,13 @@ nav a:hover,nav a.active{color:var(--gold)}
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
             <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.3px;color:#fff">Bounties</h1>
-            <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;font-family:monospace">1 open</span>
+            <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;font-family:monospace">2 open</span>
           </div>
           <p style="margin:0;color:#6b7280;font-size:13px">Complete tasks, earn SOL rewards, grow the ALLSTARS community.</p>
         </div>
         <div style="display:flex;gap:20px">
           <div style="text-align:right">
-            <div style="color:#4ade80;font-size:18px;font-weight:700;font-family:monospace">5 SOL</div>
+            <div style="color:#4ade80;font-size:18px;font-weight:700;font-family:monospace">10 SOL</div>
             <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">TOTAL POOL</div>
           </div>
           <div style="width:1px;background:#1f2128"></div>
@@ -4852,6 +4852,7 @@ function showToast(msg,err=false){
 // ═══════════════════════════════════════════════════════════════
 const BOUNTY_DATA=[
   {id:1,tag:'Creative',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'ALL STARS SHOUTOUT CHALLENGE',desc:'Help ALL STARS reach football fans, NFT collectors and crypto degens before World Cup 2026. Create content, earn 0.1 SOL. Every qualifying submission gets paid.',reward:750,sol:5.0,progress:0,subs:0,likes:0,end:'2026-07-19',img:'/bounty-1.png',xLink:'https://x.com/ALLSTARS_TCG/status/2062749617943703964?s=20',pumpLink:'https://pump.fun/go/620124e5-4d9c-4ee8-af7a-27b87f691587?justPublished=493zMgsyoDbSd3BQ4k72Qvb7EaVBAV39ifJmxmQiKjoWL5x4gg6Xgnaudg4VdinusdcMcqQjUFotmg6fkrQTMwaL'},
+  {id:2,tag:'Video',tc:'#f472b6',tb:'rgba(244,114,182,.08)',title:'ALL STARS WORLD CUP TRAILER CHALLENGE',desc:'Create an EPIC cinematic trailer for ALL STARS World Cup 2026. Mix FIFA World Cup vibes with SOL crypto energy. Best clip wins the grand prize — 1 winner takes all.',reward:750,sol:5.0,progress:0,subs:0,likes:0,end:'2026-07-19',grand:true,pumpLink:'https://pump.fun/go/609c02d2-85ef-45f3-966a-2eec473cb034?justPublished=rGcS3141C8dpurFtDgiJjFWnrhHHiQ9EtnxUJ6NdGggqHbMtULsCHFFY333uKuFPMwut2gSbW5gFPeUcjdtYwNn'},
 ];
 function bCountdown(end){
   const diff=new Date(end)-Date.now();
@@ -4931,6 +4932,7 @@ function renderBounties(){
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div style="display:flex;gap:6px">
           <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.8px;font-family:monospace">OPEN</span>
+          ${b.pumpLink?`<a href="${b.pumpLink}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.5px;font-family:monospace;text-decoration:none">&#9679; Pump.fun GO</a>`:''}
           <span style="background:${b.tb};color:${b.tc};border-radius:5px;font-size:10px;font-weight:600;padding:2px 8px;letter-spacing:.5px;font-family:monospace">${b.tag}</span>
         </div>
         <div style="display:flex;align-items:center;gap:5px;opacity:.5">${starSvg}<span style="color:#6b7280;font-size:10px;font-family:monospace;letter-spacing:.5px">ALLSTARS</span></div>
@@ -4940,8 +4942,9 @@ function renderBounties(){
         <p style="color:#6b7280;font-size:12px;margin:0;line-height:1.6">${esc(b.desc)}</p>
       </div>
       <div style="display:flex;align-items:baseline;gap:10px">
-        <span style="color:#4ade80;font-size:24px;font-weight:700;font-family:monospace;letter-spacing:-.5px;line-height:1">$${b.reward.toLocaleString()}</span>
-        <span style="color:#374151;font-size:12px;font-family:monospace">&#8801; ${b.sol} SOL</span>
+        ${b.grand?`<span style="color:#f59e0b;font-size:11px;font-weight:700;font-family:monospace;letter-spacing:.5px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:5px;padding:2px 8px">&#127942; GRAND PRIZE</span>`:''}
+        <span style="color:#4ade80;font-size:24px;font-weight:700;font-family:monospace;letter-spacing:-.5px;line-height:1">${b.grand?'':'$'}${b.grand?b.sol+' SOL':b.reward.toLocaleString()}</span>
+        ${b.grand?`<span style="color:#374151;font-size:12px;font-family:monospace">1 winner</span>`:`<span style="color:#374151;font-size:12px;font-family:monospace">&#8801; ${b.sol} SOL</span>`}
       </div>
       <div style="display:flex;flex-direction:column;gap:5px">
         <div style="height:3px;background:#1f2128;border-radius:99px;overflow:hidden"><div style="width:${b.progress}%;height:100%;background:${pc};border-radius:99px;box-shadow:${ps};transition:width .8s ease"></div></div>
