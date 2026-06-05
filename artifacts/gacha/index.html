@@ -4845,7 +4845,7 @@ function showToast(msg,err=false){
 // BOUNTIES PAGE
 // ═══════════════════════════════════════════════════════════════
 const BOUNTY_DATA=[
-  {id:1,tag:'Creative',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'ALL STARS SHOUTOUT CHALLENGE',desc:'Help ALL STARS reach football fans, NFT collectors and crypto degens before World Cup 2026. Create content, earn 0.1 SOL. Every qualifying submission gets paid.',reward:750,sol:5.0,progress:0,subs:0,likes:0,end:'2026-07-19',img:'/bounty-1.png',xLink:'https://x.com/ALLSTARS_TCG/status/2062749617943703964?s=20'},
+  {id:1,tag:'Creative',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'ALL STARS SHOUTOUT CHALLENGE',desc:'Help ALL STARS reach football fans, NFT collectors and crypto degens before World Cup 2026. Create content, earn 0.1 SOL. Every qualifying submission gets paid.',reward:750,sol:5.0,progress:0,subs:0,likes:0,end:'2026-07-19',img:'/bounty-1.png',xLink:'https://x.com/ALLSTARS_TCG/status/2062749617943703964?s=20',pumpLink:'https://pump.fun/go/620124e5-4d9c-4ee8-af7a-27b87f691587?justPublished=493zMgsyoDbSd3BQ4k72Qvb7EaVBAV39ifJmxmQiKjoWL5x4gg6Xgnaudg4VdinusdcMcqQjUFotmg6fkrQTMwaL'},
 ];
 function bCountdown(end){
   const diff=new Date(end)-Date.now();
@@ -4893,7 +4893,7 @@ function renderBounties(){
       <div style="flex:1;padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.8px;font-family:monospace">OPEN</span>
-          <span style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.5px;font-family:monospace">&#9679; Pump.fun GO</span>
+          ${b.pumpLink?`<a href="${b.pumpLink}" target="_blank" rel="noopener" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.5px;font-family:monospace;text-decoration:none" onmouseenter="this.style.background='rgba(74,222,128,.2)'" onmouseleave="this.style.background='rgba(74,222,128,.1)'">&#9679; Pump.fun GO</a>`:`<span style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.5px;font-family:monospace">&#9679; Pump.fun GO</span>`}
           <span style="background:${b.tb};color:${b.tc};border-radius:5px;font-size:10px;font-weight:600;padding:2px 8px;letter-spacing:.5px;font-family:monospace">${b.tag}</span>
           <span style="margin-left:auto;color:#374151;font-size:10px;font-family:monospace;letter-spacing:.5px">CHALLENGE #${b.id}</span>
         </div>
@@ -4913,6 +4913,7 @@ function renderBounties(){
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid #1f2128;padding-top:16px;margin-top:auto">
           <a href="${b.xLink}" target="_blank" rel="noopener" style="background:#4ade80;color:#000;border-radius:8px;padding:9px 20px;font-size:12px;font-weight:700;text-decoration:none;font-family:monospace;letter-spacing:.5px" onmouseenter="this.style.opacity='.85'" onmouseleave="this.style.opacity='1'">View on X &#8599;</a>
+          ${b.pumpLink?`<a href="${b.pumpLink}" target="_blank" rel="noopener" style="background:transparent;color:#4ade80;border:1px solid rgba(74,222,128,.35);border-radius:8px;padding:9px 20px;font-size:12px;font-weight:700;text-decoration:none;font-family:monospace;letter-spacing:.5px" onmouseenter="this.style.background='rgba(74,222,128,.08)'" onmouseleave="this.style.background='transparent'">Pump.fun GO &#8599;</a>`:''}
           <span class="bounty-cd" data-end="${b.end}" style="color:#6b7280;font-size:11px;font-family:monospace;display:flex;align-items:center;gap:5px"><span class="bcd-dot" style="color:#4ade80;font-size:9px">&#9679;</span><span class="bcd-text">${cd}</span> left</span>
           <span style="margin-left:auto;color:#6b7280;font-size:11px;font-family:monospace">Everyone who qualifies wins! &#127881;</span>
         </div>
