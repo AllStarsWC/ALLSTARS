@@ -3463,18 +3463,18 @@ nav a:hover,nav a.active{color:var(--gold)}
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
             <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.3px;color:#fff">Bounties</h1>
-            <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;font-family:monospace">Coming Soon</span>
+            <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:11px;font-weight:700;padding:1px 7px;font-family:monospace">1 open</span>
           </div>
           <p style="margin:0;color:#6b7280;font-size:13px">Complete tasks, earn SOL rewards, grow the ALLSTARS community.</p>
         </div>
         <div style="display:flex;gap:20px">
           <div style="text-align:right">
-            <div style="color:#4ade80;font-size:18px;font-weight:700;font-family:monospace">TBA</div>
-            <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">TOTAL REWARDS</div>
+            <div style="color:#4ade80;font-size:18px;font-weight:700;font-family:monospace">5 SOL</div>
+            <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">TOTAL POOL</div>
           </div>
           <div style="width:1px;background:#1f2128"></div>
           <div style="text-align:right">
-            <div style="color:#fff;font-size:18px;font-weight:700;font-family:monospace">—</div>
+            <div style="color:#fff;font-size:18px;font-weight:700;font-family:monospace">0</div>
             <div style="color:#374151;font-size:10px;letter-spacing:.5px;font-family:monospace">SUBMISSIONS</div>
           </div>
         </div>
@@ -4844,7 +4844,9 @@ function showToast(msg,err=false){
 // ═══════════════════════════════════════════════════════════════
 // BOUNTIES PAGE
 // ═══════════════════════════════════════════════════════════════
-const BOUNTY_DATA=[];
+const BOUNTY_DATA=[
+  {id:1,tag:'Creative',tc:'#4ade80',tb:'rgba(74,222,128,.08)',title:'ALL STARS SHOUTOUT CHALLENGE',desc:'Help ALL STARS reach football fans, NFT collectors and crypto degens before World Cup 2026. Create content, earn 0.1 SOL. Every qualifying submission gets paid.',reward:750,sol:5.0,progress:0,subs:0,likes:0,end:'2026-07-19',img:'/bounty-1.png',xLink:'https://x.com/ALLSTARS_TCG/status/2062749617943703964?s=20'},
+];
 function bCountdown(end){
   const diff=new Date(end)-Date.now();
   if(diff<=0)return'Expired';
@@ -4887,6 +4889,36 @@ function renderBounties(){
   }
   grid.innerHTML=BOUNTY_DATA.map(b=>{
     const cd=bCountdown(b.end),pc=bProgressColor(b.progress),ps=b.progress>70?'0 0 6px rgba(74,222,128,.5)':'none';
+    if(b.img) return`<div style="grid-column:1/-1;background:#16181d;border:1px solid #2b2f3a;border-radius:14px;overflow:hidden;display:flex;transition:all .18s ease;box-shadow:inset 0 1px 0 #ffffff08" onmouseenter="this.style.borderColor='rgba(74,222,128,.35)'" onmouseleave="this.style.borderColor='#2b2f3a'">
+      <div style="flex:1;padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="background:#166534;color:#4ade80;border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.8px;font-family:monospace">OPEN</span>
+          <span style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:5px;font-size:10px;font-weight:700;padding:2px 8px;letter-spacing:.5px;font-family:monospace">&#9679; Pump.fun GO</span>
+          <span style="background:${b.tb};color:${b.tc};border-radius:5px;font-size:10px;font-weight:600;padding:2px 8px;letter-spacing:.5px;font-family:monospace">${b.tag}</span>
+          <span style="margin-left:auto;color:#374151;font-size:10px;font-family:monospace;letter-spacing:.5px">CHALLENGE #${b.id}</span>
+        </div>
+        <div>
+          <h3 style="color:#fff;font-size:20px;font-weight:700;margin:0 0 8px;line-height:1.3;letter-spacing:-.2px">${esc(b.title)}</h3>
+          <p style="color:#6b7280;font-size:13px;margin:0;line-height:1.6">${esc(b.desc)}</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div><div style="color:#4ade80;font-size:28px;font-weight:700;font-family:monospace;letter-spacing:-.5px;line-height:1">0.1 SOL</div><div style="color:#374151;font-size:10px;font-family:monospace;letter-spacing:.5px;margin-top:3px">PER QUALIFIER</div></div>
+          <div style="width:1px;height:40px;background:#1f2128"></div>
+          <div><div style="color:#fff;font-size:20px;font-weight:700;font-family:monospace">5 SOL</div><div style="color:#374151;font-size:10px;font-family:monospace;letter-spacing:.5px;margin-top:3px">TOTAL POOL</div></div>
+          <div style="width:1px;height:40px;background:#1f2128"></div>
+          <div><div style="color:#fff;font-size:20px;font-weight:700;font-family:monospace">50</div><div style="color:#374151;font-size:10px;font-family:monospace;letter-spacing:.5px;margin-top:3px">SPOTS AVAILABLE</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          ${["Tag @ALLSTARS_TCG","Use #ALLSTARSWC2026","Min. 500 views required","Include allstarscollectibles.tech","Original content only","Keep post public"].map(r=>`<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#6b7280"><span style="color:#4ade80;font-weight:700;flex-shrink:0">&#10003;</span>${r}</div>`).join('')}
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid #1f2128;padding-top:16px;margin-top:auto">
+          <a href="${b.xLink}" target="_blank" rel="noopener" style="background:#4ade80;color:#000;border-radius:8px;padding:9px 20px;font-size:12px;font-weight:700;text-decoration:none;font-family:monospace;letter-spacing:.5px" onmouseenter="this.style.opacity='.85'" onmouseleave="this.style.opacity='1'">View on X &#8599;</a>
+          <span class="bounty-cd" data-end="${b.end}" style="color:#6b7280;font-size:11px;font-family:monospace;display:flex;align-items:center;gap:5px"><span class="bcd-dot" style="color:#4ade80;font-size:9px">&#9679;</span><span class="bcd-text">${cd}</span> left</span>
+          <span style="margin-left:auto;color:#6b7280;font-size:11px;font-family:monospace">Everyone who qualifies wins! &#127881;</span>
+        </div>
+      </div>
+      <div style="width:220px;flex-shrink:0;overflow:hidden"><img src="${b.img}" style="width:100%;height:100%;object-fit:cover;object-position:top" alt="${esc(b.title)}" loading="lazy"></div>
+    </div>`;
     return`<div class="bounty-card" onmouseenter="this.style.background='#1a1d23';this.style.borderColor='#2b2f3a'" onmouseleave="this.style.background='#16181d';this.style.borderColor='#1f2128'" style="background:#16181d;border:1px solid #1f2128;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;cursor:pointer;transition:all .18s ease;position:relative;overflow:hidden">
       <div style="position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent)"></div>
       <div style="display:flex;align-items:center;justify-content:space-between">

@@ -69,7 +69,14 @@ function useCountdown(endDate) {
 }
 
 // ── Data ─────────────────────────────────────────────────
-const BOUNTIES = [];
+const BOUNTIES = [
+  {
+    id: 1, tag: "Creative",
+    title: "ALL STARS SHOUTOUT CHALLENGE",
+    desc: "Help ALL STARS reach football fans, NFT collectors and crypto degens before World Cup 2026. Create content, earn 0.1 SOL. Every qualifying submission gets paid.",
+    reward: 750, sol: 5.0, progress: 0, subs: 0, likes: 0, end: "2026-07-19",
+  },
+];
 
 // ── Bounty Card ──────────────────────────────────────────
 function Card({ b }) {
