@@ -2741,42 +2741,8 @@ nav a:hover,nav a.active{color:var(--gold)}
         <p style="color:#6b7280;font-size:13px;margin:0;font-family:monospace;letter-spacing:.5px">$ALLSTARS &nbsp;·&nbsp; Total Supply: 1,000,000,000</p>
       </div>
 
-      <!-- Body: donut + cards -->
-      <div style="display:flex;gap:56px;align-items:center;flex-wrap:wrap;justify-content:center">
-
-        <!-- Donut chart -->
-        <div style="flex-shrink:0;position:relative">
-          <svg viewBox="0 0 120 120" width="200" height="200" style="overflow:visible">
-            <!-- Background ring -->
-            <circle cx="60" cy="60" r="48" fill="none" stroke="#111318" stroke-width="13"/>
-            <!-- 20% Ecosystem · starts at 9-o'clock arc pos 150.797, len 58.319 -->
-            <circle cx="60" cy="60" r="48" fill="none" stroke="#4ade80" stroke-width="13"
-              stroke-dasharray="58.319 243.274" stroke-dashoffset="151.8"
-              stroke-linecap="round" style="filter:drop-shadow(0 0 7px rgba(74,222,128,.55))"/>
-            <!-- 3% Team · arc pos 211.116, len 7.048 -->
-            <circle cx="60" cy="60" r="48" fill="none" stroke="#a78bfa" stroke-width="13"
-              stroke-dasharray="7.048 294.545" stroke-dashoffset="212.1"
-              stroke-linecap="round" style="filter:drop-shadow(0 0 6px rgba(167,139,250,.5))"/>
-            <!-- 2% Marketing · arc pos 220.164, len 4.032 -->
-            <circle cx="60" cy="60" r="48" fill="none" stroke="#f59e0b" stroke-width="13"
-              stroke-dasharray="4.032 297.561" stroke-dashoffset="221.2"
-              stroke-linecap="round" style="filter:drop-shadow(0 0 6px rgba(245,158,11,.5))"/>
-            <!-- Center labels -->
-            <text x="60" y="55" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700" font-family="monospace">1B</text>
-            <text x="60" y="67" text-anchor="middle" fill="#4b5563" font-size="7.5" font-family="monospace" letter-spacing="0.8">TOTAL SUPPLY</text>
-            <text x="60" y="77" text-anchor="middle" fill="#374151" font-size="7" font-family="monospace" letter-spacing="0.6">$ALLSTARS</text>
-          </svg>
-          <!-- Legend dots below chart -->
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:18px;align-items:flex-start">
-            <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.5)"></div><span style="color:#9ca3af;font-size:11px;font-family:monospace">20% Ecosystem Reserve</span></div>
-            <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#a78bfa;box-shadow:0 0 6px rgba(167,139,250,.5)"></div><span style="color:#9ca3af;font-size:11px;font-family:monospace">3% Team Allocation</span></div>
-            <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.5)"></div><span style="color:#9ca3af;font-size:11px;font-family:monospace">2% Marketing &amp; Buyback</span></div>
-            <div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#1f2128"></div><span style="color:#6b7280;font-size:11px;font-family:monospace">75% Community &amp; LP</span></div>
-          </div>
-        </div>
-
-        <!-- Allocation cards -->
-        <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:280px;max-width:640px">
+      <!-- Allocation cards -->
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:640px;margin:0 auto">
 
           <!-- 20% Ecosystem Reserve -->
           <div style="background:#0d0f12;border:1px solid rgba(74,222,128,.18);border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;transition:border-color .18s" onmouseenter="this.style.borderColor='rgba(74,222,128,.4)'" onmouseleave="this.style.borderColor='rgba(74,222,128,.18)'">
