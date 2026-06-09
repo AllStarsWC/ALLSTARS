@@ -42,7 +42,7 @@ channel = "stable-25_05"
 
 [userenv.shared]
 VITE_COLLECTION_MINT = "E43fUm91dfL6EYSwwwyyhLcAfAqCpNFt5nm8TEaGwujjo"
-VITE_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=901f8634-023b-44be-9bdf-5719c8d67a89"
 VITE_NETWORK = "mainnet-beta"
 VITE_CANDY_MACHINE_ID = "BzBc8X9vhRJmisZ4Xn9jszxxVMxaY3umRi2x5WkbE4jB"
 VITE_CANDY_GUARD_ID = "2paW8oP51SJ5yhnGBy3U8ixDz4w7S7zqFMwQqJ6GrwzL"
+VITE_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=69a1fdfe-5e40-4fb6-b827-0ece5705e544"
